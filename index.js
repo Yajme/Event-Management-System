@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from 'url';
 import path from 'path';
-
+import bodyParser  from "body-parser";
+import cookieParser  from "cookie-parser";
 import db from "./db/connection.mjs";
 import studentRouter from "./routes/student.mjs";
 import adminRouter from "./routes/admin.mjs";
@@ -10,13 +11,23 @@ import modRouter from "./routes/moderator.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import session  from "express-session";
+
+
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.set(express.static(path.join(__dirname,'views')));
 app.use(express.static(path.join(__dirname,'public')));
 
-
+app.use(
+    session({
+        secret: '123@abcd',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 60000 },
+    }),
+  )
 
 
 app.set("view engine","ejs")
@@ -38,8 +49,12 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500).send(err.message);
 });
 
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
 
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // support json encoded bodies
 
 
 
