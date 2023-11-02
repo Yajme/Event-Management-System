@@ -15,6 +15,16 @@ import session  from "express-session";
 
 
 const app = express();
+
+
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // support json encoded bodies
+
+
 app.use(express.json());
 app.use(cors());
 app.set(express.static(path.join(__dirname,'views')));
@@ -48,14 +58,6 @@ app.get('*', (req, res, next) => {
 app.use((err, req, res, next) => {  
     res.status(err.status || 500).send(err.message);
 });
-
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
-
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); // support json encoded bodies
-
 
 
 
