@@ -10,8 +10,8 @@ import adminRouter from "./routes/admin.mjs";
 import modRouter from "./routes/moderator.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 import session  from "express-session";
+import  SHA256  from 'sha256';
 
 
 const app = express();
@@ -58,6 +58,8 @@ app.get('*', (req, res, next) => {
 app.use((err, req, res, next) => {  
     res.status(err.status || 500).send(err.message);
 });
+
+
 
 
 

@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import database from "../db/connection.mjs";
+import sha256 from "sha256";
 
 
 
@@ -83,8 +84,10 @@ router.post('/login', function(request, response, next){
             {
                 for(var count = 0; count < data.length; count++)
                 {
-                    if(data[count].password == user_password)
+                    let valPassword = sha256(user_password)
+                    if(data[count].uPassword == valPassword)
                     {
+                        
                         request.session.superID = data[count].superID;
 
                         response.redirect("/admin/dashboard");
