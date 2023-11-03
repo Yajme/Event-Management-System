@@ -14,7 +14,6 @@
     <link href="/css/style.css" rel="stylesheet">
 
 
-
 </head>
 
 <body>
@@ -656,28 +655,19 @@
                 <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p> 
             </div>
         </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
+       
 
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
-  <!--Footer-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script>Swal.fire({
+        title: 'Login Successful!',
+        text: 'Welcome to BSU Lipa Calendar System',
+        imageUrl: '/images/Batangas_State_Logo.png',
+        imageWidth: 300,
+        imageHeight: 300,
+        imageAlt: 'Custom image',
+      })</script>
   <%- include('../partials/dashboard-footer'); %>
 </body>
 
