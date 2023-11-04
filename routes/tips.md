@@ -16,15 +16,19 @@ if(passwordfromsql == passwordfrominput)
 ## why not try:
 
 ```javascript
-{
+try{
 
 if(passwordfromsql != passwordfrominput){
-    response.status(401).send('wrong password bitch');
+       const customError = new Error('wrong password bitch');
+      customError.status = 401; // HTTP Unauthorized
+      throw customError;
   }
 
 response.redirect('someroute');
 
 
+}catch(error){
+     res.status(error.status || 500).send(error.message);
 }
 ```
 
@@ -33,7 +37,7 @@ response.redirect('someroute');
 ```javascript
 {
 
-if(passwordfromsql != passwordfrominput) response.status(401).send('sike thats the wrong password!');
+if(passwordfromsql != passwordfrominput) throw Object.assign(new Error('Sike thats the wrong password!'), { status: 401 });
 
 response.redirect('someroute');
 
