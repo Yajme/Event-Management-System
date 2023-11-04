@@ -1,4 +1,8 @@
 
+# comparing values
+
+---
+
 ## instead of
 ```javascript
 if(passwordfromsql == passwordfrominput)
