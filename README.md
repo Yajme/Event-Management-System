@@ -1,3 +1,35 @@
+# Event-Management-System
+
+---
+
+
+## Prerequisites
+
+---
+
+* NodeJS
+* Express
+* nodemon
+* cors
+* ejs
+
+```npm
+npm install express nodemon cors ejs
+```
+
+##
+
+---
+
+<p> To start refer to npm command below</p>
+
+```npm
+npm run dev
+```
+
+or edit the package.json file and paste this
+
+```json
 {
   "name": "server",
   "version": "1.0.0",
@@ -11,13 +43,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "express-session": "^1.17.3",
     "mysql2": "^3.6.2"
   }
-}
+
+```
