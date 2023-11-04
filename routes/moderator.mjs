@@ -4,7 +4,8 @@ const router = express.Router();
 
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
-        usertype: "Moderator" //DON'T REMOVE
+        usertype: "Moderator", //DON'T REMOVE
+        base: "moderator"
     });
    
 });

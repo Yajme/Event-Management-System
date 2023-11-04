@@ -5,13 +5,14 @@ const loginBtn = document.getElementById('login');
 var loginAttempt = 0;
 //getting the usertype
 const userType = document.getElementById('loginForm').getAttribute("data-usertype");
+const baseRoute= document.getElementById('loginForm').getAttribute("data-route");
 loginBtn.addEventListener('click', LoginProcess);
 async function LoginProcess(e){
     ResetButton();
     e.preventDefault();
 
     //Set Request to /login
-    const loginResponse = await fetch('/login',{
+    const loginResponse = await fetch('login',{
         method: 'POST',
         headers: {
             "Content-Type": 'application/json'
@@ -27,7 +28,7 @@ async function LoginProcess(e){
     if(loginResponse.status == 200){
         const responseData = await loginResponse.json(); // Parse the JSON response
         const userID = Number(responseData[0].userID);
-        window.location.assign( '/student/dashboard/'+ userID);
+        window.location.assign( '/student/dashboard');
     }
     //401 = HTTP Unauthorized
     if(loginResponse.status == 401){
