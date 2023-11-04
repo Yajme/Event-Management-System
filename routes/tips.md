@@ -143,7 +143,7 @@ You can read the details about status codes [here](https://developer.mozilla.org
 
 ---
 
-In Express.js, think of response.status(code) as a special tool. Imagine you're sending a message to a friend, and you want to tell them if something went well or if there's a problem. This tool helps you put a label on your message to say things like "all good" (status 200), "not found" (status 404), or "something's wrong" (status 500).[^2]
+In Express.js, think of response.status(code) as a special tool. Imagine you're sending a message to a friend, and you want to tell them if something went well or if there's a problem. This tool helps you put a label on your message to say things like "all good" (status 200), "not found" (status 404), or "something's wrong" (status 500).[^1]
 
 So, let's say you're playing a game, and you want to tell your friend that you did a great job. You can use this tool like this:
 
