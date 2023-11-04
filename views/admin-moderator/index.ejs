@@ -22,7 +22,7 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <h4 class="text-center mb-4">Sign in as <%= usertype%></h4>
-                                    <form id="loginForm" method="post" data-usertype="<%= usertype%>" action="/admin/login">
+                                    <form id="loginForm" method="post" data-usertype="<%= usertype%>" <% if(usertype=="Administrator"){%> action="/admin/login" <%} else{%>  action="/admin/login-m"  <%} %> >
                                         <div class="form-group">
                                             <label><strong>Email</strong></label>
                                             <input type="text" class="form-control" name="user_email_address"  id="username"/>
