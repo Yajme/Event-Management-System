@@ -167,9 +167,6 @@ response.status(200).send("You're amazing!");
 Setting the status code is important because it communicates the result of the request to the client, which can be crucial for handling different scenarios, such as indicating success, error, or redirection.
 
 
-# Routing
-
----
 
 
 
