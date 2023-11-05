@@ -50,12 +50,9 @@ response.redirect('someroute');
 
 ```javascript
 {
-
-if(passwordfromsql != passwordfrominput) response.status(401).send('wrong password try again'); 
+if(passwordfromsql != passwordfrominput) throw Object.assign(new Error('Sike thats the wrong password!'), { status: 401 });
   //because the code stops here if the statement above is true
 response.redirect('someroute');
-
-
 }
 ```
 
