@@ -13,7 +13,7 @@
 * cors
 * ejs
 * mysql2
-*  npm install crypto
+* crypto
 * Sha256
 * Bodyparser
 * Sweetalert2
