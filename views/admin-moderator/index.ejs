@@ -9,7 +9,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <link href="/css/style.css" rel="stylesheet">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="h-100">
@@ -22,28 +22,18 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <h4 class="text-center mb-4">Sign in as <%= usertype%></h4>
-                                    <form id="loginForm" data-usertype="<%= usertype%>">
+                                    <form id="loginForm" method="post" data-usertype="<%= usertype%>" <% if(usertype=="Administrator"){%> action="/admin/login" <%} else{%>  action="/admin/login-m"  <%} %> >
                                         <div class="form-group">
                                             <label><strong>Email</strong></label>
-                                            <input type="text" class="form-control" id="username">
+                                            <input type="text" class="form-control" name="user_email_address"  id="username"/>
                                         </div>
                                         <div class="form-group">
                                             <label><strong>Password</strong></label>
-                                            <input type="password" class="form-control" id="password">
+                                            <input type="password" class="form-control" name="user_password"  id="password"/>
                                         </div>
-                                        <div class="form-row d-flex justify-content-between mt-4 mb-2">
-                                            <div class="form-group">
-                                                <div class="form-check ml-2">
-                                                    <input class="form-check-input" type="checkbox" id="basic_checkbox_1">
-                                                    <label class="form-check-label" for="basic_checkbox_1">Remember me</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <a href="page-forgot-password.html">Forgot Password?</a>
-                                            </div>
-                                        </div>
+                                      
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary btn-block" value="login" id="login">Sign me in</button>
+                                            <button type="submit" class="btn btn-primary btn-block" id="login">Sign me in</button>
                                         </div>
                                     </form>
                                 </div>
@@ -54,16 +44,13 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
+    
     <script src="/vendor/global/global.min.js"></script>
     <script src="/js/quixnav-init.js"></script>
     <script src="/js/custom.min.js"></script>
-    <script src="/js/index.js"></script>
 </body>
 
 </html>

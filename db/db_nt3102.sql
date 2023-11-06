@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 28, 2023 at 04:31 AM
+-- Generation Time: Nov 04, 2023 at 02:18 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_nt3102`
 --
-CREATE DATABASE IF NOT EXISTS `db_nt3102` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `db_nt3102`;
 
 -- --------------------------------------------------------
 
@@ -124,7 +122,14 @@ CREATE TABLE IF NOT EXISTS `organization` (
   PRIMARY KEY (`org_ID`),
   KEY `superID` (`superID`),
   KEY `dept_ID` (`dept_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `organization`
+--
+
+INSERT INTO `organization` (`org_ID`, `dept_ID`, `org_Name`, `superID`) VALUES
+(1, 1, 'TechIS', 1);
 
 -- --------------------------------------------------------
 
@@ -161,10 +166,18 @@ DROP TABLE IF EXISTS `superusers`;
 CREATE TABLE IF NOT EXISTS `superusers` (
   `superID` int NOT NULL AUTO_INCREMENT,
   `userName` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `salt` varchar(10) NOT NULL,
+  `uPassword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`superID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `superusers`
+--
+
+INSERT INTO `superusers` (`superID`, `userName`, `uPassword`, `salt`) VALUES
+(0, 'adminval', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '67097fd922237bdc9f8fd7a1c2ee895256121f2888fa6802c45194a21f6a8d2f'),
+(1, 'modcics', 'cfde2ca5188afb7bdd0691c7bef887baba78b709aadde8e8c535329d5751e6fe', 'bc59a681b4e074bffe46613c0f3e1282cffbca156602b99a2b2f99b2874f1d16');
 
 -- --------------------------------------------------------
 
@@ -215,14 +228,14 @@ CREATE TABLE IF NOT EXISTS `userstudents` (
   `salt` varchar(10) NOT NULL,
   PRIMARY KEY (`userID`),
   KEY `sr_code` (`sr_code`(250))
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `userstudents`
 --
 
 INSERT INTO `userstudents` (`userID`, `sr_code`, `password`, `salt`) VALUES
-(1, '21-33470', 'e0999eedf060a2ee05ab267bdb52f827b5f0174d839ac30eae6cd235392531f6', '1ea831d0d9');
+(1, '21-33470', '47483e6be08003fd9b1b4e4a368bb3687cd6d5d14880153687b78f58258370ab', 'bc59a681b4');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
