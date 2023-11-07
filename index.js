@@ -38,10 +38,14 @@ app.get('*', (req, res, next) => {
     const requestedURL = req.url;
     const error = new Error('Wrong URL ' + requestedURL + " is not existent");
     error.status = 404; // You can set the status to 404 or any other appropriate status code.
+    
     next(error); // Pass the error to the error-handling middleware.
 });
 app.use((err, req, res, next) => {  
-    res.status(err.status || 500).send(err.message);
+    res.status(err.status || 500);
+    res.render('404',{
+        Error : err
+    });
 });
 
 

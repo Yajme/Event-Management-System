@@ -86,7 +86,7 @@ router.post('/login', function(request,response,next){
             if (dbPassword != hashedSaltAndPass) {
                 return CatchThatError('Wrong Password',401,next);
             }
-            response.redirect('dashboard');
+            response.send("Login OK");
         }
            
         response.end();
