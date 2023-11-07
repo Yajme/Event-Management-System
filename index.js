@@ -30,10 +30,9 @@ app.use(express.static(path.join(__dirname,'public')));
 
 app.set("view engine","ejs")
 
-app.use("/admin",adminRouter);
-app.use("/moderator",modRouter);
-app.use("/student",studentRouter);
-
+app.use("/admin/",adminRouter);
+app.use("/moderator/",modRouter);
+app.use("/student/",studentRouter);
 
 
 

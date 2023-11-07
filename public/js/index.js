@@ -8,44 +8,61 @@ const userType = document.getElementById('loginForm').getAttribute("data-usertyp
 const baseRoute= document.getElementById('loginForm').getAttribute("data-route");
 loginBtn.addEventListener('click', LoginProcess);
 async function LoginProcess(e){
-    ResetButton();
-    e.preventDefault();
+    try {
+        ResetButton();
+        e.preventDefault();
 
-    //Set Request to /login
-    const loginResponse = await fetch('login',{
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify({
-            username: usernameField.value,
-            password: passwordField.value,
-            usertype: userType
-        })
-    });
+        var response = '';
+        if(userType === "student"){
+            response = 'student/';
+            console.log('helo');
+        }
+        //Set Request to /login
+        const loginResponse = await fetch( response +'login',{
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+                username: usernameField.value,
+                password: passwordField.value,
+                usertype: userType
+            })
+        });
+    
+        if(loginResponse.status === 401){
+            const error = new Error('Invalid Password or Username');
+            error.status = 401;
+            throw error;
+        }
 
-    //200 = HTTP OK
-    if(loginResponse.status == 200){
-        const responseData = await loginResponse.json(); // Parse the JSON response
-        const userID = Number(responseData[0].userID);
-        window.location.assign( '/student/dashboard');
-    }
-    //401 = HTTP Unauthorized
-    if(loginResponse.status == 401){
-        usernameField.style.border = "1px solid red";
-        passwordField.style.border = "1px solid red";
-        loginAttempt++;
-    }
+        if(loginResponse.status === 200){
+            window.location.assign(response + 'dashboard');
+        }
+        
+    } catch (error) {
+        //401 = HTTP Unauthorized
+        if(error.status === 401){
+            AttemptedLogin();
+        }
 
-    //Triggers when loginAttempt reaches above 5
-    if(loginAttempt>5){
-        loginAttempt = DisableLogin(loginBtn);
+    }finally{
+            //Triggers when loginAttempt reaches above 5
+            if(loginAttempt>5){
+                loginAttempt = DisableLogin(loginBtn);
+            }
     }
 }
 
 function ResetButton(){
     usernameField.style.border = "0px";
     passwordField.style.border = "0px";
+}
+
+function AttemptedLogin(){
+        usernameField.style.border = "1px solid red";
+        passwordField.style.border = "1px solid red";
+        loginAttempt++;
 }
 
 const DisableLogin = (LoginButton) => {
