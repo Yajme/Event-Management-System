@@ -1,70 +1,273 @@
-<!DOCTYPE html>
-<html lang="en" class="h-100">
-
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Login - Event Management</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
-    <link href="/css/style.css" rel="stylesheet">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="/icon/bsu-logo.ico">
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/css/reset.css"> 
+	<link rel="stylesheet" href="/css/style.css"> 
+	<link rel="stylesheet" href="/css/demo.css">
+	<title>Log In | BSU Event Calendar System</title>
 </head>
+<body>
+	<header class="cd-main-header">
+		<div class="cd-main-header__logo"><a href="#0"><img src="/img/Batangas_State_Logo.png" alt="Logo" class="bsu-logo"></a></div>
 
-<body class="h-100">
-    <div class="authincation h-100">
-        <div class="container-fluid h-100">
-            <div class="row justify-content-center h-100 align-items-center">
-                <div class="col-md-6">
-                    <div class="authincation-content">
-                        <div class="row no-gutters">
-                            <div class="col-xl-12">
-                                <div class="auth-form">
-                                    <h4 class="text-center mb-4">Sign in as student</h4>
-                                        <form id="loginForm" method = "post" action='login' data-usertype="student">
-                                            <div class="form-group">
-                                                <label><strong>Username</strong></label>
-                                                <input type="text" class="form-control" name="username" id="username">
-                                            </div>
-                                            <div class="form-group">
-                                                <label><strong>Password</strong></label>
-                                                <input type="password" class="form-control" name="password" id="password">
-                                            </div>
-                                            <div class="form-row d-flex justify-content-between mt-4 mb-2">
-                                                <div class="form-group">
-                                                    <div class="form-check ml-2">
-                                                        <input class="form-check-input" type="checkbox" id="basic_checkbox_1">
-                                                        <label class="form-check-label" for="basic_checkbox_1">Remember me</label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <a href="page-forgot-password.html">Forgot Password?</a>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <button type="submit" class="btn btn-primary btn-block" value="login" id="login">Sign me in</button>
-                                            </div>
-                                        </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<nav class="cd-main-nav js-main-nav">
+			<ul class="cd-main-nav__list js-signin-modal-trigger">
+				<li><a class="cd-main-nav__item cd-main-nav__item--signin" href="#0" data-signin="login">Sign in</a></li>
+			</ul>
+		</nav>
+	</header>
+	<div class="body-design">
+		
+	<div class="cd-intro">
+		<div>
+			<div style="float: left; width: 50%; background-color:rgba(0,0,0,0.5); height: 1000px;">
+				<img src="/img/bsu-logo.png" alt="Logo" class="head-logo"><br>
+				<h1>Welcome to BSU Event Calendar System</h1> <br>
+				<p>An event calendar is a design pattern that allows the user to select a date. The dates are not presented as a traditional list that a user scrolls through, or as input fields where the user enters numbers, but rather as a visual representation of a monthly calendar. This makes the process for selecting a date faster. 
+					</p>			</div>
+		</div>
+	</div>
+
+	<div class="cd-signin-modal js-signin-modal"> 
+		<div class="cd-signin-modal__container"> 
+			<ul class="cd-signin-modal__switcher js-signin-modal-switcher js-signin-modal-trigger">
+				<li><a href="#0" data-signin="login" data-type="login">Sign in</a></li>
+			</ul>
+
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"> <!-- log in form -->
+				<form class="cd-signin-modal__form" id="loginForm">
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signin-email">username</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="text" placeholder="Username">
+						<span class="cd-signin-modal__error">Invalid username</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signin-password">Password</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="password"  placeholder="Password">
+						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
+						<span class="cd-signin-modal__error">Invalid password</span>
+					</p>
+
+					
+
+					<p class="cd-signin-modal__fieldset">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit" id="login"value="Login">
+					</p>
+				</form>
+				
+			</div> 
+
+	
+
+	 
+			<a href="#0" class="cd-signin-modal__close js-close">Close</a>
+		</div> 
+	</div> 
+</div>
+<div class="container my-5">
+
+	<section class="footer-sec">
+	<footer class="text-center text-white" style="background-color: #353742;">
+	  <div class="container p-4 pb-0">
+		<section class="foot-sec">
+		  <p class="d-flex justify-content-center align-items-center">
+			<span class="me-3">Batangas State University The National Engineering University Event Calendar System</span>
+		
+		  </p>
+		</section>
+	  </div>
+  
+	  <div class="text-center1 p-3" style="background-color: rgba(186, 5, 5, 0.747);">
+		© All Rights Reserve JPCS Lipa Chapter - BSIT-NT-3102
+	  </div>
+	</footer>
+  </section>
+	
+  </div>
+  <script>
+	const url = window.location.href;
+(function(){
+    //Login/Signup modal window - by CodyHouse.co
+	
+	function ModalSignin( element ) {
+		this.element = element;
+		this.blocks = this.element.getElementsByClassName('js-signin-modal-block');
+		this.switchers = this.element.getElementsByClassName('js-signin-modal-switcher')[0].getElementsByTagName('a'); 
+		this.triggers = document.getElementsByClassName('js-signin-modal-trigger');
+		this.hidePassword = this.element.getElementsByClassName('js-hide-password');
+		this.init();
+		
+	};
+
+	ModalSignin.prototype.init = function() {
+		var self = this;
+		//open modal/switch form
+		for(var i =0; i < this.triggers.length; i++) {
+			(function(i){
+				self.triggers[i].addEventListener('click', function(event){
+					if( event.target.hasAttribute('data-signin') ) {
+						event.preventDefault();
+						self.showSigninForm(event.target.getAttribute('data-signin'));
+					}
+				});
+			})(i);
+		}
+
+		//close modal
+		this.element.addEventListener('click', function(event){
+			if( hasClass(event.target, 'js-signin-modal') || hasClass(event.target, 'js-close') ) {
+				event.preventDefault();
+				removeClass(self.element, 'cd-signin-modal--is-visible');
+			}
+		});
+		//close modal when clicking the esc keyboard button
+		document.addEventListener('keydown', function(event){
+			(event.which=='27') && removeClass(self.element, 'cd-signin-modal--is-visible');
+		});
+
+		//hide/show password
+		for(var i =0; i < this.hidePassword.length; i++) {
+			(function(i){
+				self.hidePassword[i].addEventListener('click', function(event){
+					self.togglePassword(self.hidePassword[i]);
+				});
+			})(i);
+		} 
+
+		
+		this.blocks[0].getElementsByTagName('form')[0].addEventListener('submit', function(event){
+			event.preventDefault();
+			const form = document.getElementById('loginForm');
+			const formData = new FormData(form);
+			const usernameField = document.getElementById('signin-email');
+			const passwordField = document.getElementById('signin-password');
+			const urlWithoutFragment = url.split('#')[0];
+			const postURL = urlWithoutFragment+'/login';
+			fetch(postURL, {
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+                username: usernameField.value,
+                password: passwordField.value,
+           		 })
+       		 })
+			 .then((response)=>{
+				
+				
+				return response.json();
+			 })
+    		 .then((data) => {
+				
+				if (data.error) {
+      			
+					if(data.error === "Invalid Password or Username"){
+						self.toggleError(document.getElementById('signin-email'), true);
+	 					 self.toggleError(document.getElementById('signin-password'), true);
+					}
+
+					if(data.error === "Wrong Password"){
+						self.toggleError(document.getElementById('signin-password'), true);
+					}
+
+					
+   				} 
+    			})
+    .catch((error) => {
+      console.error(error);
+    });
+		});
+		
+	};
+
+	ModalSignin.prototype.togglePassword = function(target) {
+		var password = target.previousElementSibling;
+		( 'password' == password.getAttribute('type') ) ? password.setAttribute('type', 'text') : password.setAttribute('type', 'password');
+		target.textContent = ( 'Hide' == target.textContent ) ? 'Show' : 'Hide';
+		putCursorAtEnd(password);
+	}
+
+	ModalSignin.prototype.showSigninForm = function(type) {
+		// show modal if not visible
+		!hasClass(this.element, 'cd-signin-modal--is-visible') && addClass(this.element, 'cd-signin-modal--is-visible');
+		// show selected form
+		for( var i=0; i < this.blocks.length; i++ ) {
+			this.blocks[i].getAttribute('data-type') == type ? addClass(this.blocks[i], 'cd-signin-modal__block--is-selected') : removeClass(this.blocks[i], 'cd-signin-modal__block--is-selected');
+		}
+		//update switcher appearance
+		var switcherType = (type == 'signup') ? 'signup' : 'login';
+		for( var i=0; i < this.switchers.length; i++ ) {
+			this.switchers[i].getAttribute('data-type') == switcherType ? addClass(this.switchers[i], 'cd-selected') : removeClass(this.switchers[i], 'cd-selected');
+		} 
+	};
+
+	ModalSignin.prototype.toggleError = function(input, bool) {
+		// used to show error messages in the form
+		toggleClass(input, 'cd-signin-modal__input--has-error', bool);
+		toggleClass(input.nextElementSibling, 'cd-signin-modal__error--is-visible', bool);
+	}
+
+	var signinModal = document.getElementsByClassName("js-signin-modal")[0];
+	if( signinModal ) {
+		new ModalSignin(signinModal);
+	}
+
+	// toggle main navigation on mobile
+	var mainNav = document.getElementsByClassName('js-main-nav')[0];
+	if(mainNav) {
+		mainNav.addEventListener('click', function(event){
+			if( hasClass(event.target, 'js-main-nav') ){
+				var navList = mainNav.getElementsByTagName('ul')[0];
+				toggleClass(navList, 'cd-main-nav__list--is-visible', !hasClass(navList, 'cd-main-nav__list--is-visible'));
+			} 
+		});
+	}
+	
+	//class manipulations - needed if classList is not supported
+	function hasClass(el, className) {
+	  	if (el.classList) return el.classList.contains(className);
+	  	else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+	}
+	function addClass(el, className) {
+		var classList = className.split(' ');
+	 	if (el.classList) el.classList.add(classList[0]);
+	 	else if (!hasClass(el, classList[0])) el.className += " " + classList[0];
+	 	if (classList.length > 1) addClass(el, classList.slice(1).join(' '));
+	}
+	function removeClass(el, className) {
+		var classList = className.split(' ');
+	  	if (el.classList) el.classList.remove(classList[0]);	
+	  	else if(hasClass(el, classList[0])) {
+	  		var reg = new RegExp('(\\s|^)' + classList[0] + '(\\s|$)');
+	  		el.className=el.className.replace(reg, ' ');
+	  	}
+	  	if (classList.length > 1) removeClass(el, classList.slice(1).join(' '));
+	}
+	function toggleClass(el, className, bool) {
+		if(bool) addClass(el, className);
+		else removeClass(el, className);
+	}
+
+	//credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
+	function putCursorAtEnd(el) {
+    	if (el.setSelectionRange) {
+      		var len = el.value.length * 2;
+      		el.focus();
+      		el.setSelectionRange(len, len);
+    	} else {
+      		el.value = el.value;
+    	}
+	};
+})();
 
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    <script src="/vendor/global/global.min.js"></script>
-    <script src="/js/quixnav-init.js"></script>
-    <script src="/js/custom.min.js"></script>
-    <script src="/js/index.js"></script>
-    
+  </script>
+
 </body>
-
 </html>

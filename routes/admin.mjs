@@ -1,4 +1,5 @@
 import express from "express";
+import crypto from "node:crypto";
 const router = express.Router();
 import database from "../db/connection.mjs";
 import sha256 from "sha256";
@@ -52,166 +53,110 @@ router.get("/dashboard", (req,res)=>{
         }
     ]
 
+router.post('/login', function(request, response, next){
 
-    router.get("/account",(req,res)=>{
-        res.render('./admin-moderator/view-moderator',{
-            
-            usertype: "Administrator" //DON'T REMOVE
+    var user_email_address = request.body.user_email_address;
+    var user_password = request.body.user_password;
+    if(!user_email_address && !user_password)
+    {
+        CatchThatError("Please Enter Email Address and Password Details",400,next)
+    }
+    else
+    {
+       
+        var query = `
+        SELECT superID,uPassword,salt FROM superusers 
+        WHERE userName = ? AND superID = 0
+        `;
+
+        database.query(query, [user_email_address],function(error, data){
+
+            if(data.length == 0)
+            {
+                return CatchThatError("Invalid Password or username");
+            }
+            else
+            {
+                    //Concatenate user input password with database output salt
+                    const passwordHash = user_password+data[0].salt;
+                    //declare sha2 var
+                    const sha2 = crypto.createHash('sha256');
+                    // Update the hash with the data
+                    sha2.update(passwordHash);
+                    // Calculate the hexadecimal hash
+                    const hashedSaltAndPass = sha2.digest('hex');
+                    if(data[0].uPassword != hashedSaltAndPass)
+                    {
+                        return CatchThatError("Wrong Password",401,next);
+                    }
+                    else
+                    {
+                        request.session.superID = data[0].superID;
+                        response.redirect("dashboard");
+                    }
+            }
+            response.end();
         });
-        
+    }
+
+});
+
+
+router.get("/",(req,res)=>{
+    res.render('./admin-moderator/index',{
+        usertype: "Administrator", //DON'T REMOVE
+        base: "admin"
     });
+   
+});
 
-    router.get("/register",(req,res)=>{
-        res.render('./admin-moderator/register-moderator',{
-            
-            usertype: "Administrator" //DON'T REMOVE
-        });
-        
-    });
-
-    router.get("/events",(req,res)=>{
-        res.render('./admin-moderator/view-events',{
-            
-            usertype: "Administrator" //DON'T REMOVE
-        });
-        
-    });
-
-    router.get("/addevent",(req,res)=>{
-        res.render('./admin-moderator/create-events',{
-            
-            usertype: "Administrator" //DON'T REMOVE
-        });
-        
-    });
-        
-
-
+router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{
         path: "admin",
         Menu : Menu
     });
+});
 
+router.get("/account", (req,res)=>{
+    res.render('./admin-moderator/view-moderator',{
+        path: "admin",
+        Menu : Menu
+    });
+});
 
+router.get("/register", (req,res)=>{
+    res.render('./admin-moderator/register-moderator',{
+        path: "admin",
+        Menu : Menu
+    });
     
+});
+
+router.get("/events", (req,res)=>{
+    res.render('./admin-moderator/view-events',{
+        path: "admin",
+        Menu : Menu
+    });
     
 });
 
-
-
-router.post('/login', function(request, response, next){
-
-    var user_email_address = request.body.user_email_address;
-
-    var user_password = request.body.user_password;
-    console.log(user_email_address + " = " + user_password);
-
-    if(!user_email_address && !user_password)
-    {
-        response.send('Please Enter Email Address and Password Details');
-        response.end();
-    }
-    else
-    {
-       
-        var query = `
-        SELECT superID,uPassword FROM superusers 
-        WHERE userName = ?
-        `;
-        console.log(query);
-
-        database.query(query, [user_email_address],function(error, data){
-
-            if(data.length == 0)
-            {
-                response.send('Incorrect Email Address');
-            }
-            else
-            {
-               
-                for(var count = 0; count < data.length; count++)
-                {
-                    let valPassword = sha256(user_password)
-                    if(data[count].uPassword != valPassword)
-                    {
-                        
-                        response.send("<script>alert('Wrong Password!'); window.location.replace('/admin');</script> ");
-
-                    }
-                    else
-                    {
-                        
-                        request.session.superID = data[count].superID;
-
-                        response.redirect("dashboard");
-                    }
-                }
-
-            }
-            response.end();
-        });
-    }
-
+router.get("/registerevents", (req,res)=>{
+    res.render('./admin-moderator/create-events',{
+        path: "admin",
+        Menu : Menu
+    });
+    
 });
 
+function CatchThatError(errorMessage, errorStatus,next){
+    const customError = new Error(errorMessage);
+    customError.status = errorStatus; // HTTP Unauthorized
+    next(customError);
+    
+}
 
-router.post('/login-m', function(request, response, next){
-
-    var user_email_address = request.body.user_email_address;
-
-    var user_password = request.body.user_password;
-    console.log(user_email_address + " = " + user_password);
-
-    if(!user_email_address && !user_password)
-    {
-        response.send('Please Enter Email Address and Password Details');
-        response.end();
-    }
-    else
-    {
-       
-        var query = `
-        SELECT superID,uPassword FROM superusers 
-        WHERE userName = ?
-        `;
-        console.log(query);
-
-        database.query(query, [user_email_address],function(error, data){
-
-            if(data.length == 0)
-            {
-                response.send('Incorrect Email Address');
-            }
-            else
-            {
-               
-                for(var count = 0; count < data.length; count++)
-                {
-                    let valPassword = sha256(user_password)
-                    if(data[count].uPassword != valPassword)
-                    {
-                        
-                        response.send("<script>alert('Wrong Password!'); window.location.replace('/moderator');</script> ");
-
-                    }
-                    else
-                    {
-                        
-                        request.session.superID = data[count].superID;
-
-                        response.redirect("dashboard");
-                    }
-                }
-
-            }
-            response.end();
-        });
-    }
-
-});
-
-
-
-
+router.use((err, req, res, next) => {
+    res.status(err.status || 500).json({ error: err.message });// to be thrown client side
+  });
 
 export default router;

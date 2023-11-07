@@ -18,24 +18,17 @@ import bodyParser from "body-parser";
 
 const app = express();
 
-
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
-
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); // support json encoded bodies
-
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(cors());
+//For Client side page rendering do not replicate
 app.set(express.static(path.join(__dirname,'views')));
 app.use(express.static(path.join(__dirname,'public')));
+// Client side
 
 app.use(
     session({
@@ -48,21 +41,25 @@ app.use(
 
 app.set("view engine","ejs")
 
-app.use("/admin",adminRouter);
-app.use("/moderator",modRouter);
-app.use("/student",studentRouter);
-
-
+//Routers
+app.use("/admin/",adminRouter);
+app.use("/moderator/",modRouter);
+app.use("/student/",studentRouter);
+//Routers
 
 
 app.get('*', (req, res, next) => {
     const requestedURL = req.url;
     const error = new Error('Wrong URL ' + requestedURL + " is not existent");
     error.status = 404; // You can set the status to 404 or any other appropriate status code.
+    
     next(error); // Pass the error to the error-handling middleware.
 });
 app.use((err, req, res, next) => {  
-    res.status(err.status || 500).send(err.message);
+    res.status(err.status || 500);
+    res.render('404',{
+        Error : err
+    });
 });
 
 
