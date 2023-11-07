@@ -2,8 +2,8 @@ import express from "express";
 import session from 'express-session';
 const router = express.Router();
 import db from "../db/connection.mjs";
-import crypto from 'crypto';
-import bcrypt from 'bcrypt';
+import crypto from "node:crypto";
+
 const Menu = [
     {
         "Menu" : [
@@ -60,7 +60,7 @@ router.get("/" ,(req,res)=>{
 });
 
 router.post('/login', function(request,response,next){
-    console.log('helo');
+   
     //names of the input text fields in the views/index.ejs
     const username = request.body.username;
     const password = request.body.password;
@@ -68,10 +68,11 @@ router.post('/login', function(request,response,next){
     const query = 'SELECT userID,password,salt FROM userstudents WHERE sr_code = ?';
     db.query(query,[username], function(error,result){
          // If the user is found, return the user's record
+         
         if (result.length === 0) { 
-            return CatchThatError('Invalid Password or Username',401,next);
+            return CatchThatError('Invalid Password or Username',401,next);// HTTP Unauthorized
         }
-        console.log('IM HERE ');
+
          //checking of password and salt
          for(var passCount = 0; passCount < result.length; passCount++){
             const salt = result[passCount].salt;
@@ -94,7 +95,7 @@ router.post('/login', function(request,response,next){
 
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
-    customError.status = errorStatus; // HTTP Unauthorized
+    customError.status = errorStatus; 
     next(customError);
     
 }

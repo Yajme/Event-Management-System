@@ -1,6 +1,7 @@
 import express from "express";
 import dashboard from "./dashboard.mjs";
-import db from "../db/connection.mjs";
+import crypto from "node:crypto";
+import database from "../db/connection.mjs";
 const router = express.Router();
 
 const Menu = [
@@ -60,39 +61,57 @@ router.get("/registerevents", (req,res)=>{
     
 });
 
-router.post("/login",(req,res,next)=>{
+router.post('/login', function(request, response, next){
 
-    const username = req.body.username;
-    const password = req.body.password;
+    var user_email_address = request.body.user_email_address;
+    var user_password = request.body.user_password;
+    if(!user_email_address && !user_password)
+    {
+        CatchThatError("Please Enter Email Address and Password Details",400,next)
+    }
+    else
+    {
+       
+        var query = `
+        SELECT superID,uPassword,salt FROM superusers 
+        WHERE userName = ? AND superID != 0
+        `;
 
-    const query = "SELECT username,password FROM superusers WHERE superid != 0";
-    db.query(query,(error,result)=>{
-        
+        database.query(query, [user_email_address],function(error, data){
 
-        if(result.length > 0){
-            const resUsername = result[0].username;
-            const resPassword = result[0].password;
-
-            if(resUsername != username){
-                return CatchThatError('Wrong username',401,next)
+            if(data.length == 0)
+            {
+                return CatchThatError("Invalid Password or username",401,next);
             }
-
-            if(resPassword != password){
-                return CatchThatError('Wrong password',401,next)
+            else
+            {
+                    //Concatenate user input password with database output salt
+                    const passwordHash = user_password+data[0].salt;
+                    //declare sha2 var
+                    const sha2 = crypto.createHash('sha256');
+                    // Update the hash with the data
+                    sha2.update(passwordHash);
+                    // Calculate the hexadecimal hash
+                    const hashedSaltAndPass = sha2.digest('hex');
+                    if(data[0].uPassword != hashedSaltAndPass)
+                    {
+                        return CatchThatError("Wrong Password",401,next); //HTTP 400 Unauthorized
+                    }
+                    else
+                    {
+                        request.session.superID = data[0].superID;
+                        response.redirect("dashboard");
+                    }
             }
+            response.end();
+        });
+    }
 
-            res.status(200).send('OK');
-        }else{
-            return CatchThatError('Invalid Password or Username',401,next)
-        }
-
-    })
-
-})
+});
 
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
-    customError.status = errorStatus; // HTTP Unauthorized
+    customError.status = errorStatus; 
     next(customError);
     
 }

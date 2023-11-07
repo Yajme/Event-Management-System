@@ -14,26 +14,24 @@ import bodyParser from "body-parser";
 
 const app = express();
 
-
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(cors());
+//For Client side page rendering do not replicate
 app.set(express.static(path.join(__dirname,'views')));
 app.use(express.static(path.join(__dirname,'public')));
-
-
-
+// Client side
 app.set("view engine","ejs")
 
+//Routers
 app.use("/admin/",adminRouter);
 app.use("/moderator/",modRouter);
 app.use("/student/",studentRouter);
-
+//Routers
 
 
 app.get('*', (req, res, next) => {

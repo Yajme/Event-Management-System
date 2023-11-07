@@ -15,7 +15,6 @@ async function LoginProcess(e){
         var response = '';
         if(userType === "student"){
             response = 'student/';
-            console.log('helo');
         }
         //Set Request to /login
         const loginResponse = await fetch( response +'login',{
