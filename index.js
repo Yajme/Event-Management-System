@@ -2,13 +2,17 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from 'url';
 import path from 'path';
-
+import bodyParser  from "body-parser";
+import cookieParser  from "cookie-parser";
 import db from "./db/connection.mjs";
 import studentRouter from "./routes/student.mjs";
 import adminRouter from "./routes/admin.mjs";
 import modRouter from "./routes/moderator.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import session  from "express-session";
+import  SHA256  from 'sha256';
+
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 
@@ -25,6 +29,16 @@ app.use(cors());
 app.set(express.static(path.join(__dirname,'views')));
 app.use(express.static(path.join(__dirname,'public')));
 // Client side
+
+app.use(
+    session({
+        secret: '123@abcd',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 60000 },
+    }),
+  )
+
 app.set("view engine","ejs")
 
 //Routers
@@ -47,6 +61,9 @@ app.use((err, req, res, next) => {
         Error : err
     });
 });
+
+
+
 
 
 
