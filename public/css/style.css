@@ -12,9 +12,18 @@ body {
   font-size: 1.6rem;
   font-family: "PT Sans", sans-serif;
   color: #505260;
-
+  background-color: #f1f1f1;
 
 }
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+}
+
 
 .body-design{
   background-image: url("../img/lipa-slider-3.jpg");
