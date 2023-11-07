@@ -2,8 +2,17 @@
 
 ---
 
+## Installation
 
-## Prerequisites
+---
+
+clone this repository
+
+```git
+git clone https://github.com/Yajme/Event-Management-System.git
+```
+
+### Prerequisites
 
 ---
 
@@ -13,8 +22,6 @@
 * cors
 * ejs
 * mysql2
-* crypto
-* Sha256
 * Bodyparser
 * Sweetalert2
 * cookie parser
@@ -27,12 +34,12 @@ npm init -y
 ```
 after node modules have been installed to your directory
 ```npm
-npm install express nodemon cors ejs mysql2 crypto sha256 bodyparser sweetalert2 cookie-parser express-session -S
+npm install express nodemon cors ejs mysql2 bodyparser sweetalert2 cookie-parser express-session -S
 
 
 ```
 
-##
+## Usage
 
 ---
 
@@ -47,3 +54,9 @@ or
 ```npm
 node index.js
 ```
+
+## Documentation
+
+---
+
+* [Documentation](/Documentations/Documentations.md)
