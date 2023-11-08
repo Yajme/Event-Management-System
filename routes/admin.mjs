@@ -4,7 +4,41 @@ const router = express.Router();
 import database from "../db/connection.mjs";
 import sha256 from "sha256";
 import Swal from "sweetalert2";
-
+const Menu = [
+    {
+        "Menu" : [
+            {
+                Title : "Main Menu",
+                Class : "nav-label first",
+                Dropdown : "Home",
+                Icon : "icon icon-single-04",
+                Subitem : [
+                    { Name : "Dashboard", Route : "dashboard"}
+                ]
+            },
+            {
+                Title : "Account Management",
+                Class : "nav-label",
+                Dropdown : "Moderators",
+                Icon : "icon icon-app-store",
+                Subitem : [
+                    { Name : "Account List", Route : "account"},
+                    { Name : "Register Moderator", Route : "register"}
+                ]
+            },
+            {
+                Title : "Events Management",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Subitem : [
+                    { Name : "Event List", Route : "events"},
+                    { Name : "Add Events", Route : "registerevents"}
+                ]
+            },
+        ]
+    }
+]
 
 
 
@@ -17,42 +51,8 @@ router.get("/",(req,res)=>{
 });
 
 router.get("/dashboard", (req,res)=>{
-    const Menu = [
-        {
-            "Menu" : [
-                {
-                    Title : "Main Menu",
-                    Class : "nav-label first",
-                    Dropdown : "Home",
-                    Icon : "icon icon-single-04",
-                    Subitem : [
-                        { Name : "Dashboard", Route : "dashboard"}
-                    ]
-                },
-                {
-                    Title : "Account Management",
-                    Class : "nav-label",
-                    Dropdown : "Moderators",
-                    Icon : "icon icon-app-store",
-                    Subitem : [
-                        { Name : "Account List", Route : "account"},
-                        { Name : "Register Moderator", Route : "register"}
-                    ]
-                },
-                {
-                    Title : "Events Management",
-                    Class : "nav-label",
-                    Dropdown : "Events",
-                    Icon : "icon icon-form",
-                    Subitem : [
-                        { Name : "Event List", Route : "events"},
-                        { Name : "Add Events", Route : "registerevents"}
-                    ]
-                },
-            ]
-        }
-    ]
-
+   
+});
 router.post('/login', function(request, response, next){
 
     var user_email_address = request.body.user_email_address;
