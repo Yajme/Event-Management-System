@@ -10,21 +10,21 @@ const Menu = [
             {
                 Title : "Main Menu",
                 Class : "nav-label first",
-                Dropdown : "Home",
                 Icon : "icon icon-single-04",
-                Subitem : [
-                    { Name : "Dashboard", Route : "/student/dashboard"}
-                ]
+                Route : "dashboard"
             },
             {
-                Title : "Events Manager",
+                Title : "Events list",
                 Class : "nav-label",
                 Dropdown : "Events",
                 Icon : "icon icon-form",
-                Subitem : [
-                    { Name : "List View", Route : "eventslist"},
-                    { Name : "Calendar View", Route : "calendar"}
-                ]
+                Route : "eventlist"
+            },
+            {
+                Title : "Events Calendar",
+                Class : "nav-label",
+                Icon : "icon icon-form",
+                Route : "eventcalendar"
             },
         ]
     }
@@ -38,17 +38,17 @@ router.get("/dashboard" ,(req,res)=>{
     });
 });
 
-router.get("/calendar", (req,res)=>{
+router.get("/eventcalendar", (req,res)=>{
    
-    res.render('./students/app-calender',{
+    res.render('./students/eventcalendar',{
         path: "student",
         Menu : Menu
     });
 })
 
-router.get("/eventslist", (req,res)=>{
+router.get("/eventlist", (req,res)=>{
     
-    res.render('./students/table-datatable-basic',{
+    res.render('./students/eventlist',{
         path: "student",
         Menu : Menu
     });
