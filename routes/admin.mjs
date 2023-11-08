@@ -10,32 +10,33 @@ const Menu = [
             {
                 Title : "Main Menu",
                 Class : "nav-label first",
-                Dropdown : "Home",
                 Icon : "icon icon-single-04",
-                Subitem : [
-                    { Name : "Dashboard", Route : "dashboard"}
-                ]
+                Route : "dashboard"
             },
             {
-                Title : "Account Management",
+                Title : "Events List",
                 Class : "nav-label",
-                Dropdown : "Moderators",
-                Icon : "icon icon-app-store",
-                Subitem : [
-                    { Name : "Account List", Route : "account"},
-                    { Name : "Register Moderator", Route : "register"}
-                ]
-            },
-            {
-                Title : "Events Management",
-                Class : "nav-label",
-                Dropdown : "Events",
                 Icon : "icon icon-form",
-                Subitem : [
-                    { Name : "Event List", Route : "events"},
-                    { Name : "Add Events", Route : "registerevents"}
-                ]
+                Route : "eventlist",
             },
+            {
+                Title : "Events Calendar",
+                Class : "nav-label",
+                Icon : "icon icon-form",
+                Route : "eventcalendar",
+            },
+            {
+                Title : "Moderator List",
+                Class : "nav-label",
+                Icon : "icon icon-form",
+                Route : "moderatorlist",
+            },
+            {
+                Title : "Moderator Mangament",
+                Class : "nav-label",
+                Icon : "icon icon-form",
+                Route : "addmoderator",
+            }
         ]
     }
 ]
@@ -117,31 +118,31 @@ router.get("/dashboard", (req,res)=>{
     });
 });
 
-router.get("/account", (req,res)=>{
-    res.render('./admin-moderator/view-moderator',{
+router.get("/moderatorlist", (req,res)=>{
+    res.render('./admin-moderator/moderatorlist',{
         path: "admin",
         Menu : Menu
     });
 });
 
-router.get("/register", (req,res)=>{
-    res.render('./admin-moderator/register-moderator',{
-        path: "admin",
-        Menu : Menu
-    });
-    
-});
-
-router.get("/events", (req,res)=>{
-    res.render('./admin-moderator/view-events',{
+router.get("/eventmanagement", (req,res)=>{
+    res.render('./admin-moderator/eventmanagement',{
         path: "admin",
         Menu : Menu
     });
     
 });
 
-router.get("/registerevents", (req,res)=>{
-    res.render('./admin-moderator/create-events',{
+router.get("/eventlist", (req,res)=>{
+    res.render('./admin-moderator/eventlist',{
+        path: "admin",
+        Menu : Menu
+    });
+    
+});
+
+router.get("/addmoderator", (req,res)=>{
+    res.render('./admin-moderator/addmoderator',{
         path: "admin",
         Menu : Menu
     });

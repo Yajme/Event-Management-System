@@ -2,8 +2,6 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from 'url';
 import path from 'path';
-import bodyParser  from "body-parser";
-import cookieParser  from "cookie-parser";
 import db from "./db/connection.mjs";
 import studentRouter from "./routes/student.mjs";
 import adminRouter from "./routes/admin.mjs";
