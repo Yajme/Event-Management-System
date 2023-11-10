@@ -12,19 +12,35 @@ const Menu = [
                 Class : "nav-label first",
                 Dropdown : "Home",
                 Icon : "icon icon-single-04",
-                Subitem : [
-                    { Name : "Dashboard", Route : "dashboard"}
-                ]
+                Route : "dashboard"
             },
             {
-                Title : "Events Management",
+                Title : "Events List",
                 Class : "nav-label",
                 Dropdown : "Events",
                 Icon : "icon icon-form",
-                Subitem : [
-                    { Name : "Event List", Route : "events"},
-                    { Name : "Add Events", Route : "registerevents"}
-                ]
+                Route : "eventlist",
+            },
+            {
+                Title : "Events Calendar",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "eventcalendar",
+            },
+            {
+                Title : "Moderator List",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "moderatorlist",
+            },
+            {
+                Title : "Moderator Mangament",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "addmoderator",
             },
         ]
     }
@@ -45,22 +61,36 @@ router.get("/dashboard", (req,res)=>{
     });
 });
 
-router.get("/events", (req,res)=>{
-    res.render('./admin-moderator/view-events',{
+router.get("/eventlist", (req,res)=>{
+    res.render('./admin-moderator/eventlist',{
         path: "moderator",
         Menu : Menu
     });
     
 });
 
-router.get("/registerevents", (req,res)=>{
-    res.render('./admin-moderator/create-events',{
+router.get("/eventmanagement", (req,res)=>{
+    res.render('./admin-moderator/eventmanagement',{
         path: "moderator",
         Menu : Menu
     });
     
 });
 
+router.get("/moderatorlist", (req,res)=>{
+    res.render('./admin-moderator/eventlist',{
+        path: "moderator",
+        Menu : Menu
+    });
+    
+});
+router.get("/addmoderator", (req,res)=>{
+    res.render('./admin-moderator/addmoderator',{
+        path: "moderator",
+        Menu : Menu
+    });
+    
+});
 router.post('/login', function(request, response, next){
 
     var user_email_address = request.body.user_email_address;
