@@ -9,8 +9,8 @@ import modRouter from "./routes/moderator.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import session  from "express-session";
-
-
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 
 const app = express();
