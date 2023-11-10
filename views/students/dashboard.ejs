@@ -29,135 +29,25 @@
   </head>
   <body>
     <div class="container-scroller">
-      <!-- partial:partials/_navbar.html -->
-      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href="index.html"><img src="/images/Batangas_State_Logo.png" alt="logo" /></a>
-        </div>
-        <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
-          </button>
-        
-          <ul class="navbar-nav navbar-nav-right">
-            
-          
-            <li class="nav-item nav-profile dropdown">
-              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                <div class="nav-profile-img">
-                  <img src="/images/icon.png" alt="image">
-                </div>
-                <div class="nav-profile-text">
-                  <p class="mb-1 text-black">Account Name</p>
-                </div>
-              </a>
-              <div class="dropdown-menu navbar-dropdown dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="profileDropdown" data-x-placement="bottom-end">
-                <div class="p-3 text-center bg-primary">
-                  <img class="img-avatar img-avatar48 img-avatar-thumb" src="images/icon.png" alt="">
-                </div>
-                <div class="p-2">
-                  <h5 class="dropdown-header text-uppercase pl-2 text-dark">User Options</h5>
-                  
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
-                    <span>Profile</span>
-                    <span class="p-0">
-                      <i class="mdi mdi-account-outline ml-1"></i>
-                    </span>
-                  </a>
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                    <span>Settings</span>
-                    <i class="mdi mdi-settings"></i>
-                  </a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <h5 class="dropdown-header text-uppercase  pl-2 text-dark mt-2">Actions</h5>
-                 
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
-                    <span>Log Out</span>
-                    <i class="mdi mdi-logout ml-1"></i>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                <i class="mdi mdi-email-outline"></i>
-                <span class="count-symbol bg-success"></span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                <h6 class="p-3 mb-0 bg-primary text-white py-4">Event Reminders</h6>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <img src="/images/Batangas_State_Logo.png" alt="image" class="profile-pic">
-                  </div>
-                  <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Sport Fest Event upcoming!</h6>
-                    <p class="text-gray mb-0"> Will Happen in 5 days</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-               
-              </div>
-            </li>
-           
-          </ul>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span class="mdi mdi-menu"></span>
-          </button>
-        </div>
-      </nav>
-      <!-- partial -->
+      
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <%- include('../partials/dashboard-navbar'); %>
+        <!--**********************************
+              Nav header end
+          ***********************************-->
+      
       <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_sidebar.html -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-          <ul class="nav">
-            <hr>
-            <hr>
-            <hr>
-            <li class="nav-item nav-category">BSU -ECSYS - Admin Dashboard</li>
-          
-            
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard">
-                <span class="icon-bg"><i class="mdi mdi-home menu-icon"></i></span>
-                <span class="menu-title">Home</span>
-              </a>
-            </li>
-           
-            <li class="nav-item">
-              <a class="nav-link" href="eventlist">
-                <span class="icon-bg"><i class="mdi mdi-format-list-checkbox menu-icon"></i></span>
-                <span class="menu-title">Event List View</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="eventcalendar">
-                <span class="icon-bg"><i class="mdi mdi-table-large menu-icon"></i></span>
-                <span class="menu-title">Event Calendar View</span>
-              </a>
-            </li>
-           
-            <br>
-            <li class="nav-item nav-category">Manage Account</li>
-            
-            
-            <li class="nav-item sidebar-user-actions">
-              <div class="sidebar-user-menu">
-                <a href="#" class="nav-link"><i class="mdi mdi-settings menu-icon"></i>
-                  <span class="menu-title">Settings</span>
-                </a>
-              </div>
-            </li>
-          
-            <li class="nav-item sidebar-user-actions">
-              <div class="sidebar-user-menu">
-                <a href="#" class="nav-link"><i class="mdi mdi-logout menu-icon"></i>
-                  <span class="menu-title">Log Out</span></a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <!-- partial -->
+        
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <%- include('../partials/dashboard-sidebar'); %>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row" id="proBanner">
@@ -187,15 +77,15 @@
             </div>
           </div>
           <!-- content-wrapper ends -->
-          <!-- partial:partials/_footer.html -->
-          <footer class="footer">
-            <div class="footer-inner-wraper">
-              <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">By Group 1</span>
-                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">The<a href="#" target="_blank">Event Calendar System of </a> BSU Lipa</span> </div>
-            </div>
-          </footer>
-          <!-- partial -->
+          
+          <!--*********************************
+            Footer start
+          ***********************************-->
+          <%- include('../partials/dashboard-footer'); %>
+          <!--**********************************
+            Footer end
+          ***********************************-->
+          
         </div>
         <!-- main-panel ends -->
       </div>
