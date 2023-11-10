@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `dept_ID` int NOT NULL,
   PRIMARY KEY (`courseID`),
   KEY `dept_ID` (`dept_ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `course`
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   `dept_ID` int NOT NULL AUTO_INCREMENT,
   `department_Name` varchar(100) NOT NULL,
   PRIMARY KEY (`dept_ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `department`
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `eventrecords` (
   PRIMARY KEY (`recordID`),
   KEY `superID` (`superID`),
   KEY `statusID` (`statusID`(250))
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   PRIMARY KEY (`eventID`),
   KEY `org_ID` (`org_ID`),
   KEY `statusID` (`statusID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `eventstatus` (
   `statusID` int NOT NULL AUTO_INCREMENT,
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`statusID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `organization` (
   PRIMARY KEY (`org_ID`),
   KEY `superID` (`superID`),
   KEY `dept_ID` (`dept_ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `organization`
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `students` (
   `section` varchar(250) NOT NULL,
   PRIMARY KEY (`sr_code`),
   KEY `courseID` (`courseID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `students`
@@ -206,13 +206,14 @@ CREATE TABLE IF NOT EXISTS `superusers` (
   `password` varchar(255) NOT NULL,
   `salt` varchar(10) NOT NULL,
   PRIMARY KEY (`superID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `superusers`
 --
 
 INSERT INTO `superusers` (`superID`, `userName`, `password`, `salt`) VALUES
+(0, 'adminval', '95e1d817e753fe6392b68de89c337e4cbcf63d280e77245d5c7a3fc4938863d9', 'kckKVzx9k1'),
 (1, 'JPAMA', '3913342ed7e247f86dc7bf83229b90a0cec7d8f7f9a6851927f7becc7fec9035', 'b79dc59cf1'),
 (2, 'JME', '18d7d94a8343f46b943d963da0d1b8bb42520ba84d4329280be02e5c542a9ee4', 'fc39983032'),
 (3, 'CABE Council', '423a577e2d08ee38ad7969840840efd3ebc0adde65ccce896eb93c3d2c491fc8', '02eb527701');
@@ -229,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `tbemployee` (
   `lastname` varchar(25) NOT NULL,
   `firstname` varchar(25) NOT NULL,
   `department` varchar(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -243,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `tb_studentinfo` (
   `lastname` varchar(25) NOT NULL,
   `firstname` varchar(25) NOT NULL,
   `course` varchar(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tb_studentinfo`
@@ -266,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `userstudents` (
   `salt` varchar(10) NOT NULL,
   PRIMARY KEY (`userID`),
   KEY `sr_code` (`sr_code`(250))
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `userstudents`
