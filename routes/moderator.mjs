@@ -56,6 +56,7 @@ router.get("/",(req,res)=>{
 router.get("/dashboard", (req,res)=>{
     
     res.render('./admin-moderator/dashboard',{
+        usertype: "Moderator", //DON'T REMOVE
         path : "moderator",
         Menu : Menu
     });
@@ -63,6 +64,7 @@ router.get("/dashboard", (req,res)=>{
 
 router.get("/eventlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
+        usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
         Menu : Menu
     });
@@ -71,6 +73,7 @@ router.get("/eventlist", (req,res)=>{
 
 router.get("/eventmanagement", (req,res)=>{
     res.render('./admin-moderator/eventmanagement',{
+        usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
         Menu : Menu
     });
@@ -79,6 +82,7 @@ router.get("/eventmanagement", (req,res)=>{
 
 router.get("/moderatorlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
+        usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
         Menu : Menu
     });
@@ -86,13 +90,16 @@ router.get("/moderatorlist", (req,res)=>{
 });
 router.get("/addmoderator", (req,res)=>{
     res.render('./admin-moderator/addmoderator',{
+        usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
         Menu : Menu
     });
     
 });
-router.post('/login', function(request, response, next){
 
+
+
+router.post('/login-m', function(request, response, next){
     var user_email_address = request.body.user_email_address;
     var user_password = request.body.user_password;
     if(!user_email_address && !user_password)
@@ -104,7 +111,7 @@ router.post('/login', function(request, response, next){
        
         var query = `
         SELECT superID,uPassword,salt FROM superusers 
-        WHERE userName = ? AND superID != 0
+        WHERE userName = ? 
         `;
 
         database.query(query, [user_email_address],function(error, data){
@@ -125,12 +132,12 @@ router.post('/login', function(request, response, next){
                     const hashedSaltAndPass = sha2.digest('hex');
                     if(data[0].uPassword != hashedSaltAndPass)
                     {
-                        return CatchThatError("Wrong Password",401,next); //HTTP 400 Unauthorized
+                        return CatchThatError("Wrong Password",401,next);
                     }
                     else
                     {
                         request.session.superID = data[0].superID;
-                        response.redirect("dashboard");
+                        response.redirect("/moderator/dashboard");
                     }
             }
             response.end();
