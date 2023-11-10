@@ -128,7 +128,7 @@
                 <span class="menu-title">Event Management</span>
               </a>
             </li>
-           
+            <% if(usertype=="Administrator"){ %>
             <li class="nav-item">
               <a class="nav-link" href="moderatorlist">
                 <span class="icon-bg"><i class="mdi mdi-account-badge menu-icon"></i></span>
@@ -141,7 +141,7 @@
                 <span class="menu-title">Add Moderator</span>
               </a>
             </li>
-            
+            <% } %>
             <br>
             <li class="nav-item nav-category">Manage Account</li>
             
