@@ -24,11 +24,12 @@
 		
 	<div class="cd-intro">
 		<div>
-			<div style="float: left; width: 50%; background-color:rgba(0,0,0,0.5); height: 1000px;">
+			<div style="float: left; width: 50%; background-color:rgba(0,0,0,0.5); height: 1000px; ">
 				<img src="/img/bsu-logo.png" alt="Logo" class="head-logo"><br>
 				<h1>Welcome to BSU Event Calendar System</h1> <br>
-				<p>An event calendar is a design pattern that allows the user to select a date. The dates are not presented as a traditional list that a user scrolls through, or as input fields where the user enters numbers, but rather as a visual representation of a monthly calendar. This makes the process for selecting a date faster. 
-					</p>			</div>
+				<p style="text-align: center; font-size: 25px; font-weight: bold;">
+			Sign in as <u><%= usertype %></u>
+				</p>			</div>
 		</div>
 	</div>
 
@@ -38,17 +39,17 @@
 				<li><a href="#0" data-signin="login" data-type="login">Sign in</a></li>
 			</ul>
 
-			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"> <!-- log in form -->
-				<form class="cd-signin-modal__form">
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login" > <!-- log in form -->
+				<form class="cd-signin-modal__form" method="post"  <% if(usertype=="Administrator"){ %>action="/admin/login"<% } else{ %>  action="/admin/login-m"<% } %> >
 					<p class="cd-signin-modal__fieldset">
 						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signin-email">username</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="text" placeholder="E-mail">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" name="user_email_address" id="signin-email" type="text" placeholder="E-mail">
 						<span class="cd-signin-modal__error">Error message here!</span>
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
 						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signin-password">Password</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="password"  placeholder="Password">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" name="user_password" id="signin-password" type="password"  placeholder="Password">
 						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
 						<span class="cd-signin-modal__error">Error message here!</span>
 					</p>
@@ -136,15 +137,6 @@
 			})(i);
 		} 
 
-		//IMPORTANT - REMOVE THIS - it's just to show/hide error messages in the demo
-		this.blocks[0].getElementsByTagName('form')[0].addEventListener('submit', function(event){
-			event.preventDefault();
-			self.toggleError(document.getElementById('signin-email'), true);
-		});
-		this.blocks[1].getElementsByTagName('form')[0].addEventListener('submit', function(event){
-			event.preventDefault();
-			self.toggleError(document.getElementById('signup-username'), true);
-		});
 	};
 
 	ModalSignin.prototype.togglePassword = function(target) {

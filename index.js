@@ -45,7 +45,6 @@ app.use("/moderator/",modRouter);
 app.use("/student/",studentRouter);
 //Routers
 
-
 app.get('*', (req, res, next) => {
     const requestedURL = req.url;
     const error = new Error('Wrong URL ' + requestedURL + " is not existent");
