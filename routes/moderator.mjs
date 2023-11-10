@@ -1,6 +1,7 @@
 import express from "express";
 import dashboard from "./dashboard.mjs";
 import crypto from "node:crypto";
+import sha256 from "../utils/sha256.mjs";
 import database from "../db/connection.mjs";
 const router = express.Router();
 
@@ -93,8 +94,8 @@ router.get("/addmoderator", (req,res)=>{
 });
 router.post('/login', function(request, response, next){
 
-    var user_email_address = request.body.user_email_address;
-    var user_password = request.body.user_password;
+    var user_email_address = request.body.username;
+    var user_password = request.body.password;
     if(!user_email_address && !user_password)
     {
         CatchThatError("Please Enter Email Address and Password Details",400,next)
@@ -103,7 +104,7 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT superID,uPassword,salt FROM superusers 
+        SELECT superID,Password,salt FROM superusers 
         WHERE userName = ? AND superID != 0
         `;
 
@@ -117,21 +118,13 @@ router.post('/login', function(request, response, next){
             {
                     //Concatenate user input password with database output salt
                     const passwordHash = user_password+data[0].salt;
-                    //declare sha2 var
-                    const sha2 = crypto.createHash('sha256');
-                    // Update the hash with the data
-                    sha2.update(passwordHash);
-                    // Calculate the hexadecimal hash
-                    const hashedSaltAndPass = sha2.digest('hex');
-                    if(data[0].uPassword != hashedSaltAndPass)
+                    const hashedSaltAndPass = sha256(passwordHash);
+                    if(data[0].Password != hashedSaltAndPass)
                     {
                         return CatchThatError("Wrong Password",401,next); //HTTP 400 Unauthorized
                     }
-                    else
-                    {
-                        request.session.superID = data[0].superID;
-                        response.redirect("dashboard");
-                    }
+                    
+                    response.send(Menu);
             }
             response.end();
         });

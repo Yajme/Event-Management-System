@@ -2,7 +2,7 @@ import express from "express";
 import session from 'express-session';
 const router = express.Router();
 import db from "../db/connection.mjs";
-import crypto from "node:crypto";
+import sha256 from "../utils/sha256.mjs";
 
 const Menu = [
     {
@@ -78,15 +78,11 @@ router.post('/login', function(request,response,next){
             const salt = result[passCount].salt;
             const passwordHash = password+salt;
             const dbPassword = result[passCount].password;
-            const has = crypto.createHash('sha256');
-            // Update the hash with the data
-            has.update(passwordHash);
-            // Calculate the hexadecimal hash
-            const hashedSaltAndPass = has.digest('hex')
+            const hashedSaltAndPass = sha256(passwordHash);
             if (dbPassword != hashedSaltAndPass) {
                 return CatchThatError('Wrong Password',401,next);
             }
-            response.send("Login OK");
+            response.send(Menu);
         }
            
         response.end();

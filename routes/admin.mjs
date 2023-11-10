@@ -2,7 +2,7 @@ import express from "express";
 import crypto from "node:crypto";
 const router = express.Router();
 import database from "../db/connection.mjs";
-
+import sha256 from "../utils/sha256.mjs";
 import Swal from "sweetalert2";
 const Menu = [
     {
@@ -45,19 +45,18 @@ const Menu = [
 
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
-        
         usertype: "Administrator" //DON'T REMOVE
+
     });
     
 });
 
-router.get("/dashboard", (req,res)=>{
-   
-});
+
 router.post('/login', function(request, response, next){
 
-    var user_email_address = request.body.user_email_address;
-    var user_password = request.body.user_password;
+    var user_email_address = request.body.username;
+    var user_password = request.body.password;
+    //console.log(user_email_address,user_password);
     if(!user_email_address && !user_password)
     {
         CatchThatError("Please Enter Email Address and Password Details",400,next)
@@ -66,26 +65,21 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT superID,uPassword,salt FROM superusers 
+        SELECT superID, Password,salt FROM superusers 
         WHERE userName = ? AND superID = 0
         `;
 
         database.query(query, [user_email_address],function(error, data){
 
-            if(data.length == 0)
+            if(data.length ===0)
             {
-                return CatchThatError("Invalid Password or username");
+                return CatchThatError("Invalid Password or username",400,next);
             }
             else
             {
                     //Concatenate user input password with database output salt
                     const passwordHash = user_password+data[0].salt;
-                    //declare sha2 var
-                    const sha2 = crypto.createHash('sha256');
-                    // Update the hash with the data
-                    sha2.update(passwordHash);
-                    // Calculate the hexadecimal hash
-                    const hashedSaltAndPass = sha2.digest('hex');
+                    const hashedSaltAndPass = sha256(passwordHash);
                     if(data[0].uPassword != hashedSaltAndPass)
                     {
                         return CatchThatError("Wrong Password",401,next);
@@ -103,13 +97,6 @@ router.post('/login', function(request, response, next){
 });
 
 
-router.get("/",(req,res)=>{
-    res.render('./admin-moderator/index',{
-        usertype: "Administrator", //DON'T REMOVE
-        base: "admin"
-    });
-   
-});
 
 router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<link rel="icon" type="image/x-icon" href="/icon/bsu-logo.ico">
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="/css/reset.css"> 
 	<link rel="stylesheet" href="/css/style.css"> 
@@ -38,25 +38,25 @@
 				<li><a href="#0" data-signin="login" data-type="login">Sign in</a></li>
 			</ul>
 
-			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"> <!-- log in form -->
-				<form class="cd-signin-modal__form">
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"	> <!-- log in form -->
+				<form class="cd-signin-modal__form" id="loginForm" data-usertype="<%= usertype%>">
 					<p class="cd-signin-modal__fieldset">
 						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signin-email">username</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="text" placeholder="E-mail">
-						<span class="cd-signin-modal__error">Error message here!</span>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="text" placeholder="Username">
+						<span class="cd-signin-modal__error">Invalid username</span>
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
 						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signin-password">Password</label>
 						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="password"  placeholder="Password">
 						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
-						<span class="cd-signin-modal__error">Error message here!</span>
+						<span class="cd-signin-modal__error">Invalid password</span>
 					</p>
 
 					
 
 					<p class="cd-signin-modal__fieldset">
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit" value="Login">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit" id="login"value="Login">
 					</p>
 				</form>
 				
@@ -90,8 +90,10 @@
 	
   </div>
   <script>
+	const url = window.location.href;
 (function(){
     //Login/Signup modal window - by CodyHouse.co
+	
 	function ModalSignin( element ) {
 		this.element = element;
 		this.blocks = this.element.getElementsByClassName('js-signin-modal-block');
@@ -99,6 +101,7 @@
 		this.triggers = document.getElementsByClassName('js-signin-modal-trigger');
 		this.hidePassword = this.element.getElementsByClassName('js-hide-password');
 		this.init();
+		
 	};
 
 	ModalSignin.prototype.init = function() {
@@ -136,15 +139,53 @@
 			})(i);
 		} 
 
-		//IMPORTANT - REMOVE THIS - it's just to show/hide error messages in the demo
+		
 		this.blocks[0].getElementsByTagName('form')[0].addEventListener('submit', function(event){
 			event.preventDefault();
-			self.toggleError(document.getElementById('signin-email'), true);
+			const form = document.getElementById('loginForm');
+			const formData = new FormData(form);
+			const usernameField = document.getElementById('signin-email');
+			const passwordField = document.getElementById('signin-password');
+			const urlWithoutFragment = url.split('#')[0];
+			const postURL = urlWithoutFragment+'/login';
+			fetch(postURL, {
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+                username: usernameField.value,
+                password: passwordField.value,
+           		 })
+       		 })
+			 .then((response)=>{
+				
+				
+				return response.json();
+			 })
+    		 .then((data) => {
+				
+				if (data.error) {
+      			
+					if(data.error === "Invalid Password or Username"){
+						self.toggleError(document.getElementById('signin-email'), true);
+	 					 self.toggleError(document.getElementById('signin-password'), true);
+					}
+
+					if(data.error === "Wrong Password"){
+						self.toggleError(document.getElementById('signin-password'), true);
+					}
+
+					
+   				}else{
+					window.location.assign(urlWithoutFragment+'/dashboard');
+				} 
+    			})
+    .catch((error) => {
+      console.error(error);
+    });
 		});
-		this.blocks[1].getElementsByTagName('form')[0].addEventListener('submit', function(event){
-			event.preventDefault();
-			self.toggleError(document.getElementById('signup-username'), true);
-		});
+		
 	};
 
 	ModalSignin.prototype.togglePassword = function(target) {
@@ -229,5 +270,6 @@
 
 
   </script>
+
 </body>
 </html>
