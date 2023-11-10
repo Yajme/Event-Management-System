@@ -2,7 +2,7 @@ import express from "express";
 import crypto from "node:crypto";
 const router = express.Router();
 import database from "../db/connection.mjs";
-import sha256 from "sha256";
+
 import Swal from "sweetalert2";
 const Menu = [
     {
