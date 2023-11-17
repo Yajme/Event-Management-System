@@ -163,6 +163,14 @@ router.get("/dashboard", (req,res)=>{
     });
 });
 
+router.get("/attendlist", (req,res)=>{
+    res.render('./admin-moderator/attendlist',{
+        usertype: "Administrator", //DON'T REMOVE
+        path: "admin",
+        Menu : Menu
+    });
+});
+
 
 router.get("/dashboard-m", (req,res)=>{
     res.render('./admin-moderator/dashboard',{
