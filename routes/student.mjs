@@ -65,7 +65,7 @@ router.post('/login', function(request,response,next){
     const username = request.body.username;
     const password = request.body.password;
     // Query the MySQL database for the student user record
-    const query = 'SELECT userID,password,salt FROM userstudents WHERE sr_code = ?';
+    const query = 'SELECT * FROM userstudents WHERE sr_code = ?';
     db.query(query,[username], function(error,result){
          // If the user is found, return the user's record
          
@@ -86,7 +86,8 @@ router.post('/login', function(request,response,next){
             if (dbPassword != hashedSaltAndPass) {
                 return CatchThatError('Wrong Password',401,next);
             }
-            response.send("Login OK");
+            request.session.studID = username;
+            response.redirect("/student/dashboard");
         }
            
         response.end();
