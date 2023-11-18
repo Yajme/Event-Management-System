@@ -62,10 +62,11 @@ router.get("/" ,(req,res)=>{
 router.post('/login', function(request,response,next){
    
     //names of the input text fields in the views/index.ejs
+    let minute = 6000 * 100000;
     const username = request.body.username;
     const password = request.body.password;
     // Query the MySQL database for the student user record
-    const query = 'SELECT * FROM userstudents WHERE sr_code = ?';
+    const query = 'SELECT * FROM studentinfoview WHERE sr_code = ?';
     db.query(query,[username], function(error,result){
          // If the user is found, return the user's record
          
@@ -87,7 +88,12 @@ router.post('/login', function(request,response,next){
                 return CatchThatError('Wrong Password',401,next);
             }
             request.session.studID = username;
-            response.redirect("/student/dashboard");
+            response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
+            response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
+            response.render("./students/dashboard",{
+                sUsername: result[passCount].firstName + " " + result[passCount].lastName,
+                Menu : Menu
+            });
         }
            
         response.end();
