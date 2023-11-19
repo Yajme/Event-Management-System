@@ -112,22 +112,22 @@
 	<tbody>
    
     <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
-       <form action="/student/register" method="post" >
+       
       <input type="text" id="e_id" name="e_id" value="<%= data[i].eventID %>" style="display: none;" readonly>
-      <tr>
+      <tr><form action="/student/register" method="post" >
         <th scope="row"><input type="text" id="e_id" name="e_id" value="<%= data[i].eventID %>" readonly></th>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].eventName%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].e_date%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].org_Name%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><textarea name="" id="" cols="30" rows="10" readonly><%= data[i].eventDesc%></textarea></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><% if(data[i].sr_code!=stud_id){ %><button type="submit">Attend</button><% } else{  %> You AlreadyAttended the event! <% }   %></td>
-      </tr>
+      </form></tr>
       <% } }else{ %>
       <tr>
         <td>No data ever existed.</td>
       </tr>
       <% } %>
-    </form>
+    
 	</tbody>
 
 </table>
