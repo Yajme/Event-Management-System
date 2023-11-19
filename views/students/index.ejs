@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en" class="no-js">
 <head>
 	<meta charset="UTF-8">
@@ -38,16 +37,16 @@
 			</ul>
 
 			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"> <!-- log in form -->
-				<form class="cd-signin-modal__form" id="loginForm">
+				<form class="cd-signin-modal__form" id="loginForm" method="post" action="/student/login">
 					<p class="cd-signin-modal__fieldset">
 						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signin-email">username</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="text" placeholder="Username">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="text" name="username" placeholder="Username">
 						<span class="cd-signin-modal__error">Invalid username</span>
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
 						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signin-password">Password</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="password"  placeholder="Password">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="password" name="password"  placeholder="Password">
 						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
 						<span class="cd-signin-modal__error">Invalid password</span>
 					</p>
@@ -139,49 +138,7 @@
 		} 
 
 		
-		this.blocks[0].getElementsByTagName('form')[0].addEventListener('submit', function(event){
-			event.preventDefault();
-			const form = document.getElementById('loginForm');
-			const formData = new FormData(form);
-			const usernameField = document.getElementById('signin-email');
-			const passwordField = document.getElementById('signin-password');
-			const urlWithoutFragment = url.split('#')[0];
-			const postURL = urlWithoutFragment+'/login';
-			fetch(postURL, {
-            method: 'POST',
-            headers: {
-                "Content-Type": 'application/json'
-            },
-            body: JSON.stringify({
-                username: usernameField.value,
-                password: passwordField.value,
-           		 })
-       		 })
-			 .then((response)=>{
-				
-				
-				return response.json();
-			 })
-    		 .then((data) => {
-				
-				if (data.error) {
-      			
-					if(data.error === "Invalid Password or Username"){
-						self.toggleError(document.getElementById('signin-email'), true);
-	 					 self.toggleError(document.getElementById('signin-password'), true);
-					}
-
-					if(data.error === "Wrong Password"){
-						self.toggleError(document.getElementById('signin-password'), true);
-					}
-
-					
-   				} 
-    			})
-    .catch((error) => {
-      console.error(error);
-    });
-		});
+		
 		
 	};
 

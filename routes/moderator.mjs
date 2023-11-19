@@ -110,7 +110,7 @@ router.post('/login-m', function(request, response, next){
     {
        
         var query = `
-        SELECT superID,uPassword,salt FROM superusers 
+        SELECT superID,password,salt FROM superusers 
         WHERE userName = ? 
         `;
 
@@ -130,7 +130,7 @@ router.post('/login-m', function(request, response, next){
                     sha2.update(passwordHash);
                     // Calculate the hexadecimal hash
                     const hashedSaltAndPass = sha2.digest('hex');
-                    if(data[0].uPassword != hashedSaltAndPass)
+                    if(data[0]. password != hashedSaltAndPass)
                     {
                         return CatchThatError("Wrong Password",401,next);
                     }
