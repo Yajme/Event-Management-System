@@ -3,7 +3,6 @@ import session from 'express-session';
 const router = express.Router();
 import db from "../db/connection.mjs";
 import crypto from "node:crypto";
-
 const Menu = [
     {
         "Menu" : [
@@ -48,6 +47,13 @@ router.get("/dashboard" ,(req,res)=>{
 });
 });
 
+
+router.get("/logout" ,(req,res)=>{
+    res.cookie("std_id", "username", { maxAge: -1 }, { httpOnly: true });
+    res.cookie("std_name", "username", { maxAge: -1 }, { httpOnly: true });
+    res.render('./students')
+});
+
 router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
     db.query('SELECT * FROM atendees_view where sr_code = '+ req.cookies['std_id'], function (err, rows) {
@@ -68,7 +74,7 @@ router.get("/eventcalendar", (req,res)=>{
 
 router.get("/eventlist", (req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query("SELECT * FROM atendees_view where sr_code = '"+ req.cookies['std_id'] + "'", function (err, rows) {
+    db.query("SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID;", function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
@@ -77,11 +83,42 @@ router.get("/eventlist", (req,res)=>{
         
     res.render('./students/eventlist',{
         path: "student",
+        message: req.flash('message'),
+        stud_id: req.cookies['std_id'],
         data: rows,
         Menu : Menu
     });
 }
 });
+})
+
+
+router.post("/register", (req,res)=>{
+    const eventid = req.body.e_id;
+    const userid = req.cookies['std_id'];
+    
+    const query = "INSERT INTO `eventattendees` ( `eventID`, `sr_code`, `DateRegistered`) VALUES ('"+[eventid]+"','"+[userid]+"',current_timestamp())";
+    db.query(query,function (err, resp) {
+        if (err) {
+            if (err) throw err;
+            }});
+            db.query("SELECT * FROM atendees_view where sr_code = '"+ req.cookies['std_id'] + "'", function (err, rows) {
+                if (err) {
+                  req.flash('error', err)
+                  res.render('profile', { data: '' })
+                } else {
+                  
+            req.flash('message', 'You Registered to the Event!');       
+            res.render('./students/eventlist',{
+                path: "student",
+                message: req.flash('message'),
+        stud_id: req.cookies['std_id'],
+        data: rows,
+                Menu : Menu
+            });
+            
+        }
+        });
 })
 
 
@@ -92,7 +129,7 @@ router.get("/" ,(req,res)=>{
 router.post('/login', function(request,response,next){
    
     //names of the input text fields in the views/index.ejs
-    let minute = 6000 * 100000;
+    let minute = 600 * 10000;
     const username = request.body.username;
     const password = request.body.password;
     // Query the MySQL database for the student user record
