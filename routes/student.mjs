@@ -31,27 +31,57 @@ const Menu = [
 ]
 
 router.get("/dashboard" ,(req,res)=>{
-   
+    console.log(req.cookies['std_id']);
+    db.query('SELECT * FROM atendees_view where sr_code = '+ req.cookies['std_id'], function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
     res.render('./students/dashboard',{
         path: "student",
+        data: rows,
         Menu : Menu
     });
+}
+});
 });
 
 router.get("/eventcalendar", (req,res)=>{
-   
+    console.log(req.cookies['std_id']);
+    db.query('SELECT * FROM atendees_view where sr_code = '+ req.cookies['std_id'], function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
     res.render('./students/eventcalendar',{
         path: "student",
+        data: rows,
         Menu : Menu
     });
+}
+});
 })
 
 router.get("/eventlist", (req,res)=>{
-    
+    console.log(req.cookies['std_id']);
+    db.query("SELECT * FROM atendees_view where sr_code = '"+ req.cookies['std_id'] + "'", function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
     res.render('./students/eventlist',{
         path: "student",
+        data: rows,
         Menu : Menu
     });
+}
+});
 })
 
 
