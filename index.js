@@ -10,12 +10,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import session  from "express-session";
 import  SHA256  from 'sha256';
+import expressflash from 'express-flash';
 
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 
 const app = express();
-
+app.use(expressflash());
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({extended: false}));
