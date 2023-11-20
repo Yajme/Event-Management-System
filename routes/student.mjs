@@ -56,7 +56,7 @@ router.get("/logout" ,(req,res)=>{
 
 router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query('SELECT * FROM `event_info` ', function (err, rows) {
+    db.query("SELECT * FROM `event_info` inner join studentinfoview on studentinfoview.dept_ID=event_info.dept_ID where sr_code= '"+req.cookies['std_id']+"' group by event_info.eventID, studentinfoview.sr_code;", function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
@@ -74,7 +74,7 @@ router.get("/eventcalendar", (req,res)=>{
 
 router.get("/eventlist", (req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query("SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID;", function (err, rows) {
+    db.query("SELECT * FROM `event_info` inner join studentinfoview on studentinfoview.dept_ID=event_info.dept_ID where sr_code= '"+req.cookies['std_id']+"' group by event_info.eventID, studentinfoview.sr_code;", function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
