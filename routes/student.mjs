@@ -56,7 +56,7 @@ router.get("/logout" ,(req,res)=>{
 
 router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query('SELECT * FROM atendees_view where sr_code = '+ req.cookies['std_id'], function (err, rows) {
+    db.query('SELECT * FROM `event_info` ', function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
@@ -154,9 +154,10 @@ router.post('/login', function(request,response,next){
             if (dbPassword != hashedSaltAndPass) {
                 return CatchThatError('Wrong Password',401,next);
             }
-            request.session.studID = username;
+            
             response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
             response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
+            response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
                 Menu : Menu

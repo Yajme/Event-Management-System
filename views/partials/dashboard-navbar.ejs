@@ -4,16 +4,43 @@
   const cookiePairs1 = cookieValue1.split('; ');
 
 let usernameCookieCount = 0;
+let utypestud = 0;
+let utypeadmin = 0;
 for (const cookiePair of cookiePairs1) {
 const [cookieName1, cookieValue1] = cookiePair.split('=');
+if (cookieValue1 === 'student') {
+  utypestud += 1;
+
+}
+if (cookieValue1 === 'admin') {
+  utypeadmin += 1;
+
+}
 if (cookieName1 === 'std_id') {
 usernameCookieCount += 1;
-break;
+
 }
 }
+
+if(utypestud>0){
+  $("#logout a").prop("href", "student/logout");
 if(usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/student";
 }
+}
+
+
+if(utypeadmin>0){
+  $("#logout").prop("href", "admin/logout");
+if(usernameCookieCount<=0){
+  document.location.href = "http://localhost:8080/admin";
+}
+}
+
+// Convert from vanilla js to ejs
+// Ajax make a href change depending in usertype
+// response.cookie generation = vanilla or native js retrieval 
+
 </script>
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -35,6 +62,7 @@ if(usernameCookieCount<=0){
             <div class="nav-profile-text">
               <p class="mb-1 text-black"><span id="myId"></span></p>
                 <script>
+if(utypestud>0){
                   const cookieValue = document.cookie;
                   const cookiePairs = cookieValue.split('; ');
                 
@@ -47,6 +75,22 @@ for (const cookiePair of cookiePairs) {
   }
 }
 document.getElementById('myId').innerHTML=usernameCookieValue
+}
+if(utypeadmin>0){
+                  const cookieValue = document.cookie;
+                  const cookiePairs = cookieValue.split('; ');
+                
+                let usernameCookieValue = '';
+for (const cookiePair of cookiePairs) {
+  const [cookieName, cookieValue] = cookiePair.split('=');
+  if (cookieName === 'a_std_name') {
+    usernameCookieValue = unescape(cookieValue);
+    break;
+  }
+}
+document.getElementById('myId').innerHTML="Administrator"
+}
+
                 </script>
             </div>
           </a>
@@ -70,7 +114,7 @@ document.getElementById('myId').innerHTML=usernameCookieValue
               <div role="separator" class="dropdown-divider"></div>
               <h5 class="dropdown-header text-uppercase  pl-2 text-dark mt-2">Actions</h5>
              
-              <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="/student/logout">
+              <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" id="logout" href="#">
                 <span>Log Out</span>
                 <i class="mdi mdi-logout ml-1"></i>
               </a>

@@ -33,6 +33,50 @@
           font-weight: bold; 
       } 
   </style> 
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+
+
+
+<script>
+var eventlist  = [
+    
+    
+    {
+      title  : 'Christmas',
+      start  : '2023-12-25T12:30:00',
+      allDay : false // will make the time show
+    }
+  ];
+</script>
+<% if(data.length){ for(var i = 0; i< data.length; i++) {%>
+<script>
+  var data2 = new Date('<%= data[i].e_date %>');
+  var datadate = data2.getFullYear() +"-"+ parseInt(data2.getMonth()+1) +"-"+data2.getDate();
+  console.log(datadate)
+  eventlist.push(
+     {
+       title  :  '<%= data[i].eventName %>',
+       start  : datadate,
+       description: 'This is a cool event',
+       allDay: true
+     }
+       );
+ 
+ </script>
+ <% }}%>
+<script>
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: eventlist
+    });
+    calendar.render();
+    
+  });
+  
+</script>
   </head>
   <body>
     <div class="container-scroller">
@@ -67,114 +111,14 @@
               </nav>
             </div>
             <div class="row">
-              
+             
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Event Calendar View</h4>
                     
-    <table bgcolor="lightgrey" align="center" 
-    cellspacing="21" cellpadding="21"> 
-
-    <!-- The tr tag is used to enter  
-        rows in the table -->
-
-    <!-- It is used to give the heading to the 
-        table. We can give the heading to the  
-        top and bottom of the table -->
-
-    <caption align="top"> 
-        <!-- Here we have used the attribute  
-            that is style and we have colored  
-            the sentence to make it better  
-            depending on the web page-->
-    </caption> 
-
-    <!-- Here th stands for the heading of the 
-        table that comes in the first row-->
-
-    <!-- The text in this table header tag will  
-        appear as bold and is center aligned-->
-
-    <thead> 
-        <tr> 
-            <!-- Here we have applied inline style  
-                 to make it more attractive-->
-            <th style="color: white; background: darkred;"> 
-                Sun</th> 
-            <th style="color: white; background: darkred;"> 
-                Mon</th> 
-            <th style="color: white; background: darkred;"> 
-                Tue</th> 
-            <th style="color: white; background: darkred;"> 
-                Wed</th> 
-            <th style="color: white; background: darkred;"> 
-                Thu</th> 
-            <th style="color: white; background: darkred;"> 
-                Fri</th> 
-            <th style="color: white; background: darkred;"> 
-                Sat</th> 
-        </tr> 
-    </thead> 
-
-    <tbody> 
-        <tr> 
-            <td></td> 
-            <td></td> 
-            <td></td> 
-            <td></td> 
-            <td></td> 
-            <td>1</td> 
-            <td>2</td> 
-        </tr> 
-        <tr></tr> 
-        <tr> 
-            <td>3</td> 
-            <td>4</td> 
-            <td>5</td> 
-            <td>6</td> 
-            <td>7</td> 
-            <td>8</td> 
-            <td>9</td> 
-        </tr> 
-        <tr> 
-            <td>10</td> 
-            <td>11</td> 
-            <td>12</td> 
-            <td>13</td> 
-            <td>14</td> 
-            <td>15</td> 
-            <td>16</td> 
-        </tr> 
-        <tr> 
-            <td>17</td> 
-            <td>18</td> 
-            <td>19</td> 
-            <td>20</td> 
-            <td>21</td> 
-            <td>22</td> 
-            <td>23</td> 
-        </tr> 
-        <tr> 
-            <td>24</td> 
-            <td>25</td> 
-            <td>26</td> 
-            <td>27</td> 
-            <td>28</td> 
-            <td>29</td> 
-            <td>30</td> 
-        </tr> 
-        <tr> 
-            <td>31</td> 
-            <td>1</td> 
-            <td>2</td> 
-            <td>3</td> 
-            <td>4</td> 
-            <td>5</td> 
-            <td>6</td> 
-        </tr> 
-    </tbody> 
-</table> 
+                    <h4 class="card-title">Event Calendar View</h4>
+                    <div id='calendar'></div>
+    
                   </div>
                 </div>
               </div>

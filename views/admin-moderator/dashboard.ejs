@@ -1,3 +1,32 @@
+
+<script>
+  const cookieValue1 = document.cookie;
+  const cookiePairs1 = cookieValue1.split('; ');
+
+let usernameCookieCount = 0;
+let utypestud = 0;
+let utypeadmin = 0;
+for (const cookiePair of cookiePairs1) {
+const [cookieName1, cookieValue1] = cookiePair.split('=');
+if (cookieValue1 === 'student') {
+  utypestud += 1;
+
+}
+if (cookieValue1 === 'admin') {
+  utypeadmin += 1;
+
+}
+}
+if(utypeadmin>0){
+  $("#admin_dash").show();
+
+}
+else{
+  $("#admin_dash").hide();
+
+}
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

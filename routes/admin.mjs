@@ -54,6 +54,7 @@ router.get("/",(req,res)=>{
 
 router.post('/login', function(request, response, next){
 
+    let minute = 600 * 10000;
     var user_email_address = request.body.username;
     var user_password = request.body.password;
     //console.log(user_email_address,user_password);
@@ -84,7 +85,9 @@ router.post('/login', function(request, response, next){
                     {
                         return CatchThatError("Wrong Password",401,next);
                     }
-                   
+                    response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
+                    response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
+                    response.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
                     response.send(Menu);
             }
             response.end();
