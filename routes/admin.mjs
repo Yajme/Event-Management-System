@@ -54,6 +54,7 @@ router.get("/",(req,res)=>{
 
 router.post('/login', function(request, response, next){
 
+    let minute = 600 * 10000;
     var user_email_address = request.body.username;
     var user_password = request.body.password;
     //console.log(user_email_address,user_password);
@@ -65,7 +66,7 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT superID,password,salt FROM superusers 
+        SELECT superID, Password,salt FROM superusers 
         WHERE userName = ? AND superID = 0
         `;
 
@@ -77,67 +78,17 @@ router.post('/login', function(request, response, next){
             }
             else
             {
-    let minute = 600 * 10000;
-    //Concatenate user input password with database output salt
+                    //Concatenate user input password with database output salt
                     const passwordHash = user_password+data[0].salt;
                     const hashedSaltAndPass = sha256(passwordHash);
                     if(data[0].Password != hashedSaltAndPass)
                     {
                         return CatchThatError("Wrong Password",401,next);
                     }
-                    else
-                    {
-                        request.session.superID = data[0].superID;
-                        response.redirect("/admin/dashboard");
-                    }
-            }
-            response.end();
-        });
-    }
-
-});
-
-
-router.post('/login-m', function(request, response, next){
-    var user_email_address = request.body.user_email_address;
-    var user_password = request.body.user_password;
-    if(!user_email_address && !user_password)
-    {
-        CatchThatError("Please Enter Email Address and Password Details",400,next)
-    }
-    else
-    {
-       
-        var query = `
-        SELECT superID,password,salt FROM superusers 
-        WHERE userName = ? 
-        `;
-
-        database.query(query, [user_email_address],function(error, data){
-
-            if(data.length == 0)
-            {
-                return CatchThatError("Invalid Password or username",401,next);
-            }
-            else
-            {
-                    //Concatenate user input password with database output salt
-                    const passwordHash = user_password+data[0].salt;
-                    //declare sha2 var
-                    const sha2 = crypto.createHash('sha256');
-                    // Update the hash with the data
-                    sha2.update(passwordHash);
-                    // Calculate the hexadecimal hash
-                    const hashedSaltAndPass = sha2.digest('hex');
-                    if(data[0].uPassword != hashedSaltAndPass)
-                    {
-                        return CatchThatError("Wrong Password",401,next);
-                    }
-                    else
-                    {
-                        request.session.superID = data[0].superID;
-                        response.redirect("/admin/dashboard-m");
-                    }
+                    response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
+                    response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
+                    response.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
+                    response.send(Menu);
             }
             response.end();
         });
