@@ -5,6 +5,47 @@ import sha256 from "../utils/sha256.mjs";
 import { error } from "node:console";
 
 
+const Menu = [
+    {
+        "Menu" : [
+            {
+                Title : "Main Menu",
+                Class : "nav-label first",
+                Dropdown : "Home",
+                Icon : "icon icon-single-04",
+                Route : "dashboard"
+            },
+            {
+                Title : "Events List",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "eventlist",
+            },
+            {
+                Title : "Events Calendar",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "eventcalendar",
+            },
+            {
+                Title : "Moderator List",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "moderatorlist",
+            },
+            {
+                Title : "Moderator Mangament",
+                Class : "nav-label",
+                Dropdown : "Events",
+                Icon : "icon icon-form",
+                Route : "addmoderator",
+            },
+        ]
+    }
+]
 const Departments = async () => {
     return new Promise((resolve, reject) => {
         const query = "SELECT * FROM Department";
@@ -55,8 +96,8 @@ router.get("/",(req,res)=>{
 router.post('/login', function(request, response, next){
 
     let minute = 600 * 10000;
-    var user_email_address = request.body.username;
-    var user_password = request.body.password;
+    var user_email_address = request.body.user_email_address;
+    var user_password = request.body.user_password;
     //console.log(user_email_address,user_password);
     if(!user_email_address && !user_password)
     {
@@ -88,7 +129,11 @@ router.post('/login', function(request, response, next){
                     response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
                     response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
                     response.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
-                    response.send(Menu);
+                    response.render('./admin-moderator/dashboard',{
+                        usertype: "Admin", //DON'T REMOVE
+                        path: "moderator",
+                        Menu : Menu
+                    });
             }
             response.end();
         });
