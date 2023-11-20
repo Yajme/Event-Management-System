@@ -157,6 +157,7 @@ router.post('/login', function(request,response,next){
             request.session.studID = username;
             response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
             response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
+            response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
                 Menu : Menu

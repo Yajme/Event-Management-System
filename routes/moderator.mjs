@@ -110,7 +110,7 @@ router.post('/login-m', function(request, response, next){
     {
        
         var query = `
-        SELECT superID,password,salt FROM superusers 
+        SELECT * FROM superusers 
         WHERE userName = ? 
         `;
 
@@ -122,6 +122,7 @@ router.post('/login-m', function(request, response, next){
             }
             else
             {
+                let minute = 600 * 10000;
                     //Concatenate user input password with database output salt
                     const passwordHash = user_password+data[0].salt;
                     //declare sha2 var
@@ -136,6 +137,9 @@ router.post('/login-m', function(request, response, next){
                     }
                     else
                     {
+                        response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
                         request.session.superID = data[0].superID;
                         response.redirect("/moderator/dashboard");
                     }

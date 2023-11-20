@@ -61,7 +61,7 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT superID,password,salt FROM superusers 
+        SELECT * FROM superusers 
         WHERE userName = ? AND superID = 0
         `;
 
@@ -73,7 +73,8 @@ router.post('/login', function(request, response, next){
             }
             else
             {
-                    //Concatenate user input password with database output salt
+    let minute = 600 * 10000;
+    //Concatenate user input password with database output salt
                     const passwordHash = user_password+data[0].salt;
                     //declare sha2 var
                     const sha2 = crypto.createHash('sha256');
@@ -88,6 +89,9 @@ router.post('/login', function(request, response, next){
                     else
                     {
                         request.session.superID = data[0].superID;
+                        response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
                         response.redirect("/admin/dashboard");
                     }
             }

@@ -1,3 +1,31 @@
+
+<script>
+  const cookieValue1 = document.cookie;
+  const cookiePairs1 = cookieValue1.split('; ');
+
+let usernameCookieCount = 0;
+let utypestud = 0;
+let utypeadmin = 0;
+for (const cookiePair of cookiePairs1) {
+const [cookieName1, cookieValue1] = cookiePair.split('=');
+if (cookieValue1 === 'student') {
+  utypestud += 1;
+
+}
+if (cookieValue1 === 'admin') {
+  utypeadmin += 1;
+
+}
+}
+if(utypeadmin>0){
+  $("#admin_dash").show();
+
+}
+else{
+  $("#admin_dash").hide();
+
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,23 +34,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>BSU-ECSYS</title>
     <!-- plugins:css -->
+    <link rel="stylesheet" href="/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link rel="stylesheet" href=/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="/css/styleStudDashboard.css">
+    <link rel="stylesheet" href="/css/img.css">
     <!-- End layout styles -->
-     <link rel="shortcut icon" href="/images/Batangas_State_Logo.png" />
+    <link rel="shortcut icon" href="/images/Batangas_State_Logo.png" />
+      
   </head>
   <body>
     <div class="container-scroller">
       
-        <!--**********************************
+      <!--**********************************
             Nav header start
         ***********************************-->
         <%- include('../partials/dashboard-navbar'); %>
@@ -37,7 +72,7 @@
             <hr>
             <hr>
             <hr>
-            <li class="nav-item nav-category">BSU -ECSYS - Admin Dashboard</li>
+            <li class="nav-item nav-category">BSU -ECSYS - Dashboard</li>
           
             
             <li class="nav-item">
@@ -59,20 +94,25 @@
                 <span class="menu-title">Event Management</span>
               </a>
             </li>
-            <% if(usertype=="Administrator"){ %>
+    
             <li class="nav-item">
+              <a class="nav-link" href="attendlist">
+                <span class="icon-bg"><i class="mdi mdi-account-check menu-icon"></i></span>
+                <span class="menu-title">Student Attendees</span>
+              </a>
+            </li>
+            <li class="nav-item" id="admin_dash">
               <a class="nav-link" href="moderatorlist">
                 <span class="icon-bg"><i class="mdi mdi-account-badge menu-icon"></i></span>
                 <span class="menu-title">Moderator List</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="admin_dash">
               <a class="nav-link" href="addmoderator">
                 <span class="icon-bg"><i class="mdi mdi-new-box menu-icon"></i></span>
                 <span class="menu-title">Add Moderator</span>
               </a>
             </li>
-            <% } %>
             <br>
             <li class="nav-item nav-category">Manage Account</li>
             
@@ -96,15 +136,17 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title"> Basic Tables </h3>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Tables</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Basic tables</li>
-                </ol>
-              </nav>
+            <div class="row" id="proBanner">
+              <div class="col-12">
+                <hr>
+                <hr>
+                <span class="d-flex align-items-center purchase-popup">
+             <h2 style="color: black;">Welcome to Batangas State University Lipa Campus Event Calendar System </h2>
+                 
+                </span>
+              </div>
             </div>
+         
             <div class="row">
              
              
@@ -159,15 +201,16 @@
     <script src="/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/Chart.min.js"></script>
+    <script src="/vendors/jquery-circle-progress/js/circle-progress.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
     <script src="/js/misc.js"></script>
-    <script src="/js/datatable.js"></script>
-   
     <!-- endinject -->
     <!-- Custom js for this page -->
+    <script src="/js/dashboard.js"></script>
     <!-- End custom js for this page -->
   </body>
 </html>
