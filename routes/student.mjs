@@ -56,7 +56,7 @@ router.get("/logout" ,(req,res)=>{
 
 router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query('SELECT * FROM atendees_view where sr_code = '+ req.cookies['std_id'], function (err, rows) {
+    db.query('SELECT * FROM `event_info` ', function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
