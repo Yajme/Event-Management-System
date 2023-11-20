@@ -63,11 +63,21 @@ router.get("/dashboard", (req,res)=>{
 });
 
 router.get("/eventlist", (req,res)=>{
+    
+    database.query("SELECT * FROM `event_info` ", function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
     res.render('./admin-moderator/eventlist',{
-        usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        data: rows,
+        usertype : "Administrator"
     });
+}
+});
     
 });
 

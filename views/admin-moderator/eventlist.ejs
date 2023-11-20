@@ -52,7 +52,29 @@ else{
     <link rel="stylesheet" href="/css/img.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="/images/Batangas_State_Logo.png" />
-      
+      <style>
+        textarea{
+        background: rgb(231, 231, 231);
+        width: 100%;
+        height: 50px;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+      }
+      button{
+        border: 2px solid rgb(231, 231, 231);
+        width: 100%;
+        border-radius: 15px;
+        font-size: 15px;
+        padding: 5px;
+      }
+      td { white-space:pre-wrap; word-wrap:break-word }
+      #e_id{
+        background: transparent;
+        border: none;
+        font-weight: bold;
+      }
+      </style>
   </head>
   <body>
     <div class="container-scroller">
@@ -160,20 +182,30 @@ else{
 		<tr>
 			<th>EventID</th>
 			<th>Even Name</th>
+			<th>Event Description</th>
 			<th>Date</th>
 			<th>Status</th>
-			<th>Event Description</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>1</td>
-			<td>SPOOKYTHON</td>
-			<td>2023/11/15</td>
-			<td>Done</td>
-			<td data-order="1000">Hackathon</td>
-		</tr>
 		
+    <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
+       
+      <input type="text" id="e_id" name="e_id" value="<%= data[i].eventID %>" style="display: none;" readonly>
+      <tr><form action="/student/register" method="post" >
+        <th scope="row"><input type="text" id="e_id" name="e_id" value="<%= data[i].eventID %>" readonly></th>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].eventName%></td>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><textarea name="" id="" cols="30" rows="10" readonly><%= data[i].eventDesc%></textarea></td>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].e_date%></td>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].status%></td>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><button type="submit">Anuga ang laman</button></td>
+      </form></tr>
+      <% } }else{ %>
+      <tr>
+        <td>No data ever existed.</td>
+      </tr>
+      <% } %>
 	</tbody>
 </table>
                   </div>
