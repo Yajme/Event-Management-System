@@ -1,3 +1,34 @@
+
+<script>
+	const cookieValue1 = document.cookie;
+	const cookiePairs1 = cookieValue1.split('; ');
+  
+  let usernameCookieCount = 0;
+  let utypestud = 0;
+  let utypeadmin = 0;
+  for (const cookiePair of cookiePairs1) {
+  const [cookieName1, cookieValue1] = cookiePair.split('=');
+  if (cookieValue1 === 'student') {
+	utypestud += 1;
+  
+  }
+  if (cookieValue1 === 'admin') {
+	utypeadmin += 1;
+  
+  }
+  if (cookieName1 === 'std_id') {
+  usernameCookieCount += 1;
+  
+  }
+  }
+
+  if(usernameCookieCount>0){
+	document.location.href = "http://localhost:8080/student/dashboard";
+  }
+  
+  
+  </script>
+
 <html lang="en" class="no-js">
 <head>
 	<meta charset="UTF-8">
@@ -26,7 +57,7 @@
 			<div style="float: left; width: 50%; background-color:rgba(0,0,0,0.5); height: 1000px;">
 				<img src="/img/bsu-logo.png" alt="Logo" class="head-logo"><br>
 				<h1>Welcome to BSU Event Calendar System</h1> <br>
-				<<p style="text-align: center">Sign in as Student User</p>			</div>
+				<p style="text-align: center">Sign in as Student User</p>			</div>
 		</div>
 	</div>
 
