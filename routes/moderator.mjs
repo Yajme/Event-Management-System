@@ -48,7 +48,8 @@ const Menu = [
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
-        base: "moderator"
+        base: "moderator",
+        login: "moderator/login-m"
     });
    
 });
@@ -62,12 +63,31 @@ router.get("/dashboard", (req,res)=>{
     });
 });
 
-router.get("/eventlist", (req,res)=>{
-    res.render('./admin-moderator/eventlist',{
+router.get("/eventregistration", (req,res)=>{
+    
+    res.render('./admin-moderator/eventregistration',{
         usertype: "Moderator", //DON'T REMOVE
-        path: "moderator",
+        path : "moderator",
         Menu : Menu
     });
+});
+
+router.get("/eventlist", (req,res)=>{
+    
+    database.query("SELECT * FROM `event_info` ", function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
+    res.render('./admin-moderator/eventlist',{
+        path: "moderator",
+        data: rows,
+        usertype : "Moderator"
+    });
+}
+});
     
 });
 
@@ -97,7 +117,11 @@ router.get("/addmoderator", (req,res)=>{
     
 });
 
-
+router.get("/logout" ,(req,res)=>{
+    res.cookie("m_std_id", "username", { maxAge: -1 }, { httpOnly: true });
+    res.cookie("m_std_name", "username", { maxAge: -1 }, { httpOnly: true });
+    res.redirect('/moderator')
+});
 
 router.post('/login-m', function(request, response, next){
     var user_email_address = request.body.user_email_address;
@@ -137,8 +161,8 @@ router.post('/login-m', function(request, response, next){
                     }
                     else
                     {
-                        response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
-                        response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("m_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("m_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
                         response.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
                         request.session.superID = data[0].superID;
                         response.redirect("/moderator/dashboard");
@@ -149,6 +173,31 @@ router.post('/login-m', function(request, response, next){
     }
 
 });
+
+router.post("/add-event", function(req, res, next){
+    // User inputs
+    const eName = req.body.eventName;
+    const eDesc = req.body.eventDesc;
+    const eDate = req.body.eventDate;
+    const cookieValue= req.cookies['org_id'];
+    const modID = cookieValue;
+    console.log(eName,eDesc,eDate,modID);
+    const query = 'CALL EventManager(?,?,?,?)';
+    const values = [eName, eDesc,eDate,modID]
+
+    database.query(query,values,function(err,data){
+        if(data===0){
+            console.log('hindi pumasok ang data');
+        }else{
+            console.log('mabuhay! naipasok na ang imong data');
+            res.render('./admin-moderator/eventregistration',{
+                usertype: "Moderator",
+                path: "moderator",
+                Menu: Menu
+            });
+        }
+    })
+})
 
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);

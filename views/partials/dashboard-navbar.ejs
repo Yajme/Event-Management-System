@@ -1,24 +1,37 @@
 
 <script>
-  const cookieValue1 = document.cookie;
-  const cookiePairs1 = cookieValue1.split('; ');
+  var cookieValue1 = document.cookie;
+  var cookiePairs1 = cookieValue1.split('; ');
 
 let usernameCookieCount = 0;
+let a_usernameCookieCount = 0;
+let m_usernameCookieCount = 0;
 let utypestud = 0;
 let utypeadmin = 0;
-for (const cookiePair of cookiePairs1) {
-const [cookieName1, cookieValue1] = cookiePair.split('=');
+let utypemod = 0;
+for (var cookiePair of cookiePairs1) {
+var [cookieName1, cookieValue1] = cookiePair.split('=');
 if (cookieValue1 === 'student') {
   utypestud += 1;
 
 }
 if (cookieValue1 === 'admin') {
   utypeadmin += 1;
-
 }
+if (cookieValue1 === 'moderator'){
+  utypemod += 1;
+}
+
 if (cookieName1 === 'std_id') {
 usernameCookieCount += 1;
 
+}
+if (cookieName1 === 'a_std_id') {
+a_usernameCookieCount += 1;
+
+}
+if (cookieName1 === 'm_std_id') {
+m_usernameCookieCount += 1;
 }
 }
 
@@ -27,6 +40,7 @@ if(utypestud>0){
   document.getElementById("logout").href ="logout";
   document.getElementById("logout1").href ="logout";
 };
+
 if(usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/student";
 }
@@ -34,15 +48,27 @@ if(usernameCookieCount<=0){
 
 
 if(utypeadmin>0){
-  $("#logout").prop("href", "admin/logout");
-if(usernameCookieCount<=0){
+  window.onload = function() {
+  document.getElementById('logout').href = '/admin/logout';
+  }
+if(a_usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/admin";
 }
 }
 
+if(utypemod>0){
+  window.onload = function() {
+  document.getElementById('logout').href = '/moderator/logout';
+  }
+if(m_usernameCookieCount<=0){
+  document.location.href = "http://localhost:8080/moderator";
+}
+}
 // Convert from vanilla js to ejs
 // Ajax make a href change depending in usertype
 // response.cookie generation = vanilla or native js retrieval 
+
+
 
 </script>
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -93,6 +119,20 @@ for (const cookiePair of cookiePairs) {
 }
 document.getElementById('myId').innerHTML="Administrator"
 }
+if(utypemod>0){
+  const cookieValue = document.cookie;
+  const cookiePairs = cookieValue.split('; ');
+
+let usernameCookieValue = '';
+for (const cookiePair of cookiePairs) {
+const [cookieName, cookieValue] = cookiePair.split('=');
+if (cookieName === 'm_std_name') {
+usernameCookieValue = unescape(cookieValue);
+break;
+}
+}
+document.getElementById('myId').innerHTML=usernameCookieValue
+}
 
                 </script>
             </div>
@@ -130,7 +170,7 @@ document.getElementById('myId').innerHTML="Administrator"
             <span class="count-symbol bg-success"></span>
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-            <h6 class="p-3 mb-0 bg-primary text-white py-4">Event Reminders</h6>
+            <h6 class="p-3 mb-0 bg-primary text-white py-4"></h6>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">

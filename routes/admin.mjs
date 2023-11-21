@@ -84,10 +84,27 @@ var Organizations= async ()=>{
     });
 }
 
+var Events= async ()=>{
+    return new Promise((resolve, reject) => {
+        const query = "SELECT * FROM event_info";
+
+        database.query(query, (error, data) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            if (data.length === 0) {
+                reject("Organization not found");
+                return;
+            }
+            resolve(data);
+        });
+    });
+}
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
-        usertype: "Administrator" //DON'T REMOVE
-
+        usertype: "Administrator", //DON'T REMOVE
+        login: "/admin/login"
     });
     
 });
@@ -141,7 +158,11 @@ router.post('/login', function(request, response, next){
 
 });
 
-
+router.get("/logout" ,(req,res)=>{
+    res.cookie("a_std_id", "username", { maxAge: -1 }, { httpOnly: true });
+    res.cookie("a_std_name", "username", { maxAge: -1 }, { httpOnly: true });
+    res.redirect('/admin')
+});
 
 router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{
@@ -166,11 +187,21 @@ router.get("/eventmanagement", (req,res)=>{
 });
 
 router.get("/eventlist", (req,res)=>{
+  
+    database.query("SELECT * FROM `event_info` ", function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
     res.render('./admin-moderator/eventlist',{
         path: "admin",
+        data: rows,
         usertype : "Administrator"
     });
-    
+}
+});
 });
 
 router.post("/addmoderator", async (req, res, next) => {
