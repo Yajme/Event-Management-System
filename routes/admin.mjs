@@ -103,8 +103,8 @@ var Events= async ()=>{
 }
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
-        usertype: "Administrator" //DON'T REMOVE
-
+        usertype: "Administrator", //DON'T REMOVE
+        login: "/admin/login"
     });
     
 });

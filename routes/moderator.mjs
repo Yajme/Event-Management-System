@@ -48,7 +48,8 @@ const Menu = [
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
-        base: "moderator"
+        base: "moderator",
+        login: "moderator/login-m"
     });
    
 });
@@ -147,8 +148,8 @@ router.post('/login-m', function(request, response, next){
                     }
                     else
                     {
-                        response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
-                        response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("m_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
+                        response.cookie("m_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
                         response.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
                         request.session.superID = data[0].superID;
                         response.redirect("/moderator/dashboard");
