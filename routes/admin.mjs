@@ -84,6 +84,23 @@ var Organizations= async ()=>{
     });
 }
 
+var Events= async ()=>{
+    return new Promise((resolve, reject) => {
+        const query = "SELECT * FROM event_info";
+
+        database.query(query, (error, data) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            if (data.length === 0) {
+                reject("Organization not found");
+                return;
+            }
+            resolve(data);
+        });
+    });
+}
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Administrator" //DON'T REMOVE
@@ -166,11 +183,21 @@ router.get("/eventmanagement", (req,res)=>{
 });
 
 router.get("/eventlist", (req,res)=>{
+  
+    database.query("SELECT * FROM `event_info` ", function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+        
     res.render('./admin-moderator/eventlist',{
         path: "admin",
+        data: rows,
         usertype : "Administrator"
     });
-    
+}
+});
 });
 
 router.post("/addmoderator", async (req, res, next) => {
