@@ -54,7 +54,7 @@ router.post('/login', function(request, response, next){
                     response.render('./admin-moderator/dashboard',{
                         usertype: "Admin", //DON'T REMOVE
                         path: "moderator",
-                        Menu : Menu
+                        Menu : AdminModel.Menu
                     });
             }
             response.end();
