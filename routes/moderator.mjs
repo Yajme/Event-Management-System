@@ -183,9 +183,9 @@ router.post('/login-m', function(request, response, next){
                     {
                         response.cookie("m_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
                         response.cookie("m_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
-                        response.cookie("org_id", data[0].org_ID, { maxAge: minute }, { httpOnly: true });
                         response.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
                         request.session.superID = data[0].superID;
+                        response.cookie("org_id", data[0].org_ID, { maxAge: minute }, { httpOnly: true });
                         response.redirect("/moderator/dashboard");
                     }
             }
