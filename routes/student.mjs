@@ -1,33 +1,10 @@
 import express from "express";
 import session from 'express-session';
+import StudentModel from '../model/UserModel/StudentModel.mjs';
 const router = express.Router();
 import db from "../db/connection.mjs";
 import crypto from "node:crypto";
-const Menu = [
-    {
-        "Menu" : [
-            {
-                Title : "Main Menu",
-                Class : "nav-label first",
-                Icon : "icon icon-single-04",
-                Route : "dashboard"
-            },
-            {
-                Title : "Events list",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventlist"
-            },
-            {
-                Title : "Events Calendar",
-                Class : "nav-label",
-                Icon : "icon icon-form",
-                Route : "eventcalendar"
-            },
-        ]
-    }
-]
+
 
 router.get("/dashboard" ,(req,res)=>{
     console.log(req.cookies['std_id']);
@@ -41,7 +18,7 @@ router.get("/dashboard" ,(req,res)=>{
     res.render('./students/dashboard',{
         path: "student",
         data: rows,
-        Menu : Menu
+        Menu : StudentModel
     });
 }
 });
@@ -66,7 +43,7 @@ router.get("/eventcalendar", (req,res)=>{
     res.render('./students/eventcalendar',{
         path: "student",
         data: rows,
-        Menu : Menu
+        Menu : StudentModel
     });
 }
 });
@@ -86,7 +63,7 @@ router.get("/eventlist", (req,res)=>{
         message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-        Menu : Menu
+        Menu : StudentModel
     });
 }
 });
@@ -161,7 +138,7 @@ router.post('/login', function(request,response,next){
             response.cookie("deptID", result[passCount].dept_ID, { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
-                Menu : Menu
+                Menu : StudentModel
             });
         }
            

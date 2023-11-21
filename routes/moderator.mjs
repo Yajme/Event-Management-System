@@ -2,49 +2,10 @@ import express from "express";
 import dashboard from "./dashboard.mjs";
 import crypto from "node:crypto";
 import database from "../db/connection.mjs";
+import ModeratorModel from "../model/UserModel/ModeratorModel.mjs";
+
 const router = express.Router();
 
-const Menu = [
-    {
-        "Menu" : [
-            {
-                Title : "Main Menu",
-                Class : "nav-label first",
-                Dropdown : "Home",
-                Icon : "icon icon-single-04",
-                Route : "dashboard"
-            },
-            {
-                Title : "Events List",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventlist",
-            },
-            {
-                Title : "Events Calendar",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventcalendar",
-            },
-            {
-                Title : "Moderator List",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "moderatorlist",
-            },
-            {
-                Title : "Moderator Mangament",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "addmoderator",
-            },
-        ]
-    }
-]
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
@@ -59,7 +20,7 @@ router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{
         usertype: "Moderator", //DON'T REMOVE
         path : "moderator",
-        Menu : Menu
+        Menu : ModeratorModel
     });
 });
 
@@ -75,7 +36,8 @@ router.get("/eventlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
         path: "moderator",
         data: rows,
-        usertype : "Administrator"
+        usertype : "Administrator",
+        Menu : ModeratorModel
     });
 }
 });
@@ -86,7 +48,7 @@ router.get("/eventmanagement", (req,res)=>{
     res.render('./admin-moderator/eventmanagement',{
         usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        Menu : ModeratorModel
     });
     
 });
@@ -95,7 +57,7 @@ router.get("/moderatorlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
         usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        Menu : ModeratorModel
     });
     
 });
@@ -103,12 +65,18 @@ router.get("/addmoderator", (req,res)=>{
     res.render('./admin-moderator/addmoderator',{
         usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        Menu : ModeratorModel   
     });
     
 });
 
-
+router.get("/attendlist",(req,res)=>{
+    res.render('./admin-moderator/attendlist',{
+        usertype: "Moderator", //DON'T REMOVE
+        path: "moderator",
+        Menu : ModeratorModel
+    });
+})
 
 router.post('/login', function(request, response, next){
     var user_email_address = request.body.user_email_address;

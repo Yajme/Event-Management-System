@@ -2,105 +2,10 @@ import express from "express";
 const router = express.Router();
 import database from "../db/connection.mjs";
 import sha256 from "../utils/sha256.mjs";
+import AdminModel from '../model/UserModel/AdminModel.mjs';
 import { error } from "node:console";
 
 
-const Menu = [
-    {
-        "Menu" : [
-            {
-                Title : "Main Menu",
-                Class : "nav-label first",
-                Dropdown : "Home",
-                Icon : "icon icon-single-04",
-                Route : "dashboard"
-            },
-            {
-                Title : "Events List",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventlist",
-            },
-            {
-                Title : "Events Calendar",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventcalendar",
-            },
-            {
-                Title : "Moderator List",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "moderatorlist",
-            },
-            {
-                Title : "Moderator Mangament",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "addmoderator",
-            },
-        ]
-    }
-]
-const Departments = async () => {
-    return new Promise((resolve, reject) => {
-        const query = "SELECT * FROM Department";
-
-        database.query(query, (error, data) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-
-            if (data.length === 0) {
-                reject("Departments not found");
-                return;
-            }
-
-            resolve(data);
-        });
-    });
-};
-
-var Organizations= async ()=>{
-    return new Promise((resolve, reject) => {
-        const query = "SELECT * FROM Moderators";
-
-        database.query(query, (error, data) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            if (data.length === 0) {
-                reject("Organization not found");
-                return;
-            }
-            resolve(data);
-        });
-    });
-}
-
-var Events= async ()=>{
-    return new Promise((resolve, reject) => {
-        const query = "SELECT * FROM event_info";
-
-        database.query(query, (error, data) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            if (data.length === 0) {
-                reject("Organization not found");
-                return;
-            }
-            resolve(data);
-        });
-    });
-}
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Administrator", //DON'T REMOVE
@@ -163,41 +68,45 @@ router.post('/login', function(request, response, next){
 router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{
         path: "admin",
-        usertype : "Administrator"
+        usertype : "Administrator",
+        Menu : AdminModel.Menu
     });
 });
 
 router.get("/moderatorlist", (req,res)=>{
     res.render('./admin-moderator/moderatorlist',{
-        path: "admin",
-        usertype : "Administrator"
+        path: "admin",  
+        usertype : "Administrator",
+        Menu: AdminModel.Menu
     });
 });
 
 router.get("/eventmanagement", (req,res)=>{
     res.render('./admin-moderator/eventmanagement',{
         path: "admin",
-        usertype : "Administrator"
+        usertype : "Administrator",
+        Menu: AdminModel.Menu
     });
     
 });
 
-router.get("/eventlist", (req,res)=>{
+router.get("/eventlist", async (req,res)=>{
   
-    database.query("SELECT * FROM `event_info` ", function (err, rows) {
-        if (err) {
-          req.flash('error', err)
-          res.render('profile', { data: '' })
-        } else {
-          
-        
+    try{
+
+    const rows = await AdminModel.EventModel(); 
     res.render('./admin-moderator/eventlist',{
         path: "admin",
         data: rows,
-        usertype : "Administrator"
+        usertype : "Administrator",
+        Menu: AdminModel.Menu
     });
-}
-});
+    }catch(err){
+        req.flash('error', err)
+        res.render('profile', { data: '' })
+    }
+    
+
 });
 
 router.post("/addmoderator", async (req, res, next) => {
@@ -213,7 +122,7 @@ router.post("/addmoderator", async (req, res, next) => {
     if (!name) return CatchThatError("Organization Name must not be empty!", 404, next);
   
     // Declaring object for organizations
-    const organizations = await Organizations();
+    const organizations = await AdminModel.OrgModel();
   
     // Use the some method to check if any department has the same username across all organizations
     const usernameExists = organizations.some(organization => organization.username === username);
@@ -257,13 +166,14 @@ router.post("/addmoderator", async (req, res, next) => {
 router.get("/addmoderator", async (req, res) => {
     
     try {
-        const deptList = await Departments();
+        const deptList = await AdminModel.DeptModel();
         //console.log(deptList);
         
         res.render('./admin-moderator/addmoderator', {
             path: "admin",
             usertype: "Administrator",
-            departments: deptList
+            departments: deptList,
+            Menu: AdminModel.Menu
             
         });
     } catch (error) {
@@ -271,6 +181,16 @@ router.get("/addmoderator", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+router.get("/attendlist", (req,res)=>{
+    res.render('./admin-moderator/attendlist',{
+        path: "admin",
+        usertype: "Administrator",
+        Menu: AdminModel.Menu
+    });
+})
+
+
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
     customError.status = errorStatus; // HTTP Unauthorized
