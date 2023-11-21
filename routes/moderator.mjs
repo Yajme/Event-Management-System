@@ -63,6 +63,15 @@ router.get("/dashboard", (req,res)=>{
     });
 });
 
+router.get("/eventregistration", (req,res)=>{
+    
+    res.render('./admin-moderator/eventregistration',{
+        usertype: "Moderator", //DON'T REMOVE
+        path : "moderator",
+        Menu : Menu
+    });
+});
+
 router.get("/eventlist", (req,res)=>{
     
     database.query("SELECT * FROM `event_info` ", function (err, rows) {
@@ -75,7 +84,7 @@ router.get("/eventlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
         path: "moderator",
         data: rows,
-        usertype : "Administrator"
+        usertype : "Moderator"
     });
 }
 });
@@ -165,7 +174,30 @@ router.post('/login-m', function(request, response, next){
 
 });
 
+router.post("/add-event", function(req, res, next){
+    // User inputs
+    const eName = req.body.eventName;
+    const eDesc = req.body.eventDesc;
+    const eDate = req.body.eventDate;
+    const cookieValue= req.cookies['org_id'];
+    const modID = cookieValue;
+    console.log(eName,eDesc,eDate,modID);
+    const query = 'CALL EventManager(?,?,?,?)';
+    const values = [eName, eDesc,eDate,modID]
 
+    database.query(query,values,function(err,data){
+        if(data===0){
+            console.log('hindi pumasok ang data');
+        }else{
+            console.log('mabuhay! naipasok na ang imong data');
+            res.render('./admin-moderator/eventregistration',{
+                usertype: "Moderator",
+                path: "moderator",
+                Menu: Menu
+            });
+        }
+    })
+})
 
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
