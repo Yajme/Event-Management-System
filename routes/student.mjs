@@ -58,7 +58,7 @@ router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
 
-    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? group by event_info.eventID ;";
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
 
     db.query(query, [val_dept_ID],function (err, rows) {
         if (err) {
@@ -79,7 +79,7 @@ router.get("/eventcalendar", (req,res)=>{
 router.get("/eventlist", (req,res)=>{
     let val_dept_ID = req.cookies['u_dept_id'];
     
-    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? group by event_info.eventID ;";
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
     db.query(query, [val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
@@ -102,13 +102,15 @@ router.get("/eventlist", (req,res)=>{
 router.post("/register", (req,res)=>{
     const eventid = req.body.e_id;
     const userid = req.cookies['std_id'];
+    let val_dept_ID = req.cookies['u_dept_id'];
     
     const query = "INSERT INTO `eventattendees` ( `eventID`, `sr_code`, `DateRegistered`) VALUES ( ? , ? ,current_timestamp()) ";
     db.query(query,[eventid, userid],function (err, resp) {
         if (err) {
             if (err) throw err;
             }});
-            db.query("SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID group by event_info.eventID;", function (err, rows) {
+            let setquery = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID" ;
+            db.query(setquery, [val_dept_ID], function (err, rows) {
                 if (err) {
                   req.flash('error', err)
                   res.render('profile', { data: '' })
