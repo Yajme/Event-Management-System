@@ -108,7 +108,11 @@ router.get("/addmoderator", (req,res)=>{
     
 });
 
-
+router.get("/logout" ,(req,res)=>{
+    res.cookie("m_std_id", "username", { maxAge: -1 }, { httpOnly: true });
+    res.cookie("m_std_name", "username", { maxAge: -1 }, { httpOnly: true });
+    res.redirect('/moderator')
+});
 
 router.post('/login-m', function(request, response, next){
     var user_email_address = request.body.user_email_address;
@@ -160,6 +164,8 @@ router.post('/login-m', function(request, response, next){
     }
 
 });
+
+
 
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
