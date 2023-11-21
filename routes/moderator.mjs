@@ -54,7 +54,7 @@ router.get("/eventlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
         path: "moderator",
         data: rows,
-        usertype : "Administrator",
+        usertype : "Moderator",
         Menu : ModeratorModel
     });
 }
@@ -94,7 +94,8 @@ router.get("/attendlist",(req,res)=>{
         path: "moderator",
         Menu : ModeratorModel
     });
-})router.get("/logout" ,(req,res)=>{
+});
+router.get("/logout" ,(req,res)=>{
     res.cookie("m_std_id", "username", { maxAge: -1 }, { httpOnly: true });
     res.cookie("m_std_name", "username", { maxAge: -1 }, { httpOnly: true });
     res.redirect('/moderator')
