@@ -48,7 +48,8 @@ const Menu = [
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
-        base: "moderator"
+        base: "moderator",
+        login:"/moderator/login"
     });
    
 });
@@ -99,7 +100,7 @@ router.get("/addmoderator", (req,res)=>{
 
 
 
-router.post('/login-m', function(request, response, next){
+router.post('/login', function(request, response, next){
     var user_email_address = request.body.user_email_address;
     var user_password = request.body.user_password;
     if(!user_email_address && !user_password)
