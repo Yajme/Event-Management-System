@@ -36,9 +36,11 @@ m_usernameCookieCount += 1;
 }
 
 if(utypestud>0){
-  window.onload = function() {
-  document.getElementById('logout').href = '/student/logout';
-  }
+  window.onload = (event) => {
+  document.getElementById("logout").href ="logout";
+  document.getElementById("logout1").href ="logout";
+};
+
 if(usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/student";
 }
