@@ -5,8 +5,10 @@
 
 let usernameCookieCount = 0;
 let a_usernameCookieCount = 0;
+let m_usernameCookieCount = 0;
 let utypestud = 0;
 let utypeadmin = 0;
+let utypemode = 0;
 for (var cookiePair of cookiePairs1) {
 var [cookieName1, cookieValue1] = cookiePair.split('=');
 if (cookieValue1 === 'student') {
@@ -15,8 +17,11 @@ if (cookieValue1 === 'student') {
 }
 if (cookieValue1 === 'admin') {
   utypeadmin += 1;
-
 }
+if (cookieValue1 === 'moderator'){
+  utypemod += 1;
+}
+
 if (cookieName1 === 'std_id') {
 usernameCookieCount += 1;
 
@@ -24,6 +29,9 @@ usernameCookieCount += 1;
 if (cookieName1 === 'a_std_id') {
 a_usernameCookieCount += 1;
 
+}
+if (cookieName1 === 'm_std_id') {
+m_usernameCookieCount += 1;
 }
 }
 
@@ -46,6 +54,14 @@ if(a_usernameCookieCount<=0){
 }
 }
 
+if(utypemod>0){
+  window.onload = function() {
+  document.getElementById('logout').href = '/moderator/logout';
+  }
+if(m_usernameCookieCount<=0){
+  document.location.href = "http://localhost:8080/moderator";
+}
+}
 // Convert from vanilla js to ejs
 // Ajax make a href change depending in usertype
 // response.cookie generation = vanilla or native js retrieval 
@@ -100,6 +116,20 @@ for (const cookiePair of cookiePairs) {
   }
 }
 document.getElementById('myId').innerHTML="Administrator"
+}
+if(utypemod>0){
+  const cookieValue = document.cookie;
+  const cookiePairs = cookieValue.split('; ');
+
+let usernameCookieValue = '';
+for (const cookiePair of cookiePairs) {
+const [cookieName, cookieValue] = cookiePair.split('=');
+if (cookieName === 'm_std_name') {
+usernameCookieValue = unescape(cookieValue);
+break;
+}
+}
+document.getElementById('myId').innerHTML=usernameCookieValue
 }
 
                 </script>
