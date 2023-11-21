@@ -3,6 +3,7 @@ const router = express.Router();
 import database from "../db/connection.mjs";
 import sha256 from "../utils/sha256.mjs";
 import AdminModel from '../model/UserModel/AdminModel.mjs';
+import Error from '../utils/error.mjs';
 import { error } from "node:console";
 
 
@@ -23,7 +24,7 @@ router.post('/login', function(request, response, next){
     //console.log(user_email_address,user_password);
     if(!user_email_address && !user_password)
     {
-        CatchThatError("Please Enter Email Address and Password Details",400,next)
+        Error("Please Enter Email Address and Password Details",400,next);
     }
     else
     {
@@ -37,7 +38,7 @@ router.post('/login', function(request, response, next){
 
             if(data.length ===0)
             {
-                return CatchThatError("Invalid Password or username",400,next);
+                return Error("Invalid Password or username",400,next);
             }
             else
             {
@@ -46,7 +47,7 @@ router.post('/login', function(request, response, next){
                     const hashedSaltAndPass = sha256(passwordHash);
                     if(data[0].Password != hashedSaltAndPass)
                     {
-                        return CatchThatError("Wrong Password",401,next);
+                        return Error("Wrong Password",401,next);
                     }
                     response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
                     response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
@@ -121,16 +122,16 @@ router.post("/addmoderator", async (req, res, next) => {
     const department = req.body.department;
   
     // Validation of user input
-    if (!username) return CatchThatError("Username must not be empty!", 404, next);
-    if (!password) return CatchThatError("Password must not be empty!", 404, next);
-    if (!name) return CatchThatError("Organization Name must not be empty!", 404, next);
+    if (!username) return Error("Username must not be empty!", 404, next);
+    if (!password) return Error("Password must not be empty!", 404, next);
+    if (!name) return Error("Organization Name must not be empty!", 404, next);
   
     // Declaring object for organizations
     const organizations = await AdminModel.OrgModel();
   
     // Use the some method to check if any department has the same username across all organizations
     const usernameExists = organizations.some(organization => organization.username === username);
-    if (usernameExists) return CatchThatError("Username already exists", 400, next);
+    if (usernameExists) return Error("Username already exists", 400, next);
   
     // Insert superusers first before organization
     //@param(orgname, password, username, deptid)
@@ -139,7 +140,7 @@ router.post("/addmoderator", async (req, res, next) => {
     // Begin the transaction
     database.beginTransaction((err) => {
       if (err) {
-        return CatchThatError("Internal Server Error", 500, next);
+        return Error("Internal Server Error", 500, next);
       }
       
       // Initiating query   
@@ -147,7 +148,7 @@ router.post("/addmoderator", async (req, res, next) => {
         if (error) {
           // If database throws an error, rollback the transaction
           database.rollback(() => {
-            return CatchThatError(error, 500, next);
+            return Error(error, 500, next);
           });
         } else {
           // Commit the changes if there is no error
@@ -155,7 +156,7 @@ router.post("/addmoderator", async (req, res, next) => {
             if (commitError) {
               // If committing the transaction throws an error, rollback
               database.rollback(() => {
-                CatchThatError(commitError, 500, next);
+                Error(commitError, 500, next);
               });
             } else {
               // Send response if everything is successful
@@ -195,12 +196,7 @@ router.get("/attendlist", (req,res)=>{
 })
 
 
-function CatchThatError(errorMessage, errorStatus,next){
-    const customError = new Error(errorMessage);
-    customError.status = errorStatus; // HTTP Unauthorized
-    next(customError);
-    
-}
+
 
 
 router.use((err, req, res, next) => {

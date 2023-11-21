@@ -3,6 +3,7 @@ import dashboard from "./dashboard.mjs";
 import crypto from "node:crypto";
 import database from "../db/connection.mjs";
 import ModeratorModel from "../model/UserModel/ModeratorModel.mjs";
+import Error from '../utils/error.mjs';
 
 const router = express.Router();
 
@@ -106,7 +107,7 @@ router.post('/login', function(request, response, next){
     var user_password = request.body.user_password;
     if(!user_email_address && !user_password)
     {
-        CatchThatError("Please Enter Email Address and Password Details",400,next)
+        Error("Please Enter Email Address and Password Details",400,next)
     }
     else
     {
@@ -120,7 +121,7 @@ router.post('/login', function(request, response, next){
 
             if(data.length == 0)
             {
-                return CatchThatError("Invalid Password or username",401,next);
+                return Error("Invalid Password or username",401,next);
             }
             else
             {
@@ -135,7 +136,7 @@ router.post('/login', function(request, response, next){
                     const hashedSaltAndPass = sha2.digest('hex');
                     if(data[0]. password != hashedSaltAndPass)
                     {
-                        return CatchThatError("Wrong Password",401,next);
+                        return Error("Wrong Password",401,next);
                     }
                     else
                     {
@@ -177,12 +178,7 @@ router.post("/add-event", function(req, res, next){
     })
 })
 
-function CatchThatError(errorMessage, errorStatus,next){
-    const customError = new Error(errorMessage);
-    customError.status = errorStatus; 
-    next(customError);
-    
-}
+
 
 router.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message });// to be thrown client side

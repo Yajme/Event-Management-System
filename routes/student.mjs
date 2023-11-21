@@ -1,5 +1,6 @@
 import express from "express";
 import session from 'express-session';
+import Error from '../utils/error.mjs';
 import StudentModel from '../model/UserModel/StudentModel.mjs';
 const router = express.Router();
 import db from "../db/connection.mjs";
@@ -123,7 +124,7 @@ router.post('/login', function(request,response,next){
          // If the user is found, return the user's record
          
         if (result.length === 0) { 
-            return CatchThatError('Invalid Password or Username',401,next);// HTTP Unauthorized
+            return Error('Invalid Password or Username',401,next);// HTTP Unauthorized
         }
 
          //checking of password and salt
@@ -137,7 +138,7 @@ router.post('/login', function(request,response,next){
             // Calculate the hexadecimal hash
             const hashedSaltAndPass = has.digest('hex')
             if (dbPassword != hashedSaltAndPass) {
-                return CatchThatError('Wrong Password',401,next);
+                return Error('Wrong Password',401,next);
             }
             
             response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
@@ -154,12 +155,7 @@ router.post('/login', function(request,response,next){
         }); 
   });
 
-function CatchThatError(errorMessage, errorStatus,next){
-    const customError = new Error(errorMessage);
-    customError.status = errorStatus; 
-    next(customError);
-    
-}
+
  router.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message });// to be thrown client side
   });
