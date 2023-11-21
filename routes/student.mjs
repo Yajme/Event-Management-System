@@ -134,6 +134,28 @@ router.get("/" ,(req,res)=>{
     res.render('./students/index');
 });
 
+router.get("/changepass" ,(req,res)=>{
+    let val_dept_ID = req.cookies['u_dept_id'];
+    
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+    db.query(query, [val_dept_ID], function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+    req.flash('message', 'You Registered to the Event!');      
+    res.render('./students/eventlist',{
+        path: "student",
+        messagepass: req.flash('message'),
+        stud_id: req.cookies['std_id'],
+        data: rows,
+        Menu : Menu
+    });
+}
+});
+});
+
 router.post('/login', function(request,response,next){
    
     //names of the input text fields in the views/index.ejs
