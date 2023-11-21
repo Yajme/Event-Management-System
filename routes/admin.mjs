@@ -37,7 +37,7 @@ const Menu = [
                 Route : "moderatorlist",
             },
             {
-                Title : "Moderator Mangament",
+                Title : "Moderator Management",
                 Class : "nav-label",
                 Dropdown : "Events",
                 Icon : "icon icon-form",
@@ -244,6 +244,7 @@ router.get("/addmoderator", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
     customError.status = errorStatus; // HTTP Unauthorized
