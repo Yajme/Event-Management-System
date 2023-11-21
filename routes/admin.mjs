@@ -63,7 +63,11 @@ router.post('/login', function(request, response, next){
 
 });
 
-
+router.get("/logout" ,(req,res)=>{
+    res.cookie("a_std_id", "username", { maxAge: -1 }, { httpOnly: true });
+    res.cookie("a_std_name", "username", { maxAge: -1 }, { httpOnly: true });
+    res.redirect('/admin')
+});
 
 router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{

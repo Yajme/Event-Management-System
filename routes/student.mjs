@@ -33,7 +33,11 @@ router.get("/logout" ,(req,res)=>{
 
 router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query("SELECT * FROM `event_info` inner join studentinfoview on studentinfoview.dept_ID=event_info.dept_ID where sr_code= '"+req.cookies['std_id']+"' group by event_info.eventID, studentinfoview.sr_code;", function (err, rows) {
+    let val_dept_ID = req.cookies['u_dept_id'];
+
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+
+    db.query(query, [val_dept_ID],function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
@@ -50,8 +54,10 @@ router.get("/eventcalendar", (req,res)=>{
 })
 
 router.get("/eventlist", (req,res)=>{
-    console.log(req.cookies['std_id']);
-    db.query("SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID ="+req.cookies['deptID']+" group by event_info.eventID;", function (err, rows) {
+    let val_dept_ID = req.cookies['u_dept_id'];
+    
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+    db.query(query, [val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('profile', { data: '' })
@@ -73,13 +79,15 @@ router.get("/eventlist", (req,res)=>{
 router.post("/register", (req,res)=>{
     const eventid = req.body.e_id;
     const userid = req.cookies['std_id'];
+    let val_dept_ID = req.cookies['u_dept_id'];
     
-    const query = "INSERT INTO `eventattendees` ( `eventID`, `sr_code`, `DateRegistered`) VALUES ('"+[eventid]+"','"+[userid]+"',current_timestamp())";
-    db.query(query,function (err, resp) {
+    const query = "INSERT INTO `eventattendees` ( `eventID`, `sr_code`, `DateRegistered`) VALUES ( ? , ? ,current_timestamp()) ";
+    db.query(query,[eventid, userid],function (err, resp) {
         if (err) {
             if (err) throw err;
             }});
-            db.query("SELECT * FROM atendees_view where sr_code = '"+ req.cookies['std_id'] + "'", function (err, rows) {
+            let setquery = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID" ;
+            db.query(setquery, [val_dept_ID], function (err, rows) {
                 if (err) {
                   req.flash('error', err)
                   res.render('profile', { data: '' })
@@ -134,8 +142,8 @@ router.post('/login', function(request,response,next){
             
             response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
             response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
+            response.cookie("u_dept_id", result[passCount].dept_ID, { maxAge: minute }, { httpOnly: true });
             response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
-            response.cookie("deptID", result[passCount].dept_ID, { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
                 Menu : StudentModel

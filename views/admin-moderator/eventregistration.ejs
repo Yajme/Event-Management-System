@@ -13,7 +13,6 @@
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="/vendors/select2/select2.min.css">
     <link rel="stylesheet" href="/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
-    
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -34,55 +33,6 @@
           font-weight: bold; 
       } 
   </style> 
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
-
-
-
-<script>
-var eventlist  = [
-    
-    
-    {
-      title  : 'Christmas',
-      start  : '2023-12-25T12:30:00',
-      allDay : false // will make the time show
-    }
-  ];
-</script>
-<% if(data.length){ for(var i = 0; i< data.length; i++) {%>
-<script>
-  var data2 = new Date('<%= data[i].e_date %>');
-  var datadate = data2.getFullYear() +"-"+ parseInt(data2.getMonth()+1) +"-"+data2.getDate();
-  console.log(datadate)
-  eventlist.push(
-     {
-       title  :  '<%= data[i].eventName %>',
-       start  : datadate,
-       description: 'This is a cool event',
-       allDay: true
-     }
-       );
- 
- </script>
- <% }}%>
-<script>
- 
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      events: eventlist,
-  headerToolbar: {
-    left: 'prev,next',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay' // user can switch between the two
-  }
-    });
-    calendar.render();
-    
-  });
-  
-</script>
   </head>
   <body>
     <div class="container-scroller">
@@ -96,21 +46,50 @@ var eventlist  = [
           ***********************************-->
       
       <div class="container-fluid page-body-wrapper">
-        
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
+        <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <hr>
             <hr>
             <hr>
-            <li class="nav-item nav-category">BSU -ECSYS - Student Dashboard</li>
+            <li class="nav-item nav-category">BSU -ECSYS - Admin Dashboard</li>
           
             
-            <!--start-->
-           <%- include('../partials/dashboard-sidebar'); %>
-           <!--End-->
+            <li class="nav-item">
+              <a class="nav-link" href="dashboard">
+                <span class="icon-bg"><i class="mdi mdi-home menu-icon"></i></span>
+                <span class="menu-title">Home</span>
+              </a>
+            </li>
+           
+            <li class="nav-item">
+              <a class="nav-link" href="eventlist">
+                <span class="icon-bg"><i class="mdi mdi-format-list-checkbox menu-icon"></i></span>
+                <span class="menu-title">Event List View</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="eventmanagement">
+                <span class="icon-bg"><i class="mdi mdi-table-large menu-icon"></i></span>
+                <span class="menu-title">Event Management</span>
+              </a>
+            </li>
+           
+            <% if(usertype=="Administrator"){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="moderatorlist">
+                  <span class="icon-bg"><i class="mdi mdi-account-badge menu-icon"></i></span>
+                  <span class="menu-title">Moderator List</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="addmoderator">
+                  <span class="icon-bg"><i class="mdi mdi-new-box menu-icon"></i></span>
+                  <span class="menu-title">Add Moderator</span>
+                </a>
+              </li>
+              <% } %>
+           
             <br>
             <li class="nav-item nav-category">Manage Account</li>
             
@@ -131,14 +110,12 @@ var eventlist  = [
             </li>
           </ul>
         </nav>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-        
+       
+                    <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> Form elements </h3>
+              <h3 class="page-title">Event Management</h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Forms</a></li>
@@ -147,21 +124,37 @@ var eventlist  = [
               </nav>
             </div>
             <div class="row">
-             
+              
+              
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    
-                    <h4 class="card-title">Event Calendar View</h4>
-                    <div id='calendar'></div>
-    
+                    <h4 class="card-title">Event Management</h4>
+                    <p class="card-description"> Event Information</p>
+                    <form class="forms-sample" method="post" action="/moderator/add-event">
+                      <div class="form-group">
+                        <label for="exampleInputName1">Event Name</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder= "Event Name" name="eventName">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputCity1">Event Date</label>
+                        <input type="date" class="form-control" id="exampleInputCity1" name="eventDate">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleTextarea1">Event Description</label>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="eventDesc"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-light">Cancel</button>
+                    </form>
                   </div>
                 </div>
               </div>
+
+              
             </div>
           </div>
           <!-- content-wrapper ends -->
-          
           <!--*********************************
             Footer start
           ***********************************-->
@@ -169,7 +162,6 @@ var eventlist  = [
           <!--**********************************
             Footer end
           ***********************************-->
-          
         </div>
         <!-- main-panel ends -->
       </div>
