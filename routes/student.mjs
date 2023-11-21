@@ -130,6 +130,21 @@ router.post("/register", (req,res)=>{
 })
 
 
+
+router.post("/changepassword", (req,res)=>{
+    const newpass = req.body.confirmpass;
+    const userid = req.cookies['std_id'];
+    let val_dept_ID = req.cookies['u_dept_id'];
+    
+    const query = "UPDATE `userstudents` SET `PASSWORD` = ? WHERE `userstudents`.`userID` = ?";
+    db.query(query,[newpass, userid],function (err, resp) {
+        if (err) {
+            if (err) throw err;
+            }});
+            
+})
+
+
 router.get("/" ,(req,res)=>{
     res.render('./students/index');
 });
