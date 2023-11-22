@@ -79,11 +79,21 @@ router.get("/dashboard", (req,res)=>{
 });
 
 router.get("/moderatorlist", (req,res)=>{
+
+    database.query("SELECT * FROM `moderators`", function (err, rows) {
+        if (err) {
+          CatchThatError(err,500,next);
+        } else {
+
+        //console.log(rows);
     res.render('./admin-moderator/moderatorlist',{
-        path: "admin",  
+        path: "admin",
+        data: rows,
         usertype : "Administrator",
         Menu: AdminModel.Menu
     });
+}
+});
 });
 
 router.get("/eventmanagement", (req,res)=>{
