@@ -2,54 +2,16 @@ import express from "express";
 import dashboard from "./dashboard.mjs";
 import crypto from "node:crypto";
 import database from "../db/connection.mjs";
+import ModeratorModel from "../model/UserModel/ModeratorModel.mjs";
+import Error from '../utils/error.mjs';
+
 const router = express.Router();
 
-const Menu = [
-    {
-        "Menu" : [
-            {
-                Title : "Main Menu",
-                Class : "nav-label first",
-                Dropdown : "Home",
-                Icon : "icon icon-single-04",
-                Route : "dashboard"
-            },
-            {
-                Title : "Events List",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventlist",
-            },
-            {
-                Title : "Events Calendar",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventcalendar",
-            },
-            {
-                Title : "Moderator List",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "moderatorlist",
-            },
-            {
-                Title : "Moderator Mangament",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "addmoderator",
-            },
-        ]
-    }
-]
 router.get("/",(req,res)=>{
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
         base: "moderator",
-        login: "moderator/login-m"
+        login:"/moderator/login"
     });
    
 });
@@ -59,7 +21,16 @@ router.get("/dashboard", (req,res)=>{
     res.render('./admin-moderator/dashboard',{
         usertype: "Moderator", //DON'T REMOVE
         path : "moderator",
-        Menu : Menu
+        Menu : ModeratorModel
+    });
+});
+
+router.get("/eventregistration", (req,res)=>{
+    
+    res.render('./admin-moderator/eventregistration',{
+        usertype: "Moderator", //DON'T REMOVE
+        path : "moderator",
+        Menu : ModeratorModel
     });
 });
 
@@ -84,7 +55,8 @@ router.get("/eventlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
         path: "moderator",
         data: rows,
-        usertype : "Moderator"
+        usertype : "Moderator",
+        Menu : ModeratorModel
     });
 }
 });
@@ -95,7 +67,7 @@ router.get("/eventmanagement", (req,res)=>{
     res.render('./admin-moderator/eventmanagement',{
         usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        Menu : ModeratorModel
     });
     
 });
@@ -104,7 +76,7 @@ router.get("/moderatorlist", (req,res)=>{
     res.render('./admin-moderator/eventlist',{
         usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        Menu : ModeratorModel
     });
     
 });
@@ -112,23 +84,30 @@ router.get("/addmoderator", (req,res)=>{
     res.render('./admin-moderator/addmoderator',{
         usertype: "Moderator", //DON'T REMOVE
         path: "moderator",
-        Menu : Menu
+        Menu : ModeratorModel   
     });
     
 });
 
+router.get("/attendlist",(req,res)=>{
+    res.render('./admin-moderator/attendlist',{
+        usertype: "Moderator", //DON'T REMOVE
+        path: "moderator",
+        Menu : ModeratorModel
+    });
+});
 router.get("/logout" ,(req,res)=>{
     res.cookie("m_std_id", "username", { maxAge: -1 }, { httpOnly: true });
     res.cookie("m_std_name", "username", { maxAge: -1 }, { httpOnly: true });
     res.redirect('/moderator')
 });
 
-router.post('/login-m', function(request, response, next){
+router.post('/login', function(request, response, next){
     var user_email_address = request.body.user_email_address;
     var user_password = request.body.user_password;
     if(!user_email_address && !user_password)
     {
-        CatchThatError("Please Enter Email Address and Password Details",400,next)
+        Error("Please Enter Email Address and Password Details",400,next)
     }
     else
     {
@@ -142,7 +121,7 @@ router.post('/login-m', function(request, response, next){
 
             if(data.length == 0)
             {
-                return CatchThatError("Invalid Password or username",401,next);
+                return Error("Invalid Password or username",401,next);
             }
             else
             {
@@ -157,7 +136,7 @@ router.post('/login-m', function(request, response, next){
                     const hashedSaltAndPass = sha2.digest('hex');
                     if(data[0]. password != hashedSaltAndPass)
                     {
-                        return CatchThatError("Wrong Password",401,next);
+                        return Error("Wrong Password",401,next);
                     }
                     else
                     {
@@ -199,12 +178,7 @@ router.post("/add-event", function(req, res, next){
     })
 })
 
-function CatchThatError(errorMessage, errorStatus,next){
-    const customError = new Error(errorMessage);
-    customError.status = errorStatus; 
-    next(customError);
-    
-}
+
 
 router.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message });// to be thrown client side

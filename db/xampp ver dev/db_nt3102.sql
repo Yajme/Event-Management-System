@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_nt3102`
 --
-CREATE DATABASE IF NOT EXISTS `db_nt3102` DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `db_nt3102` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `db_nt3102`;
 
 DELIMITER $$
@@ -94,7 +94,7 @@ CREATE TABLE `course` (
   `courseID` int(11) NOT NULL,
   `courseName` text NOT NULL,
   `dept_ID` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `course`
@@ -121,7 +121,7 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `dept_ID` int(11) NOT NULL,
   `department_Name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `department`
@@ -148,7 +148,7 @@ CREATE TABLE `eventattendees` (
   `eventID` int(11) NOT NULL,
   `sr_code` varchar(11) NOT NULL,
   `DateRegistered` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `eventattendees`
@@ -170,7 +170,7 @@ CREATE TABLE `eventrecords` (
   `eventID` varchar(255) DEFAULT NULL,
   `remarks` varchar(255) NOT NULL,
   `superID` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `eventrecords`
@@ -193,7 +193,7 @@ CREATE TABLE `events` (
   `org_ID` int(11) NOT NULL,
   `statusID` int(11) NOT NULL,
   `e_date` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `events`
@@ -213,7 +213,7 @@ DROP TABLE IF EXISTS `eventstatus`;
 CREATE TABLE `eventstatus` (
   `statusID` int(11) NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `eventstatus`
@@ -269,7 +269,7 @@ CREATE TABLE `organization` (
   `dept_ID` int(11) NOT NULL,
   `org_Name` varchar(255) NOT NULL,
   `superID` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `organization`
@@ -331,7 +331,7 @@ CREATE TABLE `students` (
   `year` varchar(255) NOT NULL,
   `section` varchar(250) NOT NULL,
   `stud_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `students`
@@ -353,7 +353,7 @@ CREATE TABLE `superusers` (
   `userName` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `salt` varchar(10) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `superusers`
@@ -377,7 +377,7 @@ CREATE TABLE `tbemployee` (
   `lastname` varchar(25) NOT NULL,
   `firstname` varchar(25) NOT NULL,
   `department` varchar(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -391,7 +391,7 @@ CREATE TABLE `tb_studentinfo` (
   `lastname` varchar(25) NOT NULL,
   `firstname` varchar(25) NOT NULL,
   `course` varchar(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `tb_studentinfo`
@@ -413,7 +413,7 @@ CREATE TABLE `userstudents` (
   `sr_code` varchar(250) NOT NULL,
   `password` varchar(255) NOT NULL,
   `salt` varchar(10) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `userstudents`
