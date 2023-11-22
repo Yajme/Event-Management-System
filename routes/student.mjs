@@ -1,33 +1,11 @@
 import express from "express";
 import session from 'express-session';
+import Error from '../utils/error.mjs';
+import StudentModel from '../model/UserModel/StudentModel.mjs';
 const router = express.Router();
 import db from "../db/connection.mjs";
 import crypto from "node:crypto";
-const Menu = [
-    {
-        "Menu" : [
-            {
-                Title : "Main Menu",
-                Class : "nav-label first",
-                Icon : "icon icon-single-04",
-                Route : "dashboard"
-            },
-            {
-                Title : "Events list",
-                Class : "nav-label",
-                Dropdown : "Events",
-                Icon : "icon icon-form",
-                Route : "eventlist"
-            },
-            {
-                Title : "Events Calendar",
-                Class : "nav-label",
-                Icon : "icon icon-form",
-                Route : "eventcalendar"
-            },
-        ]
-    }
-]
+
 
 router.get("/dashboard" ,(req,res)=>{
     console.log(req.cookies['std_id']);
@@ -41,7 +19,7 @@ router.get("/dashboard" ,(req,res)=>{
     res.render('./students/dashboard',{
         path: "student",
         data: rows,
-        Menu : Menu
+        Menu : StudentModel
     });
 }
 });
@@ -70,7 +48,7 @@ router.get("/eventcalendar", (req,res)=>{
     res.render('./students/eventcalendar',{
         path: "student",
         data: rows,
-        Menu : Menu
+        Menu : StudentModel
     });
 }
 });
@@ -92,7 +70,7 @@ router.get("/eventlist", (req,res)=>{
         message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-        Menu : Menu
+        Menu : StudentModel
     });
 }
 });
@@ -146,7 +124,7 @@ router.post('/login', function(request,response,next){
          // If the user is found, return the user's record
          
         if (result.length === 0) { 
-            return CatchThatError('Invalid Password or Username',401,next);// HTTP Unauthorized
+            return Error('Invalid Password or Username',401,next);// HTTP Unauthorized
         }
 
          //checking of password and salt
@@ -160,7 +138,7 @@ router.post('/login', function(request,response,next){
             // Calculate the hexadecimal hash
             const hashedSaltAndPass = has.digest('hex')
             if (dbPassword != hashedSaltAndPass) {
-                return CatchThatError('Wrong Password',401,next);
+                return Error('Wrong Password',401,next);
             }
             
             response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
@@ -169,7 +147,7 @@ router.post('/login', function(request,response,next){
             response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
-                Menu : Menu
+                Menu : StudentModel
             });
         }
            
@@ -177,12 +155,7 @@ router.post('/login', function(request,response,next){
         }); 
   });
 
-function CatchThatError(errorMessage, errorStatus,next){
-    const customError = new Error(errorMessage);
-    customError.status = errorStatus; 
-    next(customError);
-    
-}
+
  router.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message });// to be thrown client side
   });
