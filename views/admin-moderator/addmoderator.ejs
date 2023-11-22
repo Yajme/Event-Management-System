@@ -42,40 +42,10 @@
             <li class="nav-item nav-category">BSU -ECSYS - Admin Dashboard</li>
           
             
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard">
-                <span class="icon-bg"><i class="mdi mdi-home menu-icon"></i></span>
-                <span class="menu-title">Home</span>
-              </a>
-            </li>
-           
-            <li class="nav-item">
-              <a class="nav-link" href="eventlist">
-                <span class="icon-bg"><i class="mdi mdi-format-list-checkbox menu-icon"></i></span>
-                <span class="menu-title">Event List View</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="eventmanagement">
-                <span class="icon-bg"><i class="mdi mdi-table-large menu-icon"></i></span>
-                <span class="menu-title">Event Management</span>
-              </a>
-            </li>
-           
-            <% if(usertype=="Administrator"){ %>
-              <li class="nav-item">
-                <a class="nav-link" href="moderatorlist">
-                  <span class="icon-bg"><i class="mdi mdi-account-badge menu-icon"></i></span>
-                  <span class="menu-title">Moderator List</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="addmoderator">
-                  <span class="icon-bg"><i class="mdi mdi-new-box menu-icon"></i></span>
-                  <span class="menu-title">Add Moderator</span>
-                </a>
-              </li>
-              <% } %> <br>
+           <!--start-->
+           <%- include('../partials/dashboard-sidebar'); %>
+           <!--End-->
+            <br>
             <li class="nav-item nav-category">Manage Account</li>
             
             <li class="nav-item sidebar-user-actions">
