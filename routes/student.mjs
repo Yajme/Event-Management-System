@@ -86,7 +86,7 @@ router.get("/eventlist", (req,res)=>{
           res.render('profile', { data: '' })
         } else {
           
-        
+        console.log(rows);
     res.render('./students/eventlist',{
         path: "student",
         message: req.flash('message'),

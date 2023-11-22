@@ -171,12 +171,6 @@ router.get("/dashboard", (req,res)=>{
     });
 });
 
-router.get("/moderatorlist", (req,res)=>{
-    res.render('./admin-moderator/moderatorlist',{
-        path: "admin",
-        usertype : "Administrator"
-    });
-});
 
 router.get("/eventmanagement", (req,res)=>{
     res.render('./admin-moderator/eventmanagement',{
@@ -194,7 +188,7 @@ router.get("/eventlist", (req,res)=>{
           res.render('profile', { data: '' })
         } else {
           
-        
+        //console.log(rows);
     res.render('./admin-moderator/eventlist',{
         path: "admin",
         data: rows,
@@ -275,6 +269,27 @@ router.get("/addmoderator", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+router.get("/moderatorlist", (req,res)=>{
+  
+    database.query("SELECT * FROM `moderators`", function (err, rows) {
+        if (err) {
+          CatchThatError(err,500,next);
+        } else {
+          
+        //console.log(rows);
+    res.render('./admin-moderator/moderatorlist',{
+        path: "admin",
+        data: rows,
+        usertype : "Administrator"
+    });
+}
+});
+});
+
+
+
+
 function CatchThatError(errorMessage, errorStatus,next){
     const customError = new Error(errorMessage);
     customError.status = errorStatus; // HTTP Unauthorized

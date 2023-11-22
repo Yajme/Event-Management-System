@@ -173,7 +173,6 @@ router.post('/login-m', function(request, response, next){
     }
 
 });
-
 router.post("/add-event", function(req, res, next){
     // User inputs
     const eName = req.body.eventName;
