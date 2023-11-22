@@ -306,8 +306,23 @@ document.getElementById('myId').innerHTML="Administrator"
     }
     });
     </script>
+     <% if(locals.messagepass){if(messagepass.length > 0 ){ %>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="sweetalert2.min.js"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
+      <script>
+      
+      Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your password has been changed!",
+  showConfirmButton: false,
+  timer: 2500
+});
+      
+      </script>
     
-    
+      <% } } %>
     
             
     
