@@ -55,9 +55,46 @@
             <li class="nav-item nav-category">BSU -ECSYS - Admin Dashboard</li>
           
             
-            <!--start-->
-           <%- include('../partials/dashboard-sidebar'); %>
-           <!--End-->
+            <li class="nav-item">
+              <a class="nav-link" href="dashboard">
+                <span class="icon-bg"><i class="mdi mdi-home menu-icon"></i></span>
+                <span class="menu-title">Home</span>
+              </a>
+            </li>
+           
+            <li class="nav-item">
+              <a class="nav-link" href="eventlist">
+                <span class="icon-bg"><i class="mdi mdi-format-list-checkbox menu-icon"></i></span>
+                <span class="menu-title">Event List View</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="eventmanagement">
+                <span class="icon-bg"><i class="mdi mdi-table-large menu-icon"></i></span>
+                <span class="menu-title">Event Registration</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="attendlist">
+                <span class="icon-bg"><i class="mdi mdi-table-large menu-icon"></i></span>
+                <span class="menu-title">Student Attendees</span>
+              </a>
+            </li>
+            <% if(usertype=="Administrator"){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="moderatorlist">
+                  <span class="icon-bg"><i class="mdi mdi-account-badge menu-icon"></i></span>
+                  <span class="menu-title">Moderator List</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="addmoderator">
+                  <span class="icon-bg"><i class="mdi mdi-new-box menu-icon"></i></span>
+                  <span class="menu-title">Add Moderator</span>
+                </a>
+              </li>
+              <% } %>
+           
             <br>
             <li class="nav-item nav-category">Manage Account</li>
             
@@ -99,45 +136,18 @@
                   <div class="card-body">
                     <h4 class="card-title">Event Management</h4>
                     <p class="card-description"> Event Information</p>
-                    <form class="forms-sample">
+                    <form class="forms-sample" method="post" action="/moderator/add-event">
                       <div class="form-group">
                         <label for="exampleInputName1">Event Name</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder= "Event Name">
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder= "Event Name" name="eventName">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail3">Event Email Address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword4">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleSelectGender">Department</label>
-                        <select class="form-control" id="exampleSelectGender">
-                          <option>CICS</option>
-                          <option>CABE</option>
-                          <option>CAS</option>
-                          <option>SSC</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label>Document upload</label>
-                        <input type="file" name="img[]" class="file-upload-default">
-                        <div class="input-group col-xs-12">
-                          <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                          <span class="input-group-append">
-                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputCity1">Place of Event</label>
-                        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+                        <label for="exampleInputCity1">Event Date</label>
+                        <input type="date" class="form-control" id="exampleInputCity1" name="eventDate">
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Event Description</label>
-                        <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="eventDesc"></textarea>
                       </div>
                       <button type="submit" class="btn btn-primary mr-2">Submit</button>
                       <button class="btn btn-light">Cancel</button>
