@@ -1,4 +1,4 @@
-import express from "express";
+import express, { query } from "express";
 const router = express.Router();
 import database from "../db/connection.mjs";
 import sha256 from "../utils/sha256.mjs";
@@ -84,7 +84,6 @@ router.get("/moderatorlist", (req,res)=>{
         if (err) {
           CatchThatError(err,500,next);
         } else {
-
         //console.log(rows);
     res.render('./admin-moderator/moderatorlist',{
         path: "admin",
@@ -97,12 +96,19 @@ router.get("/moderatorlist", (req,res)=>{
 });
 
 router.get("/eventmanagement", (req,res)=>{
+    database.query("SELECT * FROM `events`", function (err, rows) {
+        if (err) {
+          CatchThatError(err,500,next);
+        } else {
+        //console.log(rows);
     res.render('./admin-moderator/eventmanagement',{
         path: "admin",
+        event: rows,
         usertype : "Administrator",
         Menu: AdminModel.Menu
     });
-    
+    }
+    });
 });
 
 router.get("/eventlist", async (req,res)=>{
@@ -205,6 +211,60 @@ router.get("/attendlist", (req,res)=>{
     });
 })
 
+router.post('/update-event', (req,res)=>{
+     const evid = req.body.eventID;
+     const update = req.body.approve;
+        if(!update){
+            const query = `DELETE FROM events
+            WHERE eventID = ?`;
+            database.query(query,evid,(err,data)=>{
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("successful query");
+                    database.query("SELECT * FROM `events`", function (err, rows) {
+                        if (err) {
+                          CatchThatError(err,500,next);
+                        } else {
+                        //console.log(rows);
+                    res.render('./admin-moderator/eventmanagement',{
+                        path: "admin",
+                        event: rows,
+                        usertype : "Administrator",
+                        Menu: AdminModel.Menu
+                    });
+                    }
+                    });
+                }
+            })
+        }else{
+            const query = `UPDATE events
+            SET statusID = 2
+            WHERE eventID = ?`;
+            database.query(query,evid,(err,data)=>{
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("successful query");
+                    database.query("SELECT * FROM `events`", function (err, rows) {
+                        if (err) {
+                          CatchThatError(err,500,next);
+                        } else {
+                        //console.log(rows);
+                    res.render('./admin-moderator/eventmanagement',{
+                        path: "admin",
+                        event: rows,
+                        usertype : "Administrator",
+                        Menu: AdminModel.Menu
+                    });
+                    }
+                    });
+                }
+            })
+        }
+ })
 
 
 
