@@ -34,15 +34,6 @@ router.get("/eventregistration", (req,res)=>{
     });
 });
 
-router.get("/eventregistration", (req,res)=>{
-    
-    res.render('./admin-moderator/eventregistration',{
-        usertype: "Moderator", //DON'T REMOVE
-        path : "moderator",
-        Menu : Menu
-    });
-});
-
 router.get("/eventlist", (req,res)=>{
     
     database.query("SELECT * FROM `event_info` ", function (err, rows) {
@@ -113,7 +104,7 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT * FROM superusers 
+        SELECT * FROM moderatorcoookies
         WHERE userName = ? 
         `;
 
@@ -157,11 +148,11 @@ router.post("/add-event", function(req, res, next){
     const eName = req.body.eventName;
     const eDesc = req.body.eventDesc;
     const eDate = req.body.eventDate;
-    const cookieValue= req.cookies['org_id'];
+    const cookieValue= req.cookies['m_std_id'];
     const modID = cookieValue;
     console.log(eName,eDesc,eDate,modID);
     const query = 'CALL EventManager(?,?,?,?)';
-    const values = [eName, eDesc,eDate,modID]
+    const values = [eName, eDesc,eDate,cookieValue]
 
     database.query(query,values,function(err,data){
         if(data===0){
@@ -171,7 +162,7 @@ router.post("/add-event", function(req, res, next){
             res.render('./admin-moderator/eventregistration',{
                 usertype: "Moderator",
                 path: "moderator",
-                Menu: Menu
+                Menu: ModeratorModel
             });
         }
     })
