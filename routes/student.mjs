@@ -108,8 +108,87 @@ router.post("/register", (req,res)=>{
 })
 
 
+
+router.post("/changepassword", (req,res, next)=>{
+    const newpass = req.body.confirmpass;
+    const userid = req.cookies['std_id'];
+    let val_dept_ID = req.cookies['u_dept_id'];
+    const oldpassword = req.body.oldpass;
+
+    // Query the MySQL database for the student user record
+    const query = 'SELECT * FROM studentinfoview WHERE sr_code = ?';
+    db.query(query,[userid, oldpassword], function(error,result){
+        if (error) {
+            if (error) throw err;
+            }
+            else{
+                for(var passCount = 0; passCount < result.length; passCount++){
+                    const salt = result[passCount].salt;
+                    const passwordHash = oldpassword+salt;
+                    const newpasswordHash = newpass+salt;
+                    const dbPassword = result[passCount].password;
+                    const has = crypto.createHash('sha256');
+                    const hasnew = crypto.createHash('sha256');
+                    // Update the hash with the data
+                    has.update(passwordHash);
+                    hasnew.update(newpasswordHash);
+                    // Calculate the hexadecimal hash
+                    const hashedSaltAndPass = has.digest('hex')
+                    const newhashedSaltAndPass = hasnew.digest('hex')
+                    if (dbPassword != hashedSaltAndPass) {
+                        return CatchThatError('Wrong Password',401,next);
+                    }
+                    
+                    const query = "UPDATE `userstudents` SET `PASSWORD` = ? WHERE `userstudents`.`sr_code` = ?";
+                    db.query(query,[newhashedSaltAndPass, userid],function (err, resp) {
+                        if (err) {
+                            if (err) throw err;
+                            }
+                            else{
+                    req.flash('messagepass', 'You Changes your password!');  
+                    res.render("./students/dashboard",{
+                        sUsername: result[0].firstName + " " + result[0].lastName,
+                        messagepass: req.flash('messagepass'),
+                        Menu : Menu
+                    });
+                    
+                }
+            });
+                }
+            }
+    
+    
+    
+    });
+
+            
+})
+
+
 router.get("/" ,(req,res)=>{
     res.render('./students/index');
+});
+
+router.get("/changepass" ,(req,res)=>{
+    let val_dept_ID = req.cookies['u_dept_id'];
+    
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+    db.query(query, [val_dept_ID], function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('profile', { data: '' })
+        } else {
+          
+    req.flash('message', 'You Registered to the Event!');      
+    res.render('./students/eventlist',{
+        path: "student",
+        messagepass: req.flash('message'),
+        stud_id: req.cookies['std_id'],
+        data: rows,
+        Menu : Menu
+    });
+}
+});
 });
 
 router.post('/login', function(request,response,next){

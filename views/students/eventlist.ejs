@@ -27,7 +27,7 @@
         border-radius: 5px;
         padding: 10px;
       }
-      button{
+      .bbutton{
         border: 2px solid rgb(231, 231, 231);
         width: 100%;
         border-radius: 15px;
@@ -108,16 +108,17 @@
                 </ol>
               </nav>
             </div>
+            
             <div class="row">
-             
-              <% if(message.length > 0 ){ %>
+      
+              <% if(locals.message){if(message.length > 0 ){ %>
                 <div class="alert alert-success">
           
                  You are Now Registered to the event!
           
                 </div>
           
-                <% } %>
+                <% }} %>
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -150,7 +151,7 @@
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].e_date%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].org_Name%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><textarea name="" id="" cols="30" rows="10" readonly><%= data[i].eventDesc%></textarea></td>
-        <td style="white-space:pre-wrap; word-wrap:break-word"><% if(data[i].sr_code!=stud_id){ %><button type="submit">Attend</button><% } else{  %> You AlreadyAttended the event! <% }   %></td>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><% if(data[i].sr_code!=stud_id){ %><button class="bbutton" type="submit">Attend</button><% } else{  %> You AlreadyAttended the event! <% }   %></td>
       </form></tr>
       <% } }else{ %>
       <tr>
@@ -194,7 +195,7 @@
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
     <script src="/js/misc.js"></script>
-   
+  
     <!-- endinject -->
     <!-- Custom js for this page -->
     <!-- End custom js for this page -->
