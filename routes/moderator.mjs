@@ -151,7 +151,7 @@ router.post("/add-event", function(req, res, next){
     const cookieValue= req.cookies['m_std_id'];
     const modID = cookieValue;
     console.log(eName,eDesc,eDate,modID);
-    const query = 'CALL EventManager(?,?,?,?)';
+    const query = 'CALL EventManager(?,?,?,?)'; 
     const values = [eName, eDesc,eDate,cookieValue]
 
     database.query(query,values,function(err,data){
