@@ -9,10 +9,14 @@ import crypto from "node:crypto";
 
 router.get("/dashboard" ,(req,res)=>{
     console.log(req.cookies['std_id']);
-    db.query('SELECT * FROM atendees_view where sr_code = '+ req.cookies['std_id'], function (err, rows) {
+    let val_dept_ID = req.cookies['u_dept_id'];
+
+    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+
+    db.query(query, [val_dept_ID],function (err, rows) {
         if (err) {
           req.flash('error', err)
-          res.render('profile', { data: '' })
+          res.render('404', { data: '' })
         } else {
           
         
@@ -41,7 +45,7 @@ router.get("/eventcalendar", (req,res)=>{
     db.query(query, [val_dept_ID],function (err, rows) {
         if (err) {
           req.flash('error', err)
-          res.render('profile', { data: '' })
+          res.render('404', { data: '' })
         } else {
           
         
@@ -61,7 +65,7 @@ router.get("/eventlist", (req,res)=>{
     db.query(query, [val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
-          res.render('profile', { data: '' })
+          res.render('404', { data: '' })
         } else {
           
         console.log(rows);
@@ -91,7 +95,7 @@ router.post("/register", (req,res)=>{
             db.query(setquery, [val_dept_ID], function (err, rows) {
                 if (err) {
                   req.flash('error', err)
-                  res.render('profile', { data: '' })
+                  res.render('404', { data: '' })
                 } else {
                   
             req.flash('message', 'You Registered to the Event!');       
@@ -166,6 +170,8 @@ router.post("/changepassword", (req,res, next)=>{
 
 
 router.get("/" ,(req,res)=>{
+    let minute = 600 * 10000;
+    res.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
     res.render('./students/index');
 });
 
@@ -176,7 +182,7 @@ router.get("/changepass" ,(req,res)=>{
     db.query(query, [val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
-          res.render('profile', { data: '' })
+          res.render('404', { data: '' })
         } else {
           
     req.flash('message', 'You Registered to the Event!');      
