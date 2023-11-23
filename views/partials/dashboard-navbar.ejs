@@ -1,5 +1,50 @@
 
 <script>
+function getCookie(cookieName) {
+  let cookie = {};
+  document.cookie.split(';').forEach(function(el) {
+    let [key,value] = el.split('=');
+    cookie[key.trim()] = value;
+  })
+  return cookie[cookieName];
+}
+
+
+
+var arrNotif = JSON.stringify(decodeURI(getCookie("arrNotif")))
+
+var notifs1 = arrNotif.replaceAll('%2C', "','");
+var notifs2 = notifs1.replaceAll('%3A', "");
+var notifs3 = notifs2.replaceAll("j[", "['");
+var notifs4 = notifs3.replaceAll('"]"', "']");
+var notifs5 = notifs4.replaceAll('\\', "");
+var notifs6 = notifs5.replaceAll('"', "");
+var notifs7 = notifs6.replaceAll("0Z','", "'], ['");
+var notifs8 = notifs7.replaceAll("'", '"');
+
+
+var Notificationz = JSON.parse("[" + notifs8 + "]");
+ console.log(Notificationz)
+var notidText1 = '<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">';
+var notidText2 = '<h6 class="preview-subject ellipsis mb-1 font-weight-normal">Sport Fest Event upcoming!</h6>';
+var notidText3 = '<p class="text-gray mb-0"> Will Happen in 5 days</p>';
+var notidText5 = '</div>';
+var notidTextFull = '';
+ for(var i = 0; i < Notificationz.length; i++) {
+  notidTextFull += notidText1 + '<h6 class="preview-subject ellipsis mb-1 font-weight-normal">'+Notificationz[i][0] +'</h6><p class="text-gray mb-0">'+ Notificationz[i][1] +'</p>' + notidText5;
+ 
+    
+}
+alert(notidTextFull)
+window.onload = function() {
+what();
+            function what(){
+  document.getElementById("notifID").innerHTML = '<p>notidTextFull</p>';
+}
+
+
+
+
   var cookieValue1 = document.cookie;
   var cookiePairs1 = cookieValue1.split('; ');
 
@@ -168,9 +213,8 @@ document.getElementById('myId').innerHTML=usernameCookieValue
               <div class="preview-thumbnail">
                 <img src="/images/Batangas_State_Logo.png" alt="image" class="profile-pic">
               </div>
-              <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Sport Fest Event upcoming!</h6>
-                <p class="text-gray mb-0"> Will Happen in 5 days</p>
+              <div id="notifID">
+               
               </div>
             </a>
             <div class="dropdown-divider"></div>

@@ -171,8 +171,32 @@ router.post("/changepassword", (req,res, next)=>{
 
 router.get("/" ,(req,res)=>{
     let minute = 600 * 10000;
+    let arrNotif = [];
     res.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
-    res.render('./students/index');
+    console.log(req.cookies['std_id']);
+    let val_dept_ID = req.cookies['u_dept_id'];
+
+    let query = "SELECT * FROM `notifications`";
+
+    db.query(query, [val_dept_ID],function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('404', { data: '' })
+        } else {
+
+            for(var passCount = 0; passCount < rows.length; passCount++){
+                arrNotif.push(rows[passCount].eventName);
+                arrNotif.push(rows[passCount].e_date);
+            }
+          
+    res.cookie("arrNotif", arrNotif, { maxAge: minute }, { httpOnly: true });
+    res.render('./students/index',{
+        path: "student",
+        data: rows,
+        Menu : StudentModel
+    });
+}
+});
 });
 
 router.get("/changepass" ,(req,res)=>{
