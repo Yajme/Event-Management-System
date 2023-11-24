@@ -182,7 +182,60 @@ const addModerator = async (req,res) =>{
     }
 }
 
-
+const updateevent= async (req,res)=>{
+    const evid = req.body.eventID;
+    const update = req.body.approve;
+       if(!update){
+           const query = `DELETE FROM events
+           WHERE eventID = ?`;
+           database.query(query,evid,(err,data)=>{
+               if(err){
+                   console.log(err);
+               }
+               else{
+                   console.log("successful query");
+                   database.query("SELECT * FROM `events`", function (err, rows) {
+                       if (err) {
+                         CatchThatError(err,500,next);
+                       } else {
+                       //console.log(rows);
+                   res.render('./admin-moderator/eventmanagement',{
+                       path: "admin",
+                       event: rows,
+                       usertype : "Administrator",
+                       Menu: AdminModel.Menu
+                   });
+                   }
+                   });
+               }
+           })
+       }else{
+           const query = `UPDATE events
+           SET statusID = 2
+           WHERE eventID = ?`;
+           database.query(query,evid,(err,data)=>{
+               if(err){
+                   console.log(err);
+               }
+               else{
+                   console.log("successful query");
+                   database.query("SELECT * FROM `events`", function (err, rows) {
+                       if (err) {
+                         CatchThatError(err,500,next);
+                       } else {
+                       //console.log(rows);
+                   res.render('./admin-moderator/eventmanagement',{
+                       path: "admin",
+                       event: rows,
+                       usertype : "Administrator",
+                       Menu: AdminModel.Menu
+                   });
+                   }
+                   });
+               }
+           })
+       }
+}
 /* 
 <---------------------------------------->
 / POST Request END                /
@@ -200,5 +253,6 @@ export default {
     addModeratorPage,
     addModerator,
     AttendListSearch,
-    AttendListLoad
+    AttendListLoad,
+    updateevent
 };

@@ -4,7 +4,7 @@ import Error from '../utils/error.mjs';
 import StudentModel from '../model/UserModel/StudentModel.mjs';
 import db from "../db/connection.mjs";
 import crypto from "node:crypto";
-const router = express.Router();
+
 
 
 
@@ -195,7 +195,7 @@ router.get("/" ,(req,res)=>{
     res.render('./students/index',{
         path: "student",
         data: rows,
-        Menu : StudentModel 
+        Menu : StudentModel
     });
 }
 });

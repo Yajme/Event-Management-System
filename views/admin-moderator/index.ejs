@@ -3,8 +3,10 @@
 	const cookiePairs1 = cookieValue1.split('; ');
   
   let usernameCookieCount = 0;
+  let usernameCookieCount2 = 0;
   let utypestud = 0;
   let utypeadmin = 0;
+  let utypemod = 0;
   for (const cookiePair of cookiePairs1) {
   const [cookieName1, cookieValue1] = cookiePair.split('=');
   if (cookieValue1 === 'student') {
@@ -15,16 +17,31 @@
 	utypeadmin += 1;
   
   }
+  if (cookieValue1 === 'moderator') {
+	utypemod += 1;
+  
+  }
   if (cookieName1 === 'a_std_id') {
   usernameCookieCount += 1;
   
   }
+  
+  if (cookieName1 === 'm_std_id') {
+  usernameCookieCount2 += 1;
+  
+  }
   }
 
+  if(utypeadmin >0){
   if(usernameCookieCount>0){
 	document.location.href = "http://localhost:8080/admin/dashboard";
-  }
+  }}
   
+  
+  if(utypemod >0){
+  if(usernameCookieCount2>0){
+	document.location.href = "http://localhost:8080/moderator/dashboard";
+  }}
   
   </script>
 
