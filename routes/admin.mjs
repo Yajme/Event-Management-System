@@ -9,6 +9,7 @@ import { error } from "node:console";
 
 router.get("/",(req,res)=>{
     let minute = 600 * 10000;
+    res.setHeader('set-cookie', 'utype=; max-age=0');
     res.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
     res.render('./admin-moderator/index',{
         usertype: "Administrator", //DON'T REMOVE
@@ -51,6 +52,7 @@ router.post('/login', function(request, response, next){
                     {
                         return Error("Wrong Password",401,next);
                     }
+                    response.setHeader('set-cookie', 'utype=; max-age=0');
                     response.cookie("a_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
                     response.cookie("a_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
                     response.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });

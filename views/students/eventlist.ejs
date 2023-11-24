@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -35,11 +36,19 @@
         padding: 5px;
       }
       td { white-space:pre-wrap; word-wrap:break-word }
+      th { white-space:pre-wrap; word-wrap:break-word }
       #e_id{
         background: transparent;
         border: none;
         font-weight: bold;
       }
+      label{
+        color: #000;
+      }
+      #elist_info{
+        color: #000;
+      }
+      
      </style>
   </head>
   <body>
@@ -125,7 +134,7 @@
                     <h4 class="card-title">Event List</h4>
                     </p>
                     
-<table id="example" class="table table-striped table-bordered" cellspacing="0" style='width: 100%;table-layout:fixed;'>
+<table id="elist" class="table table-striped table-bordered" cellspacing="0" style='width: 100%;table-layout:fixed;'>
 	
     
   <thead>
@@ -154,9 +163,7 @@
         <td style="white-space:pre-wrap; word-wrap:break-word"><% if(data[i].sr_code!=stud_id){ %><button class="bbutton" type="submit">Attend</button><% } else{  %> You AlreadyAttended the event! <% }   %></td>
       </form></tr>
       <% } }else{ %>
-      <tr>
-        <td>No data ever existed.</td>
-      </tr>
+        
       <% } %>
     
 	</tbody>
@@ -195,6 +202,11 @@
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
     <script src="/js/misc.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" ></script>
+     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" ></script>
+     
+    <script>new DataTable('#elist');</script>
+    
   
     <!-- endinject -->
     <!-- Custom js for this page -->

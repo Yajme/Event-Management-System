@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get("/",(req,res)=>{
     let minute = 600 * 10000;
+    
+    res.setHeader('set-cookie', 'utype=; max-age=0');
     res.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
@@ -133,6 +135,7 @@ router.post('/login', function(request, response, next){
                     }
                     else
                     {
+                        response.setHeader('set-cookie', 'utype=; max-age=0');
                         response.cookie("m_std_name", user_email_address, { maxAge: minute }, { httpOnly: true });
                         response.cookie("m_std_id", data[0].superID, { maxAge: minute }, { httpOnly: true });
                         response.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });

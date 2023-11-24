@@ -1,5 +1,5 @@
 
-<script>
+<script type='text/javascript'>
 function getCookie(cookieName) {
   let cookie = {};
   document.cookie.split(';').forEach(function(el) {
@@ -20,7 +20,7 @@ var notifs4 = notifs3.replaceAll('"]"', "']");
 var notifs5 = notifs4.replaceAll('\\', "");
 var notifs6 = notifs5.replaceAll('"', "");
 var notifs7 = notifs6.replaceAll("0Z','", "'], ['");
-var notifs8 = notifs7.replaceAll("'", '"');
+var notifs8 = notifs7.replaceAll("'", '\"');
 
 
 var Notificationz = JSON.parse("[" + notifs8 + "]");
@@ -34,7 +34,6 @@ var notidTextFull = '';
   let eDate = Notificationz[i][1].slice(0, 10).replaceAll("-","/");
   
   notidTextFull += notidText1 + '<h6 class="preview-subject ellipsis mb-1 font-weight-normal">'+Notificationz[i][0] +'</h6><p class="text-gray mb-0"> Happeing in '+ eDate +'!</p>' + notidText5;
- 
     
 }
 console.log(notidTextFull)
@@ -47,9 +46,9 @@ console.log(notidTextFull)
 let usernameCookieCount = 0;
 let a_usernameCookieCount = 0;
 let m_usernameCookieCount = 0;
-let utypestud = 0;
-let utypeadmin = 0;
-let utypemod = 0;
+var utypestud = 0;
+var utypeadmin = 0;
+var utypemod = 0;
 for (var cookiePair of cookiePairs1) {
 var [cookieName1, cookieValue1] = cookiePair.split('=');
 if (cookieValue1 === 'student') {
@@ -76,8 +75,18 @@ m_usernameCookieCount += 1;
 }
 }
 
+
+</script>
+
+
+
+<script type='text/javascript'>
+  window.onload = function() {
+document.getElementById("notifID").innerHTML = notidTextFull;}
+
 if(utypestud>0){
-  window.onload = (event) => {
+  
+  window.onload = function() {
   document.getElementById("logout").href ="logout";
   document.getElementById("logout1").href ="logout";
 };
@@ -105,17 +114,6 @@ if(m_usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/moderator";
 }
 }
-// Convert from vanilla js to ejs
-// Ajax make a href change depending in usertype
-// response.cookie generation = vanilla or native js retrieval 
-
-
-
-</script>
-
-<script type='text/javascript'>
-  window.onload = function() {
-document.getElementById("notifID").innerHTML = notidTextFull;}
 </script>
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -136,7 +134,8 @@ document.getElementById("notifID").innerHTML = notidTextFull;}
             </div>
             <div class="nav-profile-text">
               <p class="mb-1 text-black"><span id="myId"></span></p>
-                <script>
+                <script type='text/javascript'>
+
 if(utypestud>0){
                   const cookieValue = document.cookie;
                   const cookiePairs = cookieValue.split('; ');
