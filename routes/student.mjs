@@ -172,6 +172,7 @@ router.post("/changepassword", (req,res, next)=>{
 router.get("/" ,(req,res)=>{
     let minute = 600 * 10000;
     let arrNotif = [];
+    res.setHeader('set-cookie', 'utype=; max-age=0');
     res.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
     console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
@@ -249,7 +250,7 @@ router.post('/login', function(request,response,next){
             if (dbPassword != hashedSaltAndPass) {
                 return Error('Wrong Password',401,next);
             }
-            
+            response.setHeader('set-cookie', 'utype=; max-age=0');
             response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
             response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
             response.cookie("u_dept_id", result[passCount].dept_ID, { maxAge: minute }, { httpOnly: true });
