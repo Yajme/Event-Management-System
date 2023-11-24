@@ -6,11 +6,33 @@ import authentication from '../utils/authentication.mjs';
 */
 
 const loginPage = (req,res)=>{
+    let minute = 600 * 10000;
+    let arrNotif = [];
+    res.setHeader('set-cookie', 'utype=; max-age=0');
+    res.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
+    console.log(req.cookies['std_id']);
+    let val_dept_ID = req.cookies['u_dept_id'];
+
+    let query = "SELECT * FROM `notifications`";
+
+    database.query(query, [val_dept_ID],function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('404', { data: '' })
+        } else {
+
+            for(var passCount = 0; passCount < rows.length; passCount++){
+                arrNotif.push(rows[passCount].eventName);
+                arrNotif.push(rows[passCount].e_date);
+            }
+          
+    res.cookie("arrNotif", arrNotif, { maxAge: minute }, { httpOnly: true });
     res.render('./admin-moderator/index',{
-        usertype: "Administrator", 
-        login: "/admin/login",
-        HasError: false
+        usertype: "Administrator", //DON'T REMOVE
+        login: "/admin/login"
     });
+}
+});
 }
 
 const logout = (req,res)=>{
@@ -66,11 +88,13 @@ const eventList = async (req,res) =>{
         }
 }
 
-const eventManagement = (req,res) =>{
+const eventManagement = async (req,res) =>{
+    const events = await AdminModel.EventModel.Events();
     res.render('./admin-moderator/eventmanagement',{
         path: "admin",
         usertype : "Administrator",
-        Menu: AdminModel.Menu
+        Menu: AdminModel.Menu,
+        event : events
     });
 
 }
