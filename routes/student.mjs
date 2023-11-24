@@ -7,6 +7,8 @@ import db from "../db/connection.mjs";
 import crypto from "node:crypto";
 
 
+
+
 router.get("/dashboard" ,(req,res)=>{
     console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
@@ -91,7 +93,7 @@ router.post("/register", (req,res)=>{
         if (err) {
             if (err) throw err;
             }});
-            let setquery = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID" ;
+            let setquery = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved' group by event_info.eventID;" ;
             db.query(setquery, [val_dept_ID], function (err, rows) {
                 if (err) {
                   req.flash('error', err)
@@ -104,7 +106,7 @@ router.post("/register", (req,res)=>{
                 message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-                Menu : Menu
+                Menu : StudentModel
             });
             
         }
