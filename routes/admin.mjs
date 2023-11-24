@@ -8,6 +8,8 @@ import { error } from "node:console";
 
 
 router.get("/",(req,res)=>{
+    let minute = 600 * 10000;
+    res.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
     res.render('./admin-moderator/index',{
         usertype: "Administrator", //DON'T REMOVE
         login: "/admin/login"
