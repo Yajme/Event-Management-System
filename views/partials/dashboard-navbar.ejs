@@ -3,14 +3,13 @@
 
 <script type='text/javascript'>
   window.onload = function() {
-document.getElementById("notifID").innerHTML = notidTextFull;}
+document.getElementById("notifID").innerHTML = notidTextFull;
 
 if(utypestud>0){
   
-  window.onload = function() {
   document.getElementById("logout").href ="logout";
   document.getElementById("logout1").href ="logout";
-};
+
 
 if(usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/student";
@@ -19,22 +18,23 @@ if(usernameCookieCount<=0){
 
 
 if(utypeadmin>0){
-  window.onload = function() {
+
   document.getElementById('logout').href = '/admin/logout';
-  }
+  
 if(a_usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/admin";
 }
 }
 
 if(utypemod>0){
-  window.onload = function() {
+
   document.getElementById('logout').href = '/moderator/logout';
-  }
+  
 if(m_usernameCookieCount<=0){
   document.location.href = "http://localhost:8080/moderator";
 }
 }
+  }
 </script>
 
 <script>
