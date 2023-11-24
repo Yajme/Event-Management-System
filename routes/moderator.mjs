@@ -104,7 +104,7 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT * FROM moderatorcoookies
+        SELECT * FROM moderatorcookies
         WHERE userName = ? 
         `;
 
