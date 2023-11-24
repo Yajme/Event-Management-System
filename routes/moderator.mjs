@@ -8,6 +8,8 @@ import Error from '../utils/error.mjs';
 const router = express.Router();
 
 router.get("/",(req,res)=>{
+    let minute = 600 * 10000;
+    res.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
         base: "moderator",
@@ -104,7 +106,7 @@ router.post('/login', function(request, response, next){
     {
        
         var query = `
-        SELECT * FROM moderatorcoookies
+        SELECT * FROM moderatorcookies
         WHERE userName = ? 
         `;
 
