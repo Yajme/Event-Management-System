@@ -9,14 +9,33 @@ const router = express.Router();
 
 router.get("/",(req,res)=>{
     let minute = 600 * 10000;
-    
+    let arrNotif = [];
     res.setHeader('set-cookie', 'utype=; max-age=0');
     res.cookie("utype", "moderator", { maxAge: minute }, { httpOnly: true });
+    console.log(req.cookies['std_id']);
+    let val_dept_ID = req.cookies['u_dept_id'];
+
+    let query = "SELECT * FROM `notifications`";
+
+    database.query(query, [val_dept_ID],function (err, rows) {
+        if (err) {
+          req.flash('error', err)
+          res.render('404', { data: '' })
+        } else {
+
+            for(var passCount = 0; passCount < rows.length; passCount++){
+                arrNotif.push(rows[passCount].eventName);
+                arrNotif.push(rows[passCount].e_date);
+            }
+          
+    res.cookie("arrNotif", arrNotif, { maxAge: minute }, { httpOnly: true });
     res.render('./admin-moderator/index',{
         usertype: "Moderator", //DON'T REMOVE
         base: "moderator",
         login:"/moderator/login"
     });
+}
+});
    
 });
 

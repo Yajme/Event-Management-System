@@ -1,5 +1,43 @@
 
+
+
 <script type='text/javascript'>
+  window.onload = function() {
+document.getElementById("notifID").innerHTML = notidTextFull;}
+
+if(utypestud>0){
+  
+  window.onload = function() {
+  document.getElementById("logout").href ="logout";
+  document.getElementById("logout1").href ="logout";
+};
+
+if(usernameCookieCount<=0){
+  document.location.href = "http://localhost:8080/student";
+}
+}
+
+
+if(utypeadmin>0){
+  window.onload = function() {
+  document.getElementById('logout').href = '/admin/logout';
+  }
+if(a_usernameCookieCount<=0){
+  document.location.href = "http://localhost:8080/admin";
+}
+}
+
+if(utypemod>0){
+  window.onload = function() {
+  document.getElementById('logout').href = '/moderator/logout';
+  }
+if(m_usernameCookieCount<=0){
+  document.location.href = "http://localhost:8080/moderator";
+}
+}
+</script>
+
+<script>
 function getCookie(cookieName) {
   let cookie = {};
   document.cookie.split(';').forEach(function(el) {
@@ -80,41 +118,6 @@ m_usernameCookieCount += 1;
 
 
 
-<script type='text/javascript'>
-  window.onload = function() {
-document.getElementById("notifID").innerHTML = notidTextFull;}
-
-if(utypestud>0){
-  
-  window.onload = function() {
-  document.getElementById("logout").href ="logout";
-  document.getElementById("logout1").href ="logout";
-};
-
-if(usernameCookieCount<=0){
-  document.location.href = "http://localhost:8080/student";
-}
-}
-
-
-if(utypeadmin>0){
-  window.onload = function() {
-  document.getElementById('logout').href = '/admin/logout';
-  }
-if(a_usernameCookieCount<=0){
-  document.location.href = "http://localhost:8080/admin";
-}
-}
-
-if(utypemod>0){
-  window.onload = function() {
-  document.getElementById('logout').href = '/moderator/logout';
-  }
-if(m_usernameCookieCount<=0){
-  document.location.href = "http://localhost:8080/moderator";
-}
-}
-</script>
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
       <a class="navbar-brand brand-logo" href="index.html"><img src="/images/Batangas_State_Logo.png" alt="logo" /></a>
