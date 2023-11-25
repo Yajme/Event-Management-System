@@ -1,38 +1,30 @@
 import AdminModel from "../model/UserModel/AdminModel.mjs";
 import authentication from '../utils/authentication.mjs';
+import session from "express-session";
+import database from '../db/connection.mjs';
 /* 
 <---------------------------------------->
 / GET Request START                    /
 */
 
-const loginPage = (req,res)=>{
-    let minute = 600 * 10000;
-    let arrNotif = [];
-    res.setHeader('set-cookie', 'utype=; max-age=0');
-    res.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
-    console.log(req.cookies['std_id']);
-    let val_dept_ID = req.cookies['u_dept_id'];
-
-    let query = "SELECT * FROM `notifications`";
-
-    database.query(query, [val_dept_ID],function (err, rows) {
-        if (err) {
-          req.flash('error', err)
-          res.render('404', { data: '' })
-        } else {
-
-            for(var passCount = 0; passCount < rows.length; passCount++){
-                arrNotif.push(rows[passCount].eventName);
-                arrNotif.push(rows[passCount].e_date);
-            }
-          
-    res.cookie("arrNotif", arrNotif, { maxAge: minute }, { httpOnly: true });
-    res.render('./admin-moderator/index',{
+const loginPage = async (req,res)=>{
+    try{
+        const minute = 600 * 10000;
+        const arrNotif = await AdminModel.notifications();
+        res.setHeader('set-cookie', 'utype=; max-age=0');
+        res.cookie("utype", "admin", { maxAge: minute }, { httpOnly: true });
+        let val_dept_ID = req.cookies['u_dept_id'];
+        console.log(req.cookies['std_id']);
+        res.cookie("arrNotif", arrNotif, { maxAge: minute }, { httpOnly: true });
+        res.render('./admin-moderator/index',{
         usertype: "Administrator", //DON'T REMOVE
-        login: "/admin/login"
+        login: "/admin/login",
+        HasError: false
     });
-}
-});
+    }catch(error){
+        req.flash('error', err)
+        res.render('404', { data: '' })
+    }
 }
 
 const logout = (req,res)=>{
@@ -99,12 +91,19 @@ const eventManagement = async (req,res) =>{
 
 }
 
-const moderatorList = (req,res) =>{
-    res.render('./admin-moderator/moderatorlist',{
-        path: "admin",  
-        usertype : "Administrator",
-        Menu: AdminModel.Menu
-    });
+const moderatorList = async (req,res) =>{
+    try{
+        const moderatorList = await  AdminModel.moderatorList();
+        res.render('./admin-moderator/moderatorlist',{
+            path: "admin",  
+            usertype : "Administrator",
+            Menu: AdminModel.Menu,
+            data : moderatorList
+        });
+    }catch(error){
+        //WIP
+    }
+    
 }
 const addModeratorPage = async (req,res) =>{
     try {
@@ -207,58 +206,30 @@ const addModerator = async (req,res) =>{
 }
 
 const updateevent= async (req,res)=>{
-    const evid = req.body.eventID;
-    const update = req.body.approve;
-       if(!update){
-           const query = `DELETE FROM events
-           WHERE eventID = ?`;
-           database.query(query,evid,(err,data)=>{
-               if(err){
-                   console.log(err);
-               }
-               else{
-                   console.log("successful query");
-                   database.query("SELECT * FROM `events`", function (err, rows) {
-                       if (err) {
-                         CatchThatError(err,500,next);
-                       } else {
-                       //console.log(rows);
-                   res.render('./admin-moderator/eventmanagement',{
-                       path: "admin",
-                       event: rows,
-                       usertype : "Administrator",
-                       Menu: AdminModel.Menu
-                   });
-                   }
-                   });
-               }
-           })
-       }else{
-           const query = `UPDATE events
-           SET statusID = 2
-           WHERE eventID = ?`;
-           database.query(query,evid,(err,data)=>{
-               if(err){
-                   console.log(err);
-               }
-               else{
-                   console.log("successful query");
-                   database.query("SELECT * FROM `events`", function (err, rows) {
-                       if (err) {
-                         CatchThatError(err,500,next);
-                       } else {
-                       //console.log(rows);
-                   res.render('./admin-moderator/eventmanagement',{
-                       path: "admin",
-                       event: rows,
-                       usertype : "Administrator",
-                       Menu: AdminModel.Menu
-                   });
-                   }
-                   });
-               }
-           })
-       }
+    try{
+        const evid = req.body.eventID;
+        const approve = req.body.approve;
+        const statusID = (approve) ? 2 : 3;
+        const data = await AdminModel.UpdateStatus(statusID,evid);
+        const events = await AdminModel.EventModel.Events();
+        res.render('./admin-moderator/eventmanagement',{
+            path: "admin",
+            event: events,
+            usertype : "Administrator",
+            Menu: AdminModel.Menu,
+            HasError : false,
+            Message : "Event Successfully Registered"
+        });
+    }catch(error){
+        res.render('./admin-moderator/eventmanagement',{
+            path: "admin",
+            event: events,
+            usertype : "Administrator",
+            Menu: AdminModel.Menu,
+            HasError : true,
+            Message : error
+        });
+    }
 }
 /* 
 <---------------------------------------->

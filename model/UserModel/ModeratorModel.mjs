@@ -2,10 +2,10 @@ import database from '../../db/connection.mjs';
 import EventModel from '../EventModel.mjs';
 const Menu = [
     
-    {route : "dashboard", icon:"mdi mdi-home menu-icon",title:"Home"},
-    {route : "eventlist", icon:"mdi mdi-format-list-checkbox menu-icon",title:"Event List View"},
-    {route : "eventregistration", icon:"mdi mdi-table-large menu-icon",title:"Event Registration"},
-    {route : "attendlist", icon:"mdi mdi-account-check menu-icon",title:"Student Attendees"},
+    {route : "/moderator/dashboard", icon:"mdi mdi-home menu-icon",title:"Home"},
+    {route : "/moderator/eventlist", icon:"mdi mdi-format-list-checkbox menu-icon",title:"Event List View"},
+    {route : "/moderator/eventregistration", icon:"mdi mdi-table-large menu-icon",title:"Event Registration"},
+    {route : "/moderator/attendlist", icon:"mdi mdi-account-check menu-icon",title:"Student Attendees"},
 
 ]
 

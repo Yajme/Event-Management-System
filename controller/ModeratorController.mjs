@@ -1,7 +1,7 @@
 import authentication from '../utils/authentication.mjs';
 import ModeratorModel from '../model/UserModel/ModeratorModel.mjs';
 import database from '../db/connection.mjs';
-import sha256 from '../utils/sha256.mjs';
+import session from "express-session";
 /* 
 <---------------------------------------->
 / GET Request START                    /
@@ -51,7 +51,8 @@ const eventregistration = async (req,res)=>{
     res.render('./admin-moderator/eventregistration',{
         usertype: "Moderator", //DON'T REMOVE
         path : "moderator",
-        Menu : ModeratorModel.Menu
+        Menu : ModeratorModel.Menu,
+        HasError : false
     });
 };
 const eventlist = async (req,res)=>{

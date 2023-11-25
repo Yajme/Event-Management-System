@@ -130,8 +130,95 @@ const registerModerator = (name, password, username, department) => {
       });
     });
   };
+
+  const moderatorList = async()=>{
+    try{
+        return new Promise((resolve,reject)=>{
+            const query = 'SELECT * FROM Moderators';
+            
+            database.query(query,(error,data)=>{
+                if(error){
+                    reject(error);
+                    return;
+                }
+                if(data.length===0){
+                    reject("No moderator found");
+                    return;
+                }
+                resolve(data);
+            })
+        })
+    }catch(error){
+        throw error;
+    }
+  }
+  const notifications = async()=>{
+    try{
+        return new Promise((resolve,reject)=>{
+            const query = "SELECT * FROM `notifications`";
+            var arrNotif = [];
+            database.query(query,(error,data)=>{
+                if(error){
+                    reject(error);
+                    return;
+                }
+                for(let i= 0; i < data.length;i++){
+                    arrNotif.push(rows[i].eventName);
+                    arrNotif.push(rows[i].e_date);
+                }
+
+                resolve(arrNotif);
+            });
+            
+        })
+    }catch(error){
+        throw error;
+    }
+  }
+
+  const UpdateStatus = async (statusID, eventID) => {
+    try {
+      return new Promise((resolve, reject) => {
+        database.beginTransaction(async (beginTransactionErr) => {
+          if (beginTransactionErr) {
+            reject(beginTransactionErr);
+            return;
+          }
+          try {
+            const query = "UPDATE events SET statusID = ? WHERE eventID = ?";
+            database.query(query, [statusID, eventID], (error, updateResult) => {
+                database.commit((commitErr) => {
+                  if (commitErr) {
+                    reject(commitErr);
+                    return;
+                  } 
+                    resolve(updateResult);
+                });
+            });
+          } catch (error) {
+            database.rollback(() => {
+              reject(error);
+            });
+          }
+        });
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+  
   
 
+//<------------Template------------->
+/*
+    try{
+    return new Promise((resolve,reject)=>{
+            
+        })
+    }catch(error){
+        throw error;
+    }
+*/
 export default {
      Menu, 
      OrgModel, 
@@ -140,5 +227,8 @@ export default {
      AttendeesList,
      AttendeesCount,
      superusers,
-     registerModerator
+     registerModerator,
+     moderatorList,
+     notifications,
+     UpdateStatus
     };
