@@ -93,7 +93,13 @@ Just make sure you are in the directory of the repository before executing the c
 ### Accessing the app
 (Local server only!) <br>
 You can directly access the web application by typing `localhost:8080/admin`
+
 ![image](https://github.com/Yajme/Event-Management-System/assets/88352665/cae5935f-55e3-4f60-a534-a8270f19c5ea)
+
+The default username is `adminval` ,password is `admin`
+![image](https://github.com/Yajme/Event-Management-System/assets/88352665/6f69cecf-93c0-491b-96cd-de48a0abbfed)
+
+You can change it later 
 
 If you want your users to access the web app, you can direct them to `localhost:8080/student`
 
