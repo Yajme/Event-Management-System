@@ -45,6 +45,10 @@
       #elist_info{
         color: #000;
       }
+      table {
+        width: 100%;
+        table-layout:fixed; 
+}
   </style> 
   </head>
   <body>
@@ -137,8 +141,8 @@
                                       <td><%= event[i].eventDesc%></td>
                                       <td><%= event[i].org_ID%></td>
                                       <td><%= event[i].statusID%></td>
-                                      <td><button type="submit" class="btn btn-primary" style="width: 100%;background-color: #25b800;" name="approve">Approve</button></td>
-                                      <td><button type ="submit" class="btn btn-danger" style="width: 100%; background-color: rgb(252, 70, 70);" name="delete">Cancel</button></td>
+                                      <td><button type="submit" class="btn btn-primary" style="width: 50%;background-color: #25b800; padding: 5px; padding-top: 15px; padding-bottom: 15px;" name="approve">Approve</button>
+                              <button type ="submit" class="btn btn-danger" style="width: 50%; background-color: rgb(252, 70, 70); padding: 5px; padding-top: 15px; padding-bottom: 15px;" name="delete">Cancel</button></td>
                                     </form>
                                   </tr>
                                 <% } } }else { %>
