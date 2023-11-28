@@ -45,31 +45,57 @@ The npm init -y command is used to initialize a new Node.js project. The -y flag
 > For faster installation of packages execute the powershell command by typing the command below:
 
 Copy Command:
-```npm
+```powershell
 .\Installation.ps1
 ```
 
 >For example
 
-```npm
+```powershell
 C:\Event-Management-System> .\Installation.ps1
 ```
 
-What this command does is execute the PowerShell script, which installs all the required packages that the system will use.
+Alternatively you can manually copy and paste the actual installation command below:
+```bash
+npm install express express-session express-flash body-parser connect-flash cookie-parser cors ejs mysql2 nodemon popups
+```
+
+
 
 
 ## Usage
 
-> For using the application run the web application by executing the powershell script in the terminal
+> To run the web application simply run it using terminal command below:<br><br>
 
-```
+`If you are using windows`
+
+```powershell
 .\start.ps1
 ```
 
-For example
-```
+**For example**
+```powershell
 C:\Event-Management-System>.\start.ps1
 ```
+
+Alternatively you can run the web app by typing:<br>
+`If you are using Linux/Mac`
+```
+nodemon index.js
+```
+For example
+```sh
+$ nodemon index.js
+```
+
+Just make sure you are in the directory of the repository before executing the command.
+
+### Accessing the app
+(Local server only!) <br>
+You can directly access the web application by typing `localhost:8080/admin`
+![image](https://github.com/Yajme/Event-Management-System/assets/88352665/cae5935f-55e3-4f60-a534-a8270f19c5ea)
+
+If you want your users to access the web app, you can direct them to `localhost:8080/student`
 
 ## Developers
 * [Yajme](https://github.com/Yajme)
