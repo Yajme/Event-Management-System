@@ -59,6 +59,9 @@
 	<title>Log In | BSU Event Calendar System</title>
 </head>
 <body>
+	<% if(HasError){ %>
+		<script>window.alert("<%=ErrorMessage%>");</script>
+	<% }; %>
 	<header class="cd-main-header">
 		<div class="cd-main-header__logo"><a href="#0"><img src="/img/Batangas_State_Logo.png" alt="Logo" class="bsu-logo"></a></div>
 

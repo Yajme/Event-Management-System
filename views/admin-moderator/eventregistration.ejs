@@ -133,6 +133,11 @@
               
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
+                  <% if(HasError) {%>
+                  <div class="card-body">
+                    <label style="color: #c0392b;"><%= ErrorMessage %></label>
+                  </div>
+                  <% }; %>
                   <div class="card-body">
                     <h4 class="card-title">Event Management</h4>
                     <p class="card-description"> Event Information</p>
