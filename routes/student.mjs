@@ -13,7 +13,7 @@ router.get("/dashboard" ,(req,res)=>{
     console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
 
-    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+    let query = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
 
     db.query(query, [val_dept_ID],function (err, rows) {
         if (err) {
@@ -42,7 +42,7 @@ router.get("/eventcalendar", (req,res)=>{
     console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
 
-    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+    let query = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
 
     db.query(query, [val_dept_ID],function (err, rows) {
         if (err) {
@@ -63,7 +63,7 @@ router.get("/eventcalendar", (req,res)=>{
 router.get("/eventlist", (req,res)=>{
     let val_dept_ID = req.cookies['u_dept_id'];
     
-    let query = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved' group by event_info.eventID;";
+    let query = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved'  group by event_info.eventID, stud_atendees_view.sr_code;";
     db.query(query, [val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
@@ -93,7 +93,7 @@ router.post("/register", (req,res)=>{
         if (err) {
             if (err) throw err;
             }});
-            let setquery = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved' group by event_info.eventID;" ;
+            let setquery = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved'  group by event_info.eventID, stud_atendees_view.sr_code;" ;
             db.query(setquery, [val_dept_ID], function (err, rows) {
                 if (err) {
                   req.flash('error', err)
@@ -176,8 +176,9 @@ router.get("/" ,(req,res)=>{
     let arrNotif = [];
     res.setHeader('set-cookie', 'utype=; max-age=0');
     res.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
-    console.log(req.cookies['std_id']);
+    
     let val_dept_ID = req.cookies['u_dept_id'];
+    console.log(req.cookies['u_dept_id'])
 
     let query = "SELECT * FROM `notifications`";
 
@@ -205,7 +206,7 @@ router.get("/" ,(req,res)=>{
 router.get("/changepass" ,(req,res)=>{
     let val_dept_ID = req.cookies['u_dept_id'];
     
-    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
+    let query = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
     db.query(query, [val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
