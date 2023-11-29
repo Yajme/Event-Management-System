@@ -20,7 +20,7 @@ console.log(req.sessionID);
     res.render('./students/dashboard',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -51,7 +51,7 @@ const loginPage = async (req,res)=>{
     res.render('./students/index',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -79,7 +79,7 @@ const eventcalendar = async (req,res)=>{
     res.render('./students/eventcalendar',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -101,7 +101,7 @@ const eventlist = async (req,res)=>{
         message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -137,7 +137,7 @@ const register = async (req,res)=>{
                 message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-                Menu : StudentModel
+                Menu : StudentModel.Menu
             });
             
         }
@@ -234,7 +234,7 @@ const login = async (request,response)=>{
             response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
-                Menu : StudentModel,
+                Menu : StudentModel.Menu,
                 path: "student"
             });
         }
