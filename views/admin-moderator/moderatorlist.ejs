@@ -119,27 +119,27 @@
                 <div class="card-body">
                   <h4 class="card-title">Moderator List</h4>
                   </p>
-                    <table class="table table-striped table-bordered" id="elist">
+                    <table class="table table-striped table-bordered" id="elist" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Moderator ID</th>
-                          <th>Moderator</th>
-                          <th>Moderator Name</th>
+                          <th style="white-space:pre-wrap; word-wrap:break-word">Moderator ID</th>
+                          <th style="white-space:pre-wrap; word-wrap:break-word">Moderator</th>
+                          <th style="white-space:pre-wrap; word-wrap:break-word">Moderator Name</th>
                         </tr>
                       </thead>
                       <tbody>
                       
                         <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
                           <tr>
-                            <td><%= data[i].superID%></td>
-                            <td><%= data[i].username%></td>
-                            <td><%= data[i].org_Name%></td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].superID%></td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].username%></td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].org_Name%></td>
                             </tr>
                           <% } }else{ %>
                           <tr>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word">No data</td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word">No data</td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word">No data</td>
                           </tr>
                           <% } %>  
                         </tbody>

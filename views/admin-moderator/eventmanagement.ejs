@@ -121,14 +121,14 @@
                         <div class="card-body">
                           <h4 class="card-title">Event List</h4>
                           </p>
-                            <table class="table table-striped table-bordered" id="elist">
+                            <table class="table table-striped table-bordered" id="elist"  cellspacing="0" width="100%">
                               <thead>
                                 <tr>
-                                  <th>Event ID</th>
-                                  <th>Event Name</th>
-                                  <th>Event Description</th>
-                                  <th>Organization ID</th>
-                                  <th>Status</th>
+                                  <th style="white-space:pre-wrap; word-wrap:break-word">Event ID</th>
+                                  <th style="white-space:pre-wrap; word-wrap:break-word">Event Name</th>
+                                  <th style="white-space:pre-wrap; word-wrap:break-word">Event Description</th>
+                                  <th style="white-space:pre-wrap; word-wrap:break-word">Organization ID</th>
+                                  <th style="white-space:pre-wrap; word-wrap:break-word">Status</th>
                                   <th style="text-align: center;">Action</th>
                                 </tr>
                               </thead>
@@ -136,24 +136,24 @@
                                 <% if(event.length){ for(var i = 0; i< event.length; i++) { if(event[i].statusID != 2){%>
                                   <tr>
                                     <form action="/admin/update-event" method="post"> 
-                                      <td><input class="inputID" type="text" id="eventID" name="eventID" value="<%= event[i].eventID%>" readonly></td>
-                                      <td><%= event[i].eventName%></td>
-                                      <td><%= event[i].eventDesc%></td>
-                                      <td><%= event[i].org_ID%></td>
-                                      <td><%= event[i].statusID%></td>
-                                      <td><button type="submit" class="btn btn-primary" style="width: 50%;background-color: #25b800; padding: 5px; padding-top: 15px; padding-bottom: 15px;" name="approve">Approve</button>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><input class="inputID" type="text" id="eventID" name="eventID" value="<%= event[i].eventID%>" readonly></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].eventName%></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].eventDesc%></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].org_ID%></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].statusID%></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><button type="submit" class="btn btn-primary" style="width: 50%;background-color: #25b800; padding: 5px; padding-top: 15px; padding-bottom: 15px;" name="approve">Approve</button>
                               <button type ="submit" class="btn btn-danger" style="width: 50%; background-color: rgb(252, 70, 70); padding: 5px; padding-top: 15px; padding-bottom: 15px;" name="delete">Cancel</button></td>
                                     </form>
                                   </tr>
                                 <% } } }else { %>
                                 <tr>
-                                  <td>No Data</td>
-                                  <td>No Data</td>
-                                  <td>No Data</td>
-                                  <td>No Data</td>
-                                  <td>No Data</td>
-                                  <td><button class="btn btn-primary" style="width: 100%;">No Data</button></td>
-                                  <td><button class="btn btn-danger" style="width: 100%;">No Data</button></td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word">No Data</td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word">No Data</td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word">No Data</td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word">No Data</td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word">No Data</td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word"><button class="btn btn-primary" style="width: 100%;">No Data</button></td>
+                                  <td style="white-space:pre-wrap; word-wrap:break-word"><button class="btn btn-danger" style="width: 100%;">No Data</button></td>
                                 </tr>
                                 <% }%>
                               </tbody>
