@@ -31,13 +31,22 @@ label{
       #elist_info{
         color: #000;
       }
+      table {
+        width: 100%;
+        table-layout:fixed; 
+}
+td, th { white-space:pre-wrap; word-wrap:break-word }
+td:last-child {
+  white-space: nowrap;
+}
      </style>
+     
   </head>
   <body>
     <div class="container-scroller">
       
         <!--**********************************
-            Nav header start
+            Nav header start 
         ***********************************-->
         <%- include('../partials/dashboard-navbar'); %>
         <!--**********************************
@@ -123,22 +132,22 @@ label{
                       <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
-                            <th>Event Name</th>
-                            <th>Description</th>
-                            <th>Organization</th>
-                            <th>Date</th>
-                            <th>View</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Event Name</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Description</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Organization</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Date</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">View</th>
                           </tr>
                         </thead>
                         <tbody>
                           <% Events.forEach(event =>{ %>
                           <tr>
                             <form action="<%= action %>"" method="post">
-                              <td><input type="hidden" name="EventName" value="<%= event.eventName%>"><%= event.eventName%></td>
-                              <td><%= event.eventDesc%></td>
-                              <td><%= event.org_Name %></td>
-                              <td><%= event.date %></td>
-                              <td><button type="submit" class="btn btn-primary" style="width: 100%;">View</button></td>
+                              <td style="white-space:pre-wrap; word-wrap:break-word"><input type="hidden" name="EventName" value="<%= event.eventName%>"><%= event.eventName%></td>
+                              <td style="white-space:pre-wrap; word-wrap:break-word">><%= event.eventDesc%></td>
+                              <td style="white-space:pre-wrap; word-wrap:break-word"><%= event.org_Name %></td>
+                              <td style="white-space:pre-wrap; word-wrap:break-word"><%= event.date %></td>
+                              <td style="white-space:pre-wrap; word-wrap:break-word"><button type="submit" class="btn btn-primary" style="width: 100%;">View</button></td>
                             </form>
                           </tr>
                           <% }); %>
@@ -150,17 +159,17 @@ label{
                       <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
-                            <th>Student SR-Code</th>
-                            <th>Student Name</th>
-                            <th>Attendance Confirmation Date</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Student SR-Code</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Student Name</th>
+                            <th style="white-space:pre-wrap; word-wrap:break-word">Attendance Confirmation Date</th>
                           </tr>
                         </thead>
                         <tbody>
                           <% Attendees.forEach(attendee =>{ %>
                           <tr>
-                            <td><%= attendee.sr_code %></td>
-                            <td><%= attendee.studentName %></td>
-                            <td><%= attendee.DateRegistered %></td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word"><%= attendee.sr_code %></td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word"><%= attendee.studentName %></td>
+                            <td style="white-space:pre-wrap; word-wrap:break-word"><%= attendee.DateRegistered %></td>
                           </tr>
                           <% }); %>
                         </tbody>

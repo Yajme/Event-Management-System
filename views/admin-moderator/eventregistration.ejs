@@ -147,8 +147,8 @@
                         <input type="text" class="form-control" id="exampleInputName1" placeholder= "Event Name" name="eventName">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputCity1">Event Date</label>
-                        <input type="date" class="form-control" id="exampleInputCity1" name="eventDate">
+                        <label for=" ">Event Date</label>
+                        <input type="date" class="form-control" id="e_datez" name="eventDate">
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Event Description</label>
@@ -194,6 +194,16 @@
     <script src="/js/file-upload.js"></script>
     <script src="/js/typeahead.js"></script>
     <script src="/js/select2.js"></script>
+    <script>
+      let d = new Date();
+let today = d.toLocaleDateString('en-CA', {timeZone:'Asia/Shanghai'});
+d.setDate(d.getDate() + 1);
+let tomorrow = d.toLocaleDateString('en-CA', {timeZone:'Asia/Shanghai'});
+
+console.log(`Today   : ${today}\nTomorrow: ${tomorrow}`);
+document.getElementById("e_datez").min = tomorrow;
+
+    </script>
     <!-- End custom js for this page -->
   </body>
 </html>
