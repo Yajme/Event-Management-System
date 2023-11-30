@@ -184,7 +184,7 @@ const changepassword = async (req,res)=>{
                     res.render("./students/dashboard",{
                         sUsername: result[0].firstName + " " + result[0].lastName,
                         messagepass: req.flash('messagepass'),
-                        Menu : Menu
+                        Menu : StudentModel.Menu
                     });
                     
                 }
