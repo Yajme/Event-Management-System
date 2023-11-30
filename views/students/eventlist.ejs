@@ -155,12 +155,13 @@
        
       <input type="text" id="e_id" name="e_id" value="<%= data[i].eventID %>" style="display: none;" readonly>
       <tr><form action="/student/register" method="post" >
+        
         <th scope="row"><input type="text" id="e_id" name="e_id" value="<%= data[i].eventID %>" readonly></th>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].eventName%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].e_date%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><%= data[i].sr_code%></td>
         <td style="white-space:pre-wrap; word-wrap:break-word"><textarea name="" id="" cols="30" rows="10" readonly><%= data[i].eventDesc%></textarea></td>
-        <td style="white-space:pre-wrap; word-wrap:break-word"><%  if(data[i].sr_code!=stud_id){ %><button class="bbutton" type="submit">Attend</button><% } else{  %> You AlreadyAttended the event! <% }   %></td>
+        <td style="white-space:pre-wrap; word-wrap:break-word"><%  if(data[i].stud_res=="no"){ %><button class="bbutton" type="submit">Attend</button><% } else{  %> You AlreadyAttended the event! <% }   %></td>
       </form></tr>
       <% } }else{ %>
         
