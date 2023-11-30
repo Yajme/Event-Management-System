@@ -18,7 +18,7 @@ router.get("/addmoderator", admin.addModeratorPage);
 router.get("/attendlist", admin.AttendList);
 router.post("/attendlist",admin.AttendListSearch);
 router.get("/attendlist/:eventname", admin.AttendListLoad);
-
+router.post("/changepassword",admin.changepassword);
 router.post("/update-event",admin.updateevent);
 router.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message });// to be thrown client side

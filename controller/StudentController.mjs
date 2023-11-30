@@ -20,7 +20,7 @@ console.log(req.sessionID);
     res.render('./students/dashboard',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -31,7 +31,6 @@ const loginPage = async (req,res)=>{
     let arrNotif = [];
     res.setHeader('set-cookie', 'utype=; max-age=0');
     res.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
-    console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
 
     let query = "SELECT * FROM `notifications`";
@@ -51,7 +50,7 @@ const loginPage = async (req,res)=>{
     res.render('./students/index',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -79,7 +78,7 @@ const eventcalendar = async (req,res)=>{
     res.render('./students/eventcalendar',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -101,7 +100,7 @@ const eventlist = async (req,res)=>{
         message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -137,7 +136,7 @@ const register = async (req,res)=>{
                 message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-                Menu : StudentModel
+                Menu : StudentModel.Menu
             });
             
         }
@@ -200,47 +199,55 @@ const changepassword = async (req,res)=>{
 };
 
 const login = async (request,response)=>{
-
-    //names of the input text fields in the views/index.ejs
+    try{
+//names of the input text fields in the views/index.ejs
     
     let minute = 600 * 10000;
     const username = request.body.username;
     const password = request.body.password;
     console.log(username);
-    console.log(password)
-    // Query the MySQL database for the student user record
+    console.log(password);
+// Query the MySQL database for the student user record
     const query = 'SELECT * FROM studentinfoview WHERE sr_code = ?';
-    db.query(query,[username], function(error,result){
-         // If the user is found, return the user's record
-         
-        if (result.length === 0) { 
-            throw new Error('Invalid Password or Username');// HTTP Unauthorized
-        }
+db.query(query,[username], function(error,result){
+     // If the user is found, return the user's record
+     
+    if (result.length === 0) { 
+        throw new Error('Invalid Password or Username');// HTTP Unauthorized
+    }
 
-         //checking of password and salt
-         for(var passCount = 0; passCount < result.length; passCount++){
-            const salt = result[passCount].salt;
-            const passwordHash = password+salt;
-            const dbPassword = result[passCount].password;
-            const hashedSaltAndPass = sha256(passwordHash);
-            if (dbPassword != hashedSaltAndPass) {
-                return Error('Wrong Password',401,next);
-            }
-            response.setHeader('set-cookie', 'utype=; max-age=0');
-            response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
-            response.cookie('sr_code',username,{ maxAge: minute }, { httpOnly: true });
-            response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
-            response.cookie("u_dept_id", result[passCount].dept_ID, { maxAge: minute }, { httpOnly: true });
-            response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
-            response.render("./students/dashboard",{
-                sUsername: result[passCount].firstName + " " + result[passCount].lastName,
-                Menu : StudentModel,
-                path: "student"
-            });
+     //checking of password and salt
+     for(var passCount = 0; passCount < result.length; passCount++){
+        const salt = result[passCount].salt;
+        const passwordHash = password+salt;
+        const dbPassword = result[passCount].password;
+        const hashedSaltAndPass = sha256(passwordHash);
+        if (dbPassword != hashedSaltAndPass) {
+            return Error('Wrong Password',401,next);
         }
-           
-        response.end();
-        }); 
+        response.setHeader('set-cookie', 'utype=; max-age=0');
+        response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
+        response.cookie('sr_code',username,{ maxAge: minute }, { httpOnly: true });
+        response.cookie("std_id", username, { maxAge: minute }, { httpOnly: true });
+        response.cookie("u_dept_id", result[passCount].dept_ID, { maxAge: minute }, { httpOnly: true });
+        response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
+        response.render("./students/dashboard",{
+            sUsername: result[passCount].firstName + " " + result[passCount].lastName,
+            Menu : StudentModel.Menu,
+            path: "student"
+        });
+    }
+       
+    response.end();
+    }); 
+    }catch(error){
+        res.render('./students/index',{
+            path: "student",
+            HasError : true,
+            ErrorMessage: error
+        });
+    }
+    
 };
 
 /**

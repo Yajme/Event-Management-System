@@ -12,7 +12,7 @@ const Menu = [
 const superuser = async (username)=> {
    try{
     return new Promise((resolve,reject)=>{
-        const query = `SELECT * FROM superusers WHERE userName = ? AND superID != 0`;
+        const query = `SELECT * FROM moderatorcookies WHERE userName = ? AND superID != 0`;
         database.query(query,[username],(error,result)=>{
             if(error){
                 reject (error);
@@ -50,9 +50,47 @@ const addevent = async (fields)=>{
         throw error;
     }
 }
+
+const updatepassword = async (newpass, superID) =>{
+    try{
+      return new Promise((resolve,reject)=>{
+            database.beginTransaction( async (TransactError)=>{
+              if(TransactError){
+                reject(TransactError);
+                return;
+              }
+              try{
+                const query = "UPDATE superusers SET `password`= SHA2(CONCAT(?,`salt`),256) WHERE superID = ?";
+                database.query(query,[newpass,superID],(queryErr)=>{
+                  if (queryErr) {
+                    database.rollback(() => {
+                      reject(queryErr);
+                    });
+                    return;
+                  }
+                  database.commit((commitErr)=>{
+                    if(commitErr){
+                      reject(commitErr);
+                      return;
+                    }
+                    resolve();
+                  })
+                })
+              }catch(error){
+                database.rollback(()=> {
+                  reject(error);
+                })
+              }
+            });
+      })
+    }catch(error){
+      throw error;
+    }
+  };
 export default {
     Menu,
     EventModel,
     superuser,
-    addevent
+    addevent,
+    updatepassword
 };
