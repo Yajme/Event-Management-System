@@ -163,8 +163,8 @@ const registerModerator = (name, password, username, department) => {
                     return;
                 }
                 for(let i= 0; i < data.length;i++){
-                    arrNotif.push(rows[i].eventName);
-                    arrNotif.push(rows[i].e_date);
+                    arrNotif.push(data[i].eventName);
+                    arrNotif.push(data[i].e_date);
                 }
 
                 resolve(arrNotif);
