@@ -21,7 +21,6 @@ console.log(req.sessionID);
         path: "student",
         data: rows,
         Menu : StudentModel.Menu
-        Menu : StudentModel.Menu
     });
 }
 });
@@ -52,7 +51,6 @@ const loginPage = async (req,res)=>{
         path: "student",
         data: rows,
         Menu : StudentModel.Menu
-        Menu : StudentModel.Menu
     });
 }
 });
@@ -82,7 +80,7 @@ const eventcalendar = async (req,res)=>{
         path: "student",
         data: rows,
         Menu : StudentModel.Menu
-        Menu : StudentModel.Menu
+
     });
 }
 });
@@ -107,7 +105,7 @@ const eventlist = async (req,res)=>{
         stud_id: req.cookies['std_id'],
         data: rows,
         Menu : StudentModel.Menu
-        Menu : StudentModel.Menu
+
     });
 }
 });
@@ -148,7 +146,6 @@ const register = async (req,res)=>{
                 message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-                Menu : StudentModel.Menu
                 Menu : StudentModel.Menu
             });
             
