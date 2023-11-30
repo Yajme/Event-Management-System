@@ -49,7 +49,7 @@ var eventlist  = [
     }
   ];
 </script>
-<% if(data.length){ for(var i = 0; i< data.length; i++) {%>
+<% if(data.length){ for(var i = 0; i< data.length; i++) { if(data[i].stud_res =="yes"){ %>
 <script>
   var data2 = new Date('<%= data[i].e_date %>');
   var datadate = data2.getFullYear() +"-"+ parseInt(data2.getMonth()+1) +"-"+data2.getDate();
@@ -58,13 +58,13 @@ var eventlist  = [
      {
        title  :  '<%= data[i].eventName %>',
        start  : datadate,
-       description: 'This is a cool event',
+       description: 'This is a school event',
        allDay: true
      }
        );
  
  </script>
- <% }}%>
+ <% }}}%>
 <script>
  
   document.addEventListener('DOMContentLoaded', function() {

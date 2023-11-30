@@ -4,6 +4,7 @@ import db from "../db/connection.mjs";
 const router = express.Router();
 
 
+router.get("/" ,student.loginPage);
 
 router.get("/dashboard" ,student.home);
 
@@ -18,7 +19,6 @@ router.post("/register", student.register);
 router.post("/changepassword", student.changepassword);
 
 
-router.get("/" ,student.loginPage);
 
 
 
