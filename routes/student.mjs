@@ -1,10 +1,10 @@
 import express from "express";
 import student from '../controller/StudentController.mjs';
 import db from "../db/connection.mjs";
-import crypto from
 const router = express.Router();
 
 
+router.get("/" ,student.loginPage);
 
 router.get("/dashboard" ,student.home);
 
@@ -19,7 +19,6 @@ router.post("/register", student.register);
 router.post("/changepassword", student.changepassword);
 
 
-router.get("/" ,student.loginPage);
 
 router.get("/changepass" ,(req,res)=>{
     let val_dept_ID = req.cookies['u_dept_id'];

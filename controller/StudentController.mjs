@@ -20,7 +20,7 @@ console.log(req.sessionID);
     res.render('./students/dashboard',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -51,7 +51,7 @@ const loginPage = async (req,res)=>{
     res.render('./students/index',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -66,10 +66,11 @@ const logout = async (req,res)=>{
 const eventcalendar = async (req,res)=>{
     console.log(req.cookies['std_id']);
     let val_dept_ID = req.cookies['u_dept_id'];
-
-    let query = "SELECT * FROM `atendees_view` right join event_info on atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and  event_info.statusID = 2 group by event_info.eventID ;";
-
-    db.query(query, [val_dept_ID],function (err, rows) {
+    let std_id = req.cookies['std_id'];
+    
+    let query = "SELECT *, IF ((SELECT 1 FROM eventattendees where sr_code = ? and eventID = stv.eventID limit 1 ), 'yes', 'no') as stud_res FROM eventattendees ei right join event_info stv on stv.eventID=ei.eventID where stv.dept_ID = ? and stv.status = 'approved' GROUP by stv.eventID;";
+    
+    db.query(query, [std_id, val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('404', { data: '' })
@@ -79,7 +80,7 @@ const eventcalendar = async (req,res)=>{
     res.render('./students/eventcalendar',{
         path: "student",
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -87,21 +88,23 @@ const eventcalendar = async (req,res)=>{
 
 const eventlist = async (req,res)=>{
     let val_dept_ID = req.cookies['u_dept_id'];
+    let std_id = req.cookies['std_id'];
     
-    let query = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved' group by event_info.eventID;";
-    db.query(query, [val_dept_ID], function (err, rows) {
+    let query = "SELECT *, IF ((SELECT 1 FROM eventattendees where sr_code = ? and eventID = stv.eventID limit 1 ), 'yes', 'no') as stud_res FROM eventattendees ei right join event_info stv on stv.eventID=ei.eventID where stv.dept_ID = ? and stv.status = 'approved' GROUP by stv.eventID;";
+    
+    db.query(query, [std_id, val_dept_ID], function (err, rows) {
         if (err) {
           req.flash('error', err)
           res.render('404', { data: '' })
         } else {
           
-        console.log(rows);
+        console.log(req.cookies['u_dept_id']);
     res.render('./students/eventlist',{
         path: "student",
         message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-        Menu : StudentModel
+        Menu : StudentModel.Menu
     });
 }
 });
@@ -118,14 +121,19 @@ const register = async (req,res)=>{
     const eventid = req.body.e_id;
     const userid = req.cookies['std_id'];
     let val_dept_ID = req.cookies['u_dept_id'];
+    let std_id = req.cookies['std_id'];
+    
+    let query1 = "SELECT *, IF ((SELECT 1 FROM eventattendees where sr_code = ? and eventID = stv.eventID limit 1 ), 'yes', 'no') as stud_res FROM eventattendees ei right join event_info stv on stv.eventID=ei.eventID where stv.dept_ID = ? and stv.status = 'approved' GROUP by stv.eventID;";
+    
     
     const query = "INSERT INTO `eventattendees` ( `eventID`, `sr_code`, `DateRegistered`) VALUES ( ? , ? ,current_timestamp()) ";
     db.query(query,[eventid, userid],function (err, resp) {
         if (err) {
             if (err) throw err;
             }});
-            let setquery = "SELECT * FROM `stud_atendees_view` right join event_info on stud_atendees_view.eventID=event_info.eventID where event_info.dept_ID = ? and event_info.status = 'approved' group by event_info.eventID;" ;
-            db.query(setquery, [val_dept_ID], function (err, rows) {
+            console.log(req.cookies['std_id']);
+    
+    db.query(query1, [std_id, val_dept_ID], function (err, rows) {
                 if (err) {
                   req.flash('error', err)
                   res.render('404', { data: '' })
@@ -137,7 +145,7 @@ const register = async (req,res)=>{
                 message: req.flash('message'),
         stud_id: req.cookies['std_id'],
         data: rows,
-                Menu : StudentModel
+                Menu : StudentModel.Menu
             });
             
         }
@@ -184,7 +192,7 @@ const changepassword = async (req,res)=>{
                     res.render("./students/dashboard",{
                         sUsername: result[0].firstName + " " + result[0].lastName,
                         messagepass: req.flash('messagepass'),
-                        Menu : Menu
+                        Menu : StudentModel.Menu
                     });
                     
                 }
@@ -234,7 +242,7 @@ const login = async (request,response)=>{
             response.cookie("utype", "student", { maxAge: minute }, { httpOnly: true });
             response.render("./students/dashboard",{
                 sUsername: result[passCount].firstName + " " + result[passCount].lastName,
-                Menu : StudentModel,
+                Menu : StudentModel.Menu,
                 path: "student"
             });
         }
