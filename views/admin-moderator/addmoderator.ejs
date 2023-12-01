@@ -69,6 +69,16 @@
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
+                    <% if(Message.length > 0){ %>
+                      <div class="alert alert-success" role="alert">
+                        <%= Message %>
+                      </div>
+                    <% }; %>
+                    <% if(HasError){ %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= ErrorMessage %>
+                      </div>
+                    <% }; %>
                     <h4 class="card-title">Register Moderator</h4>
                     <p class="card-description"> Fill up details </p>
                     <form class="forms-sample" action="/admin/addmoderator" method="post">

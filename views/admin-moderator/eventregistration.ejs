@@ -120,6 +120,11 @@
               
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
+                  <% if(Message.length > 0){ %>
+                    <div class="alert alert-success" role="alert">
+                      <%= Message %>
+                    </div>
+                  <% }; %>
                   <% if(HasError) {%>
                   <div class="card-body">
                     <label style="color: #c0392b;"><%= ErrorMessage %></label>

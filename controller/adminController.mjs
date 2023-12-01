@@ -33,16 +33,22 @@ const logout = (req,res)=>{
     res.redirect('/admin');
 }
 const AttendList = async (req,res) =>{
-    const events = await AdminModel.EventModel.ApprovedEvents();
-    res.render('./admin-moderator/attendlist',{
-        path: "admin",
-        usertype: "Administrator",
-        Menu: AdminModel.Menu,
-        HasTable: false,
-        HasError: false,
-        Events: events,
-        action : "/admin/attendlist"
-    });
+    try{
+        const events = await AdminModel.EventModel.ApprovedEvents();
+        res.render('./admin-moderator/attendlist',{
+            path: "admin",
+            usertype: "Administrator",
+            Menu: AdminModel.Menu,
+            HasTable: false,
+            HasError: false,
+            Events: events,
+            action : "/admin/attendlist"
+        });
+    }catch(error){
+        req.flash('error', error)
+        res.render('profile', { data: '' })
+    }
+    
 }
 const AttendListLoad = async (req,res) =>{
     const eventName = req.params.eventname;
@@ -61,7 +67,9 @@ const home = (req,res) =>{
     res.render('./admin-moderator/dashboard',{
         path: "admin",
         usertype : "Administrator",
-        Menu : AdminModel.Menu
+        Menu : AdminModel.Menu,
+        Message :'',
+        HasError : false
     });
 }
 
@@ -72,7 +80,8 @@ const eventList = async (req,res) =>{
             path: "admin",
             data: rows,
             usertype : "Administrator",
-            Menu: AdminModel.Menu
+            Menu: AdminModel.Menu,
+            HasError : false
         });
         }catch(err){
             req.flash('error', err)
@@ -86,7 +95,8 @@ const eventManagement = async (req,res) =>{
         path: "admin",
         usertype : "Administrator",
         Menu: AdminModel.Menu,
-        event : events
+        event : events,
+        Message: ''
     });
 
 }
@@ -113,7 +123,8 @@ const addModeratorPage = async (req,res) =>{
             usertype: "Administrator",
             departments: deptList,
             Menu: AdminModel.Menu,
-            HasError : false
+            HasError : false,
+            Message : ''
         });
     } catch (error) {
         console.error(error);
@@ -172,9 +183,11 @@ try{
         action : "/admin/attendlist"
     });
 }
+
 }
 const addModerator = async (req,res) =>{
     try{
+    const deptList = await AdminModel.DeptModel(); 
     // User inputs
     const username = req.body.username;
     const name = req.body.name;
@@ -193,14 +206,23 @@ const addModerator = async (req,res) =>{
     const usernameExists = organizations.some(organization => organization.username === username);
     if (usernameExists) throw new Error("Username already exists");
     AdminModel.registerModerator(name,password,username,department);
+    res.render('./admin-moderator/addmoderator', {
+        path: "admin",
+        usertype: "Administrator",
+        departments: deptList,
+        Menu: AdminModel.Menu,
+        HasError : false,
+        Message : 'Moderator Registered'
+    });
     }catch(error){
         res.render('./admin-moderator/addmoderator', {
             path: "admin",
             usertype: "Administrator",
-            departments: deptList,
+            departments: {},
             Menu: AdminModel.Menu,
             HasError : true,
-            ErrorMessage : error
+            ErrorMessage : error,
+            Message : ''
         });
     }
 }
@@ -210,6 +232,7 @@ const updateevent= async (req,res)=>{
         const evid = req.body.eventID;
         const approve = req.body.approve;
         const statusID = (approve) ? 2 : 3;
+        const message = (approve) ? 'Event Successfully Approved' : 'Event Cancelled';
         const data = await AdminModel.UpdateStatus(statusID,evid);
         const events = await AdminModel.EventModel.Events();
         res.render('./admin-moderator/eventmanagement',{
@@ -218,7 +241,7 @@ const updateevent= async (req,res)=>{
             usertype : "Administrator",
             Menu: AdminModel.Menu,
             HasError : false,
-            Message : "Event Successfully Registered"
+            Message : message
         });
     }catch(error){
         res.render('./admin-moderator/eventmanagement',{
@@ -228,6 +251,39 @@ const updateevent= async (req,res)=>{
             Menu: AdminModel.Menu,
             HasError : true,
             Message : error
+        });
+    }
+}
+
+const changepassword = async (req,res)=>{
+    
+    try{
+        console.log(req.url);
+        const newpass = req.body.confirmpass;
+        const username = req.cookies['a_std_name'];
+        if(!username) throw new Error('Logout or refresh your browser');
+        const oldpassword = req.body.oldpass;
+        // Query the MySQL database for the student user record
+       const data = await AdminModel.superusers(username);
+       const password = data[0].Password;
+        const authenticate = authentication(password,data[0].salt,oldpassword);
+        if(!authenticate) throw new Error("Wrong old password");
+        const updatepassword = await AdminModel.updatepassword(newpass);
+        res.render('./admin-moderator/dashboard',{
+            path: "admin",
+            usertype : "Administrator",
+            Menu : AdminModel.Menu,
+            HasError : false,
+            Message : "Password Changed Successfully"
+        });
+    }catch(error){
+        res.render('./admin-moderator/dashboard',{
+            path: "admin",
+            usertype : "Administrator",
+            Menu : AdminModel.Menu,
+            Message :'',
+            HasError : true,
+            ErrorMessage : error
         });
     }
 }
@@ -249,5 +305,6 @@ export default {
     addModerator,
     AttendListSearch,
     AttendListLoad,
-    updateevent
+    updateevent,
+    changepassword
 };

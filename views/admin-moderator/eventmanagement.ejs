@@ -100,6 +100,11 @@
               
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
+                  <% if(Message.length > 0) { %>
+                    <div class="alert alert-success" role="alert">
+                      <%= Message %>
+                    </div>
+                    <% } %>
                   <div class="card-body">
                     <h4 class="card-title">Event Management</h4>
                     <p class="card-description"> Event Information</p>
@@ -114,7 +119,7 @@
                                   <th style="white-space:pre-wrap; word-wrap:break-word">Event ID</th>
                                   <th style="white-space:pre-wrap; word-wrap:break-word">Event Name</th>
                                   <th style="white-space:pre-wrap; word-wrap:break-word">Event Description</th>
-                                  <th style="white-space:pre-wrap; word-wrap:break-word">Organization ID</th>
+                                  <th style="white-space:pre-wrap; word-wrap:break-word">Organization</th>
                                   <th style="white-space:pre-wrap; word-wrap:break-word">Status</th>
                                   <th style="text-align: center;">Action</th>
                                 </tr>
@@ -126,9 +131,9 @@
                                       <td style="white-space:pre-wrap; word-wrap:break-word"><input class="inputID" type="text" id="eventID" name="eventID" value="<%= event[i].eventID%>" readonly></td>
                                       <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].eventName%></td>
                                       <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].eventDesc%></td>
-                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].org_ID%></td>
-                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].statusID%></td>
-                                      <td style="white-space:pre-wrap; word-wrap:break-word"><button type="submit" class="btn btn-primary" style="width: 100%;background-color: #25b800; padding: 5px; padding-top: 9px; padding-bottom: 9px;" name="approve">Approve</button>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].org_Name%></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><%= event[i].status%></td>
+                                      <td style="white-space:pre-wrap; word-wrap:break-word"><input type="submit" class="btn btn-primary" style="width: 100%;background-color: #25b800; padding: 5px; padding-top: 9px; padding-bottom: 9px;" name="approve" value="Approve">
                               <button type ="submit" class="btn btn-danger" style="width: 100%; background-color: rgb(252, 70, 70); padding: 5px; padding-top: 9px; padding-bottom: 9px;" name="delete">Cancel</button></td>
                                     </form>
                                   </tr>

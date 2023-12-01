@@ -206,6 +206,42 @@ const registerModerator = (name, password, username, department) => {
       throw error;
     }
   };
+  const updatepassword = async (newpass) =>{
+    try{
+      return new Promise((resolve,reject)=>{
+            database.beginTransaction( async (TransactError)=>{
+              if(TransactError){
+                reject(TransactError);
+                return;
+              }
+              try{
+                const query = "UPDATE superusers SET `password`= SHA2(CONCAT(?,`salt`),256) WHERE superID = 0";
+                database.query(query,[newpass],(queryErr)=>{
+                  if (queryErr) {
+                    database.rollback(() => {
+                      reject(queryErr);
+                    });
+                    return;
+                  }
+                  database.commit((commitErr)=>{
+                    if(commitErr){
+                      reject(commitErr);
+                      return;
+                    }
+                    resolve();
+                  })
+                })
+              }catch(error){
+                database.rollback(()=> {
+                  reject(error);
+                })
+              }
+            });
+      })
+    }catch(error){
+      throw error;
+    }
+  };
   
   
 
@@ -230,5 +266,6 @@ export default {
      registerModerator,
      moderatorList,
      notifications,
-     UpdateStatus
+     UpdateStatus,
+     updatepassword
     };
