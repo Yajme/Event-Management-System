@@ -49,7 +49,8 @@ const loginPage = async (req,res)=>{
     res.cookie("arrNotif", arrNotif, { maxAge: minute }, { httpOnly: true });
     res.render('./students/index',{
         path: "student",
-        data: rows,
+            HasError : false,
+            data: rows,
         Menu : StudentModel.Menu
     });
 }
@@ -223,7 +224,11 @@ db.query(query,[username], function(error,result){
      // If the user is found, return the user's record
      
     if (result.length === 0) { 
-        throw new Error('Invalid Password or Username');// HTTP Unauthorized
+        response.render('./students/index',{
+            path: "student",
+            HasError : true,
+            ErrorMessage: "Invalid Credentials"
+        });
     }
 
      //checking of password and salt
@@ -233,8 +238,13 @@ db.query(query,[username], function(error,result){
         const dbPassword = result[passCount].password;
         const hashedSaltAndPass = sha256(passwordHash);
         if (dbPassword != hashedSaltAndPass) {
-            return Error('Wrong Password',401,next);
+            response.render('./students/index',{
+                path: "student",
+                HasError : true,
+                ErrorMessage: "Wrong Password"
+            });
         }
+        else{
         response.setHeader('set-cookie', 'utype=; max-age=0');
         response.cookie("std_name", result[passCount].firstName + " " + result[passCount].lastName, { maxAge: minute }, { httpOnly: true });
         response.cookie('sr_code',username,{ maxAge: minute }, { httpOnly: true });
@@ -247,7 +257,7 @@ db.query(query,[username], function(error,result){
             path: "student"
         });
     }
-       
+}
     response.end();
     }); 
     }catch(error){
